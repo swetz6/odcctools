@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528.5od3], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.22 $])
+AC_REVISION([$Revision: 1.23 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -86,9 +86,6 @@ AC_MSG_RESULT([$ASTARGETS])
 AC_SUBST([ASTARGETS], [$ASTARGETS]) 
 
 AC_SUBST([ASLIBEXECDIR], ['${libexecdir}/as'])
-
-AC_C_BIGENDIAN([AC_SUBST([ENDIAN_FLAG],[-D__BIG_ENDIAN__=1])],
-		[AC_SUBST([ENDIAN_FLAG],[-D__LITTLE_ENDIAN__=1])])
 
 ORIGCFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -mdynamic-no-pic"
@@ -206,13 +203,19 @@ AH_VERBATIM([HAVE_DECL_GETC_UNLOCKED_REPLACEMENT],
 # define getc_unlocked(a) getc(a)
 #endif])
 
-if [[ "$host_os" = "darwin" ]]; then
-   COMPONENTS="ar as libstuff ld man misc otool"
-   AC_SUBST([HAVE_FOREIGN_HEADERS],[NO])
-else
-   COMPONENTS="as libstuff otool"
-   AC_SUBST([HAVE_FOREIGN_HEADERS],[YES])
-fi
+case $host_os in
+     darwin*)
+        COMPONENTS="ar as libstuff ld man misc otool"
+	AC_SUBST([HAVE_FOREIGN_HEADERS],[NO])
+	;;
+     *)
+        COMPONENTS="as libstuff otool"
+	AC_SUBST([HAVE_FOREIGN_HEADERS],[YES])
+	AC_SUBST([EMULATED_OBJ], [emulated.c])
+	AC_C_BIGENDIAN([AC_SUBST([ENDIAN_FLAG],[-D__BIG_ENDIAN__=1])],
+			[AC_SUBST([ENDIAN_FLAG],[-D__LITTLE_ENDIAN__=1])])
+	;;
+esac
 AC_SUBST([COMPONENTS], [$COMPONENTS])
 
 AC_CONFIG_FILES([Makefile libstuff/Makefile])
