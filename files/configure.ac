@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528od1], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.4 $])
+AC_REVISION([$Revision: 1.5 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -40,6 +40,8 @@ i?86)
 esac
 AC_MSG_RESULT([$ASTARGETS])
 AC_SUBST([ASTARGETS], [$ASTARGETS]) 
+
+AC_SUBST([ASLIBEXECDIR], ['${libexecdir}/as'])
 
 AC_SYS_LARGEFILE
 AC_SYS_LONG_FILE_NAMES

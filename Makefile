@@ -11,7 +11,8 @@ PATCHFILES=as/driver.c ld-Bstatic.diff
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 ADDEDFILES=configure.ac Makefile.in include/config.h.in install-sh	\
 	config.guess config.sub as/Makefile.in as/Makefile.ppc.in	\
-	as/Makefile.ppc64.in as/Makefile.i386.in as/Makefile.arch.in
+	as/Makefile.ppc64.in as/Makefile.i386.in as/Makefile.arch.in	\
+	libstuff/Makefile.in
 
 default: none
 

@@ -1,7 +1,53 @@
---- driver.c~	2003-03-17 18:38:11.000000000 -0800
-+++ driver.c	2004-08-29 22:48:24.000000000 -0700
-@@ -1,3 +1,4 @@
-+// foo
- /*
-  * The assembler driver that lives in /bin/as and runs the assembler for the
-  * "-arch <arch_flag>" (if given) in /usr/libexec/gcc/darwin/<arch_flag>/as or
+--- driver.c.orig	2004-09-01 15:33:39.000000000 -0700
++++ driver.c	2004-09-01 15:34:28.000000000 -0700
+@@ -27,6 +27,8 @@
+ char **envp)
+ {
+     const char *LIB =
++      ASLIBEXECDIR;
++#if 0
+ #if defined(__OPENSTEP__) || defined(__HERA__) || \
+     defined(__GONZO_BUNSEN_BEAKER__) || defined(__KODIAK__)
+ 		    "/usr/libexec/";
+@@ -40,6 +42,7 @@
+ #else
+ 		    "/usr/local/libexec/gcc/darwin/";
+ #endif
++#endif
+     const char *AS = "/as";
+ 
+     int i;
+@@ -162,6 +165,8 @@
+ 	    else
+ 		exit(1);
+ 	}
++	as_local = "";
++#if 0
+ 	as_local = makestr(LOCALLIB, arch_name, AS, NULL);
+ 	if(access(as_local, F_OK) == 0){
+ 	    argv[0] = as_local;
+@@ -171,6 +176,8 @@
+ 		exit(1);
+ 	}
+ 	else{
++#endif
++	{
+ 	    printf("%s: assembler (%s or %s) for architecture %s not "
+ 		   "installed\n", progname, as, as_local, arch_name);
+ 	    arch_flags = get_arch_flags();
+@@ -183,6 +190,7 @@
+ 		    printf("%s for architecture %s\n", as, arch_flags[i].name);
+ 		    count++;
+ 		}
++#if 0
+ 		else{
+ 		    as_local = makestr(LOCALLIB, arch_flags[i].name, AS, NULL);
+ 		    if(access(as_local, F_OK) == 0){
+@@ -193,6 +201,7 @@
+ 			count++;
+ 		    }
+ 		}
++#endif
+ 	    }
+ 	    if(count == 0)
+ 		printf("%s: no assemblers installed\n", progname);

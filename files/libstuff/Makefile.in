@@ -12,7 +12,7 @@ CPPFLAGS	= @CPPFLAGS@
 DEFS		= @DEFS@
 LDFLAGS		= @LDFLAGS@
 
-MYINCLUDES	= -I$(top_builddir)/include -I$(top_srcdir)/include
+MYINCLUDES	= -I$(top_builddir)include -I$(top_srcdir)include
 MYWARNINGS	= -Wall -Wno-long-double
 MYDEFS		= -DINTERIM_PPC64
 
