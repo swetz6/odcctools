@@ -12,6 +12,7 @@ VPATH = @srcdir@
 
 CC              = @CC@
 CFLAGS          = @CFLAGS@
+WARNINGS	= @WARNINGS@
 MDYNAMICNOPIC   = @MDYNAMICNOPIC@
 CPPFLAGS        = @CPPFLAGS@
 DEFS            = @DEFS@
@@ -24,13 +25,14 @@ transform	= @program_transform_name@
 
 MYINCLUDES      = -I$(srcdir) -I$(top_builddir)/include \
 			-I$(top_srcdir)/include
-MYWARNINGS      = -Wall -Wno-long-double
+MYWARNINGS      = 
 MYDEFS          = -DNeXT_MOD -DASLIBEXECDIR="\"$(ASLIBEXECDIR)/\""
 MYLDFLAGS	= -L$(top_builddir)/libstuff
 MYLIBS		= -lstuff
 
-MYCOMPILEFLAGS	= $(CFLAGS) $(MDYNAMICNOPIC) $(CPPFLAGS) $(DEFS) \
-	$(MYINCLUDES) $(MYWARNINGS) $(MYDEFS)
+MYCOMPILEFLAGS	= $(WARNINGS) $(MYWARNINGS) $(DEFS) $(MYDEFS) \
+	$(CPPFLAGS) $(MYINCLUDES) $(CFLAGS) $(MDYNAMICNOPIC) 
+	
 MYLINKFLAGS	= $(LDFLAGS) $(MYLDFLAGS) $(MYLIBS)
 
 ASTARGETS = @ASTARGETS@

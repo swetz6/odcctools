@@ -10,6 +10,7 @@ libexecdir	= @libexecdir@
 VPATH = @srcdir@:@srcdir@/..
 
 CC              = @CC@
+WARNINGS	= @WARNINGS@
 CFLAGS          = @CFLAGS@
 MDYNAMICNOPIC   = @MDYNAMICNOPIC@
 CPPFLAGS        = @CPPFLAGS@
@@ -22,13 +23,14 @@ ASLIBEXECDIR    = @ASLIBEXECDIR@
 
 MYINCLUDES      = -I$(builddir) -I$(srcdir)/.. -I$(top_builddir)/include \
 			-I$(top_srcdir)/include
-MYWARNINGS      = -Wall -Wno-long-double
+MYWARNINGS      =
 MYDEFS          = -DNeXT_MOD -DASLIBEXECDIR="\"$(ASLIBEXECDIR)/\"" $(MYDEFS_$(ARCH))
 MYLDFLAGS	= -L$(top_builddir)/libstuff
 MYLIBS		= -lstuff
 
-MYCOMPILEFLAGS	= $(CFLAGS) $(MDYNAMICNOPIC) $(CPPFLAGS) $(DEFS) \
-	$(MYINCLUDES) $(MYWARNINGS) $(MYDEFS)
+MYCOMPILEFLAGS  = $(WARNINGS) $(MYWARNINGS) $(DEFS) $(MYDEFS) \
+	$(CPPFLAGS) $(MYINCLUDES) $(CFLAGS) $(MDYNAMICNOPIC) 
+
 MYLINKFLAGS	= $(LDFLAGS) $(MYLDFLAGS) $(MYLIBS)
 
 CFILES = app.c as.c atof-generic.c atof-ieee.c expr.c fixes.c flonum-const.c \

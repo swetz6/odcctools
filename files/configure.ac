@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528od1], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.14 $])
+AC_REVISION([$Revision: 1.15 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -77,26 +77,72 @@ CFLAGS="$CFLAGS -mdynamic-no-pic"
 AC_MSG_CHECKING([if -mdynamic-no-pic is supported])
 AC_COMPILE_IFELSE(
    [AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]])],
-   [AC_SUBST([MDYNAMICNOPIC],[-mdynamic-no-pic]) AC_MSG_RESULT([yes])],
-   [AC_SUBST([MDYNAMICNOPIC],[]) AC_MSG_RESULT([no])]
+   [AC_SUBST([MDYNAMICNOPIC],[-mdynamic-no-pic])
+    AC_MSG_RESULT([yes])],
+   [AC_SUBST([MDYNAMICNOPIC],[])
+    AC_MSG_RESULT([no])]
 )
 CFLAGS=$ORIGCFLAGS
 
 ORIGCFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -no-cpp-precomp"
+supported=0
 AC_MSG_CHECKING([if -no-cpp-precomp is supported])
+AC_LANG_CONFTEST([[const char hw[] = "Hello, World\n";]])
+rm -f conftest.$ac_objext conftest$ac_exeext
+out=`$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext 2>&1`
+if [[ $? -ne 0 ]]; then
+   supported=0;
+else
+   unrecog=`echo $out | grep unrecog | wc -l`
+   if [[ $unrecog -gt 0 ]]; then
+      supported=0;
+   else
+      supported=1;
+   fi
+fi
+
+if [[ $supported -eq 1 ]]; then
+   AC_MSG_RESULT([yes])
+else
+   CFLAGS="$ORIGCFLAGS"
+   AC_MSG_RESULT([no])
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+
+WARNINGS=""
+
+ORIGCFLAGS=$CFLAGS
+CFLAGS="$CFLAGS -Wall"
+AC_MSG_CHECKING([if -Wall is supported])
 AC_COMPILE_IFELSE(
    [AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]])],
-   [AC_MSG_RESULT([yes])],
-   [CFLAGS="$ORIGCFLAGS", AC_MSG_RESULT([no])]
+   [WARNINGS="$WARNINGS -Wall"
+    AC_MSG_RESULT([yes])],
+   [AC_MSG_RESULT([no])]
 )
+CFLAGS=$ORIGCFLAGS
+
+ORIGCFLAGS=$CFLAGS
+CFLAGS="$CFLAGS -Wno-long-double"
+AC_MSG_CHECKING([if -Wno-long-double is supported])
+AC_COMPILE_IFELSE(
+   [AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]])],
+   [WARNINGS="$WARNINGS -Wno-long-double"
+    AC_MSG_RESULT([yes])],
+   [AC_MSG_RESULT([no])]
+)
+CFLAGS=$ORIGCFLAGS
+
+AC_SUBST([WARNINGS], [$WARNINGS])
 
 ORIGLDFLAGS=$LDFLAGS
 LDFLAGS="-multiply_defined suppress"
 AC_MSG_CHECKING([if -multiply_defined suppress is supported])
 AC_LINK_IFELSE([AC_LANG_PROGRAM()],
 	[AC_MSG_RESULT([yes])],
-	[LDFLAGS="$ORIGLDFLAGS", AC_MSG_RESULT([no])]
+	[LDFLAGS="$ORIGLDFLAGS"
+	 AC_MSG_RESULT([no])]
 )
 
 AC_HEADER_STDC
