@@ -1,3 +1,13 @@
+2004-09-05  Shantonu Sen  <ssen@opendarwin.org>
+
+	* files/misc/Makefile.in: Build misc tools
+	* patches/misc/ranlibname.diff: Compile libtool.c
+	as ranlib
+	* patches/misc/libtool-ldpath.diff: Substitute
+	path of ld at build time
+	* patches/ar/ar-ranlibpath.diff: Substitute
+	patch of ranlib at build time
+	
 2004-09-03  Shantonu Sen  <ssen@opendarwin.org>>
 
 	* files/ar/Makefile.in: Get ar building
