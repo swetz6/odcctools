@@ -2,9 +2,12 @@
 #include <mach/mach.h>
 #include <mach/mach_error.h>
 #include <stdlib.h>
-
+#include <stdio.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/mman.h>
+#include <sys/attr.h>
+#include <errno.h>
 
 char            *mach_error_string(mach_error_t error_value)
 {
@@ -88,9 +91,6 @@ kern_return_t map_fd(
 {
 
   void *addr = NULL;
-  int pagesize = getpagesize();
-  
-  //  size = ((size + pagesize - 1) / pagesize) * pagesize;
 
   addr = mmap(0, size, PROT_READ,
 	      MAP_SHARED|MAP_FILE, fd, offset);
@@ -103,3 +103,16 @@ kern_return_t map_fd(
 
   return 0;
 }
+
+void strmode(mode_t mode, char *bp)
+{
+  sprintf(bp, "xxxxxxxxxx");
+}
+
+int    getattrlist(const char* a,void* b,void* c,size_t d,unsigned int e)
+{
+  errno = ENOTSUP;
+  return -1;
+}
+
+vm_size_t       vm_page_size = 4096; // hardcoded to match expectations of darwin

@@ -66,4 +66,3 @@ install: as
 clean:
 	rm -r -f *.o
 	rm -f as
-	rm -f make.h makeUser.c

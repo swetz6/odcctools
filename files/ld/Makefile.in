@@ -14,12 +14,17 @@ CFLAGS          = @CFLAGS@
 WARNINGS	= @WARNINGS@
 MDYNAMICNOPIC   = @MDYNAMICNOPIC@
 CPPFLAGS        = @CPPFLAGS@
-DEFS            = @DEFS@
+DEFS            = @DEFS@ @ENDIAN_FLAG@
 LDFLAGS         = @LDFLAGS@
 HAVE_PRIVEXT    = @HAVE_PRIVEXT@
+HAVE_FOREIGN_HEADERS    = @HAVE_FOREIGN_HEADERS@
 
 ifeq ($(HAVE_PRIVEXT),NO)
 INCPRIVEXT      = -include $(top_srcdir)/include/extern.h
+endif
+
+ifeq ($(HAVE_FOREIGN_HEADERS),YES)
+FORHDRS         = -I$(top_srcdir)/include/foreign
 endif
 
 INSTALL		= @INSTALL@
@@ -27,7 +32,7 @@ INSTALL_PROGRAM	= @INSTALL_PROGRAM@
 transform       = @program_transform_name@
 
 MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(top_builddir)/include \
-			-I$(top_srcdir)/include $(INCPRIVEXT)
+			-I$(top_srcdir)/include $(INCPRIVEXT) $(FORHDRS)
 MYWARNINGS      = 
 MYDEFS          = -DINTERIM_PPC64 -DDEBUG
 MYLDFLAGS	= -L$(top_builddir)/libstuff
@@ -43,9 +48,7 @@ CFILES = ld.c pass1.c objects.c sections.c cstring_literals.c symbols.c \
          4byte_literals.c 8byte_literals.c literal_pointers.c dylibs.c \
          indirect_sections.c mod_sections.c i860_reloc.c ppc_reloc.c \
          m88k_reloc.c hppa_reloc.c sparc_reloc.c coalesced_sections.c \
-         apple_version.c makeUser.c
-
-MIG	=	/usr/bin/mig
+         apple_version.c
 
 OBJS = $(CFILES:.c=.o) 
 .c.o:
@@ -54,12 +57,6 @@ OBJS = $(CFILES:.c=.o)
 .PHONY: default clean distclean install
 
 default: ld
-
-makeUser.o ld.o: make.h
-
-make.h makeUser.c: make.defs
-	$(MIG) $<
-	rm -f makeServer.c
 
 ld: $(OBJS)
 	$(CC) -o $@ $^ $(MYLINKFLAGS)
@@ -72,4 +69,3 @@ install: ld
 clean:
 	rm -r -f *.o
 	rm -f ld
-	rm -f make.h makeUser.c

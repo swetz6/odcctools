@@ -10,7 +10,9 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	otool/nolibmstub.diff misc/ranlibname.diff			\
 	misc/libtool-ldpath.diff ar/ar-ranlibpath.diff			\
 	private_extern.diff otool/noobjc.diff as/input-scrub.diff	\
-	as/messages.diff
+	as/messages.diff ar/contents.diff ar/errno.diff			\
+	ar/archive.diff misc/libtool-pb.diff ar/ar-printf.diff 		\
+	ld/ld-pb.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 

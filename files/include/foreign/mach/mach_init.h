@@ -13,6 +13,8 @@ extern mach_port_t mach_thread_self(void);
 
 #define current_task()  mach_task_self()
 
+extern    vm_size_t       vm_page_size;
+
 kern_return_t mach_port_deallocate
 (
  ipc_space_t task,

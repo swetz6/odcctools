@@ -14,12 +14,17 @@ CFLAGS          = @CFLAGS@
 WARNINGS	= @WARNINGS@
 MDYNAMICNOPIC   = @MDYNAMICNOPIC@
 CPPFLAGS        = @CPPFLAGS@
-DEFS            = @DEFS@
+DEFS            = @DEFS@ @ENDIAN_FLAG@
 LDFLAGS         = @LDFLAGS@
 HAVE_PRIVEXT    = @HAVE_PRIVEXT@
+HAVE_FOREIGN_HEADERS    = @HAVE_FOREIGN_HEADERS@
 
 ifeq ($(HAVE_PRIVEXT),NO)
 INCPRIVEXT      = -include $(top_srcdir)/include/extern.h
+endif
+
+ifeq ($(HAVE_FOREIGN_HEADERS),YES)
+FORHDRS         = -I$(top_srcdir)/include/foreign
 endif
 
 INSTALL		= @INSTALL@
@@ -28,7 +33,7 @@ transform       = @program_transform_name@
 LDPROG		= $(shell echo ld | sed '$(transform)')
 
 MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(top_builddir)/include \
-			-I$(top_srcdir)/include $(INCPRIVEXT)
+			-I$(top_srcdir)/include $(INCPRIVEXT) $(FORHDRS)
 MYWARNINGS      = 
 MYDEFS          = -DINTERIM_PPC64 -DBINDIR="\"$(bindir)\"" -DLDPROG="\"$(LDPROG)\""
 MYLDFLAGS	= -L$(top_builddir)/libstuff
@@ -38,8 +43,6 @@ MYCOMPILEFLAGS	= $(WARNINGS) $(MYWARNINGS) $(DEFS) $(MYDEFS) \
 	$(CPPFLAGS) $(MYINCLUDES) $(CFLAGS) $(MDYNAMICNOPIC) 
 
 MYLINKFLAGS	= $(LDFLAGS) $(MYLDFLAGS) $(MYLIBS)
-
-MIG	=	/usr/bin/mig
 
 PROGRAMS = checksyms lipo size strings nm libtool redo_prebinding seg_addr_table \
 		seg_hack install_name_tool indr strip nmedit segedit pagestuff \
@@ -60,11 +63,11 @@ OBJS_strings	= $(CFILES_strings:.c=.o)
 CFILES_nm	= nm.c apple_version.c
 OBJS_nm		= $(CFILES_nm:.c=.o)
 
-CFILES_libtool	= libtool.c makeUser.c apple_version.c
+CFILES_libtool	= libtool.c apple_version.c
 OBJS_libtool	= $(CFILES_libtool:.c=.o)
 
-CFILES_ranlib	= libtool.c makeUser.c apple_version.c
-OBJS_ranlib	= ranlib.o makeUser.o apple_version.o
+CFILES_ranlib	= libtool.c apple_version.c
+OBJS_ranlib	= ranlib.o apple_version.o
 
 CFILES_redo_prebinding	= redo_prebinding.o apple_version.c
 OBJS_redo_prebinding	= $(CFILES_redo_prebinding:.c=.o)
@@ -99,12 +102,6 @@ OBJS_pagestuff	= $(CFILES_pagestuff:.c=.o)
 .PHONY: default clean distclean install
 
 default: $(PROGRAMS)
-
-makeUser.o libtool.o: make.h
-
-make.h makeUser.c: make.defs
-	$(MIG) $<
-	rm -f makeServer.c
 
 ranlib.o: libtool.c
 	$(CC) -DRANLIB $(MYCOMPILEFLAGS) -c -o $@ $<
@@ -154,4 +151,3 @@ install: $(PROGRAMS)
 clean:
 	rm -r -f *.o
 	rm -f $(PROGRAMS)
-	rm -f make.h makeUser.c

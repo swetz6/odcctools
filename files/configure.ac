@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528.5od3], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.23 $])
+AC_REVISION([$Revision: 1.24 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -205,17 +205,17 @@ AH_VERBATIM([HAVE_DECL_GETC_UNLOCKED_REPLACEMENT],
 
 case $host_os in
      darwin*)
-        COMPONENTS="ar as libstuff ld man misc otool"
 	AC_SUBST([HAVE_FOREIGN_HEADERS],[NO])
 	;;
      *)
-        COMPONENTS="as libstuff otool"
 	AC_SUBST([HAVE_FOREIGN_HEADERS],[YES])
 	AC_SUBST([EMULATED_OBJ], [emulated.c])
 	AC_C_BIGENDIAN([AC_SUBST([ENDIAN_FLAG],[-D__BIG_ENDIAN__=1])],
 			[AC_SUBST([ENDIAN_FLAG],[-D__LITTLE_ENDIAN__=1])])
 	;;
 esac
+
+COMPONENTS="ar as libstuff ld man misc otool"
 AC_SUBST([COMPONENTS], [$COMPONENTS])
 
 AC_CONFIG_FILES([Makefile libstuff/Makefile])

@@ -67,4 +67,7 @@ typedef struct {
 #define i386_THREAD_CTHREADSTATE_COUNT  \
     ( sizeof (i386_thread_cthreadstate_t) / sizeof (int) )
 
+#define USER_CODE_SELECTOR      0x0017
+#define USER_DATA_SELECTOR      0x001f
+
 #endif
