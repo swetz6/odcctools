@@ -20,7 +20,7 @@ COMPONENTS = @COMPONENTS@
 
 default: $(COMPONENTS)
 
-libstuff as ar include ld otool:
+$(COMPONENTS):
 	cd $@ && $(MAKE)
 
 as ar ld otool: libstuff
