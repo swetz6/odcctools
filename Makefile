@@ -14,7 +14,7 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	ar/archive.diff misc/libtool-pb.diff ar/ar-printf.diff 		\
 	ld/ld-pb.diff ld-sysroot.diff ld/ld-indirect-symbols.diff	\
 	as/write_object.nounlink.diff as/relax.diff			\
-	as/bignum.diff
+	as/bignum.diff include/architecture/i386/selguard.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 
@@ -52,7 +52,7 @@ patch: extract
 			tar xvf - -C $(DISTDIR);			\
 		find $(DISTDIR) -type f -name \*.[ch] | while read f; do \
 			sed 's/^#import/#include/' < $$f > $$f.tmp;	\
-			mv $$f.tmp $$f;				\
+			mv -f $$f.tmp $$f;				\
 		done;						\
 		touch .state.patch;				\
 	fi
