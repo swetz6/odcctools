@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528od1], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.6 $])
+AC_REVISION([$Revision: 1.7 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -81,6 +81,15 @@ AC_COMPILE_IFELSE(
    [AC_SUBST([MDYNAMICNOPIC],[]) AC_MSG_RESULT([no])]
 )
 CFLAGS=$ORIGCFLAGS
+
+ORIGCFLAGS=$CFLAGS
+CFLAGS="$CFLAGS -no-cpp-precomp"
+AC_MSG_CHECKING([if -no-cpp-precomp is supported])
+AC_COMPILE_IFELSE(
+   [AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]])],
+   [AC_MSG_RESULT([yes])],
+   [CFLAGS="$ORIGCFLAGS", AC_MSG_RESULT([no])]
+)
 
 COMPONENTS="as libstuff"
 AC_SUBST([COMPONENTS], [$COMPONENTS])

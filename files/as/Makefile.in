@@ -54,6 +54,7 @@ as: $(OBJS)
 
 install: driver install-arch
 	for p in as; do						\
+		mkdir -p $(DESTDIR)/$(bindir);			\
 		$(INSTALL_PROGRAM) $$p \
 			$(DESTDIR)/$(bindir)/`echo $$p | sed '$(transform)'`;\
 	done
