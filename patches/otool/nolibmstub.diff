@@ -1,0 +1,17 @@
+--- main.c.orig	2004-09-03 08:26:16.000000000 -0700
++++ main.c	2004-09-03 08:27:30.000000000 -0700
+@@ -2071,6 +2071,8 @@
+ 	}
+ }
+ 
++#if 0
++
+ /*
+  * To avoid linking in libm.  These variables are defined as they are used in
+  * pthread_init() to put in place a fast sqrt().
+@@ -2102,3 +2104,5 @@
+ {
+ 	return(0);
+ }
++
++#endif

@@ -48,15 +48,13 @@ default: driver $(ASTARGETS)
 $(ASTARGETS):
 	cd $@ && $(MAKE)
 
-driver: as
-as: $(OBJS)
+driver: $(OBJS)
 	$(CC) -o $@ $^ $(MYLINKFLAGS)
 
 install: driver install-arch
-	for p in as; do						\
-		mkdir -p $(DESTDIR)/$(bindir);			\
-		$(INSTALL_PROGRAM) $$p \
-			$(DESTDIR)/$(bindir)/`echo $$p | sed '$(transform)'`;\
+	mkdir -p $(DESTDIR)/$(bindir)
+	$(INSTALL_PROGRAM) driver \
+		$(DESTDIR)/$(bindir)/`echo as | sed '$(transform)'`;\
 	done
 
 install-arch:
@@ -66,7 +64,7 @@ install-arch:
 
 clean:
 	rm -r -f *.o
-	rm -f as
+	rm -f driver
 	for ast in $(ASTARGETS); do			\
 		(cd $${ast} && $(MAKE) $@) || exit 1;	\
 	done
