@@ -14,7 +14,22 @@ abs_top_srcdir = @abs_top_srcdir@
 
 VPATH = @srcdir@
 
-default:
+COMPONENTS = @COMPONENTS@
+
+.PHONY: default clean distclean $(COMPONENTS)
+
+default: $(COMPONENTS)
+
+libstuff:
+	cd $@ && $(MAKE)
+
+as: libstuff
+	cd $@ && $(MAKE)
+
+clean distclean:
+	for c in $(COMPONENTS); do              	\
+		(cd $$c && $(MAKE) $@) || exit 1;	\
+	done
 
 $(srcdir)/configure: configure.ac
 	cd $(srcdir) && autoconf
