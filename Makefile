@@ -27,6 +27,7 @@ none:
 	@echo "Please choose an action:"
 	@echo "	extract"
 	@echo "	patch"
+	@echo "	regen"
 	@echo "	clean"
 
 
