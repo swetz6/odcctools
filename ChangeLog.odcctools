@@ -1,0 +1,9 @@
+2004-08-30  Shantonu Sen  <shantonu@Shantonu-Sens-Computer.local>
+
+	* files/configure.ac: Start work on autoconf script
+
+2004-08-30  Peter O'Gorman  <peter@pogma.com>
+
+	* patches/ld-Bstatic.diff: Add support for -Bstatic/-Bdynamic
+	to Darwin ld(1)/libtool(1).
+
