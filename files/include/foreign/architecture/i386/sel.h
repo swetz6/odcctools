@@ -36,6 +36,9 @@
  * Segment selector.
  */
 
+#ifndef _I386_SEL_H_
+#define _I386_SEL_H_
+
 typedef struct sel {
     unsigned short	rpl	:2,
 #define KERN_PRIV	0
@@ -47,3 +50,6 @@ typedef struct sel {
 } sel_t;
 
 #define NULL_SEL	((sel_t) { 0, 0, 0 } )
+
+#endif // _I386_SEL_H_
+
