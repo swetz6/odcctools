@@ -1,1 +1,60 @@
-ASLIBEXECDIR	= @ASLIBEXECDIR@
+builddir = @builddir@
+top_builddir = @top_builddir@
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+
+prefix	= @prefix@
+exec_prefix	= @exec_prefix@
+libexecdir	= @libexecdir@
+
+VPATH = @srcdir@:@srcdir@/..
+
+CC              = @CC@
+CFLAGS          = @CFLAGS@
+MDYNAMICNOPIC   = @MDYNAMICNOPIC@
+CPPFLAGS        = @CPPFLAGS@
+DEFS            = @DEFS@
+LDFLAGS         = @LDFLAGS@
+
+ASLIBEXECDIR    = @ASLIBEXECDIR@
+
+MYINCLUDES      = -I$(builddir) -I$(srcdir)/.. -I$(top_builddir)/include \
+			-I$(top_srcdir)/include
+MYWARNINGS      = -Wall -Wno-long-double
+MYDEFS          = -DNeXT_MOD -DASLIBEXECDIR="\"$(ASLIBEXECDIR)/\"" $(MYDEFS_$(ARCH))
+MYLDFLAGS	= -L$(top_builddir)/libstuff
+MYLIBS		= -lstuff
+
+MYCOMPILEFLAGS	= $(CFLAGS) $(MDYNAMICNOPIC) $(CPPFLAGS) $(DEFS) \
+	$(MYINCLUDES) $(MYWARNINGS) $(MYDEFS)
+MYLINKFLAGS	= $(LDFLAGS) $(MYLDFLAGS) $(MYLIBS)
+
+CFILES = app.c as.c atof-generic.c atof-ieee.c expr.c fixes.c flonum-const.c \
+         flonum-copy.c flonum-mult.c frags.c hash.c hex-value.c input-file.c \
+         input-scrub.c layout.c messages.c obstack.c read.c sections.c \
+         symbols.c write_object.c xmalloc.c $(CFILES_$(ARCH)) apple_version.c
+
+MIG	=	/usr/bin/mig
+
+OBJS = $(CFILES:.c=.o) 
+.c.o:
+	$(CC) $(MYCOMPILEFLAGS) -c -o $@ $<
+
+.PHONY: clean default
+
+default: as
+
+makeUser.o messages.o: make.h
+
+make.h makeUser.c: make.defs
+	$(MIG) $<
+	rm -f makeServer.c
+
+
+as: $(OBJS)
+	$(CC) -o $@ $^ $(MYLINKFLAGS)
+
+clean:
+	rm -r -f *.o
+	rm -f as
+	rm -f make.h makeUser.c

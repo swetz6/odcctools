@@ -1,0 +1,4 @@
+ARCH	=	ppc
+
+CFILES_ppc	=	ppc.c
+MYDEFS_ppc	=	-DPPC

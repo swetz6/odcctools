@@ -1,0 +1,4 @@
+ARCH	=	ppc64
+
+CFILES_ppc64	=	ppc.c
+MYDEFS_ppc64	=	-DPPC -DINTERIM_PPC64

@@ -18,11 +18,11 @@ LDFLAGS         = @LDFLAGS@
 
 ASLIBEXECDIR    = @ASLIBEXECDIR@
 
-MYINCLUDES      = -I$(srcdir) -I$(top_builddir)include \
-			-I$(top_srcdir)include
+MYINCLUDES      = -I$(srcdir) -I$(top_builddir)/include \
+			-I$(top_srcdir)/include
 MYWARNINGS      = -Wall -Wno-long-double
 MYDEFS          = -DNeXT_MOD -DASLIBEXECDIR="\"$(ASLIBEXECDIR)/\""
-MYLDFLAGS	= -L$(top_builddir)libstuff
+MYLDFLAGS	= -L$(top_builddir)/libstuff
 MYLIBS		= -lstuff
 
 MYCOMPILEFLAGS	= $(CFLAGS) $(MDYNAMICNOPIC) $(CPPFLAGS) $(DEFS) \
@@ -42,7 +42,7 @@ OBJS = $(CFILES:.c=.o)
 default: driver $(ASTARGETS)
 
 $(ASTARGETS):
-	cd $@_build && $(MAKE)
+	cd $@ && $(MAKE)
 
 driver: as
 as: $(OBJS)
@@ -52,5 +52,5 @@ clean:
 	rm -r -f *.o
 	rm -f as
 	for ast in $(ASTARGETS); do			\
-		(cd $${ast}_build && $(MAKE) $@) || exit 1;	\
+		(cd $${ast} && $(MAKE) $@) || exit 1;	\
 	done
