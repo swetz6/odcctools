@@ -1,6 +1,6 @@
-AC_INIT([odcctools], [528.5od4], [odcctools@opendarwin.org])
+AC_INIT([odcctools], [528.5od5], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.28 $])
+AC_REVISION([$Revision: 1.29 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -172,7 +172,11 @@ CFLAGS="$CFLAGS -x objective-c"
 OBJC="-x objective-c"
 AC_MSG_CHECKING([if -x objective-c is supported])
 AC_COMPILE_IFELSE(
-   [AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]])],
+   [AC_LANG_SOURCE([[@class foo;
+void bar(void) {
+     [foo alloc];
+}
+]])],
    [AC_DEFINE(HAVE_OBJC, 1, [Have Objective-C support])
     AC_MSG_RESULT([yes])],
    [OBJC=""
@@ -200,7 +204,14 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM()],
 )
 
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stdio.h errno.h objc/objc-runtime.h])
+AC_CHECK_HEADERS([stdio.h errno.h])
+if [[ "x$OBJC" != "x" ]]; then
+   ORIGCFLAGS=$CFLAGS
+   CFLAGS="$CFLAGS $OBJC"
+   AC_CHECK_HEADERS([objc/objc-runtime.h])
+   CFLAGS="$ORIGCFLAGS"
+fi
+
 AC_CHECK_FUNCS([strmode])
 
 AC_CHECK_DECLS([getc_unlocked])
