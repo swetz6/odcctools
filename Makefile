@@ -1,6 +1,6 @@
 CCTOOLSNAME=cctools
-CCTOOLSVERS=528
-DISTFILE=$(CCTOOLSNAME)-$(CCTOOLSVERS).tar.gz
+CCTOOLSVERS=528.5
+DISTFILE=$(CCTOOLSNAME)-$(CCTOOLSVERS).tar.bz2
 DISTDIR=$(CCTOOLSNAME)-$(CCTOOLSVERS)
 
 TOPSRCDIR=$(shell pwd)
@@ -36,7 +36,7 @@ none:
 extract:
 	if [ \! -f .state.extract ]; then			\
 		if [ \! -d $(DISTDIR) ]; then			\
-			tar zxf $(DISTFILE);			\
+			tar jxf $(DISTFILE);			\
 		fi;						\
 		touch .state.extract;				\
 	fi
@@ -59,9 +59,9 @@ patch: extract
 
 regen: patch
 	if [ \! -f .state.regen ]; then				\
-		find $(DISTDIR) -name Makefile -exec rm "{}" \; ;	\
-		find $(DISTDIR) -name \*~ -exec rm "{}" \; ;	\
-		find $(DISTDIR) -name .\#\* -exec rm "{}" \; ;	\
+		find $(DISTDIR) -name Makefile -exec rm -f "{}" \; ;	\
+		find $(DISTDIR) -name \*~ -exec rm -f "{}" \; ;	\
+		find $(DISTDIR) -name .\#\* -exec rm -f "{}" \; ;	\
 		( cd $(DISTDIR) &&				\
 		  autoheader &&					\
 		  autoconf );					\

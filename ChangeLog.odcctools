@@ -1,3 +1,7 @@
+2004-10-14  Shantonu Sen  <ssen@clone.apple.com>
+
+	* Import Apple cctools-528.5
+
 2004-09-05  Shantonu Sen  <ssen@opendarwin.org>
 
 	* files/misc/Makefile.in: Build misc tools
