@@ -1,0 +1,85 @@
+--- main.c.orig	Wed Sep  8 09:32:40 2004
++++ main.c	Wed Sep  8 09:36:33 2004
+@@ -41,6 +41,10 @@
+ #include "hppa_disasm.h"
+ #include "sparc_disasm.h"
+ 
++#ifdef HAVE_CONFIG_H
++#include <config.h>
++#endif
++
+ /* Name of this program for error messages (argv[0]) */
+ char *progname = NULL;
+ 
+@@ -975,23 +979,35 @@
+ 		S_ATTR_SOME_INSTRUCTIONS){
+ 	    if(strcmp(segname, SEG_OBJC) == 0 &&
+ 	       strcmp(sectname, "__protocol") == 0 && vflag == TRUE){
++#ifdef HAVE_OBJC
+ 		print_objc_protocol_section(ofile->mh, ofile->load_commands,
+ 		   ofile->object_byte_sex, ofile->object_addr,
+ 		   ofile->object_size, vflag);
++#else
++		printf("Objective-C not supported\n");
++#endif
+ 	    }
+ 	    else if(strcmp(segname, SEG_OBJC) == 0 &&
+ 	            (strcmp(sectname, "__string_object") == 0 ||
+ 	             strcmp(sectname, "__cstring_object") == 0) &&
+ 		    vflag == TRUE){
++#ifdef HAVE_OBJC
+ 		print_objc_string_object_section(sectname, ofile->mh,
+ 		   ofile->load_commands, ofile->object_byte_sex,
+ 		   ofile->object_addr, ofile->object_size, vflag);
++#else
++		printf("Objective-C not supported\n");
++#endif
+ 	    }
+ 	    else if(strcmp(segname, SEG_OBJC) == 0 &&
+ 	       strcmp(sectname, "__runtime_setup") == 0 && vflag == TRUE){
++#ifdef HAVE_OBJC
+ 		print_objc_runtime_setup_section(ofile->mh,ofile->load_commands,
+ 		   ofile->object_byte_sex, ofile->object_addr,
+ 		   ofile->object_size, vflag);
++#else
++		printf("Objective-C not supported\n");
++#endif
+ 	    }
+ 	    else if(get_sect_info(segname, sectname, ofile->mh,
+ 		ofile->load_commands, ofile->object_byte_sex,
+@@ -1071,10 +1087,14 @@
+ 			     ofile->object_size);
+ 
+ 	if(oflag)
++#ifdef HAVE_OBJC
+ 	    print_objc_segment(ofile->mh, ofile->load_commands,
+ 			       ofile->object_byte_sex, ofile->object_addr,
+ 			       ofile->object_size, sorted_symbols,
+ 			       nsorted_symbols, vflag);
++#else
++		printf("Objective-C not supported\n");
++#endif
+ 
+ 	if(load_commands != NULL)
+ 	    free(load_commands);
+--- print_objc.c.orig	Wed Sep  8 09:27:33 2004
++++ print_objc.c	Wed Sep  8 09:28:09 2004
+@@ -20,6 +20,12 @@
+  * 
+  * @APPLE_LICENSE_HEADER_END@
+  */
++#if HAVE_CONFIG_H
++#include <config.h>
++#endif
++
++#ifdef HAVE_OBJC
++
+ #include "stdio.h"
+ #include "string.h"
+ #include "mach-o/loader.h"
+@@ -2039,3 +2045,5 @@
+ 	}
+ 	return(FALSE);
+ }
++
++#endif // HAVE_OBJC
