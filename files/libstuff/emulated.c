@@ -77,7 +77,7 @@ kern_return_t vm_deallocate
         vm_size_t size
  )
 {
-  free((void *)address);
+  //  free((void *)address); leak it here
 
   return 0;
 }
