@@ -9,16 +9,10 @@ PATCHFILESDIR=$(TOPSRCDIR)/patches
 PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	otool/nolibmstub.diff misc/ranlibname.diff			\
 	misc/libtool-ldpath.diff ar/ar-ranlibpath.diff			\
-	private_extern.diff otool/noobjc.diff
+	private_extern.diff otool/noobjc.diff as/input-scrub.diff	\
+	as/messages.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
-ADDEDFILES=configure.ac Makefile.in include/config.h.in install-sh	\
-	config.guess config.sub as/Makefile.in as/Makefile.arch.in	\
-	as/ppc/Makefile.in as/ppc64/Makefile.in as/i386/Makefile.in	\
-	libstuff/Makefile.in as/apple_version.c ar/Makefile.in		\
-	ld/apple_version.c ld/Makefile.in		\
-	otool/Makefile.in man/Makefile.in misc/Makefile.in		\
-	misc/apple_version.c include/extern.h
 
 default: none
 
@@ -49,11 +43,8 @@ patch: extract
 			( cd $(DISTDIR)/$$dir; 			\
 			  patch --posix -p0 < $(PATCHFILESDIR)/$$p );	\
 		done;						\
-		for p in $(ADDEDFILES); do			\
-			echo Adding file $$p;			\
-			mkdir -p $(DISTDIR)/`dirname $$p`;	\
-			cp $(ADDEDFILESDIR)/$$p $(DISTDIR)/$$p;	\
-		done;						\
+		tar cf - --exclude=CVS -C $(ADDEDFILESDIR) . | 	\
+			tar xvf - -C $(DISTDIR);			\
 		touch .state.patch;				\
 	fi
 

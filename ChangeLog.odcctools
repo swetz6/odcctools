@@ -1,3 +1,9 @@
+2004-11-07  Shantonu Sen  <ssen@opendarwin.org>
+
+	* Add Darwin compatibility headers, and bridge
+	implementations of Mach functions. Currently
+	cross hosted tools build as and otool.
+
 2004-10-14  Shantonu Sen  <ssen@opendarwin.org>
 
 	* Import Apple cctools-528.5
