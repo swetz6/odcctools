@@ -1,0 +1,19 @@
+--- ar.c.orig	2004-09-05 16:59:50.000000000 -0700
++++ ar.c	2004-09-05 17:00:08.000000000 -0700
+@@ -83,6 +83,7 @@
+ #include "archive.h"
+ #include "extern.h"
+ #include "stuff/execute.h"
++#include "stuff/allocate.h"
+ 
+ CHDR chdr;
+ u_int options;
+@@ -262,7 +263,7 @@
+ 
+ 	/* run ranlib -f on the archive */
+ 	reset_execute_list();
+-	add_execute_list("ranlib");
++	add_execute_list(makestr(BINDIR, "/", RANLIBPROG, NULL));
+ 	add_execute_list("-f");
+ 	add_execute_list(archive);
+ 	if(execute_list(verbose) == 0){
