@@ -1,3 +1,7 @@
+2004-09-02  Shantonu Sen  <ssen@opendarwin.org>
+
+	* files/as/Makefile.in: Get assemblers building
+
 2004-08-31  Shantonu Sen  <ssen@opendarwin.org>
 
 	* files/configure.ac: Determine assembler targets and output

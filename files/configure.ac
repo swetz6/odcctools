@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528od1], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.5 $])
+AC_REVISION([$Revision: 1.6 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -8,6 +8,8 @@ AC_CONFIG_HEADERS([include/config.h])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
+
+AC_ARG_PROGRAM
 
 case $target_os in
 darwin*)
@@ -25,26 +27,50 @@ AC_PROG_CC
 AC_CHECK_TOOL([HOST_RANLIB], [ranlib], :)
 AC_CHECK_TOOL([HOST_AR], [ar], :)
 
-AC_MSG_CHECKING([for configured assembler targets])
 ASTARGETS=""
-case $target_cpu in
-powerpc*)
-	ASTARGETS="$ASTARGETS ppc ppc64"
+conftargets=""
+AC_MSG_CHECKING([for configured assembler targets])
+AC_ARG_ENABLE([as-targets],
+		AC_HELP_STRING([--enable-as-targets],
+				[space-separated list ("ppc", "ppc64", "i386", "all")]),
+		[conftargets="$enableval"],
+		[conftargets="default"])
+
+case "$conftargets" in
+     all)
+        ASTARGETS="ppc ppc64 i386"
 	;;
-i?86)
-	ASTARGETS="$ASTARGETS i386"
+     default)
+        case $target_cpu in
+	powerpc*)
+	 	ASTARGETS="ppc ppc64"
+		;;
+	i?86)
+		ASTARGETS="i386"
+		;;
+	*)
+		AC_MSG_ERROR([Unsupported target $target_cpu])
+		;;
+	esac
 	;;
-*)
-	AC_MSG_ERROR([Unsupported target $target_cpu])
+     yes)
+	AC_MSG_ERROR([no assembler targets configured])
+	;;
+     no)
+	AC_MSG_ERROR([no assembler targets configured])
+	;;
+     *)
+	if [[ -z "$conftargets" ]]; then
+	   AC_MSG_ERROR([no assembler targets configured])
+	fi
+	ASTARGETS="$conftargets"
 	;;
 esac
+
 AC_MSG_RESULT([$ASTARGETS])
 AC_SUBST([ASTARGETS], [$ASTARGETS]) 
 
 AC_SUBST([ASLIBEXECDIR], ['${libexecdir}/as'])
-
-AC_SYS_LARGEFILE
-AC_SYS_LONG_FILE_NAMES
 
 ORIGCFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -mdynamic-no-pic"
@@ -59,20 +85,18 @@ CFLAGS=$ORIGCFLAGS
 COMPONENTS="as libstuff"
 AC_SUBST([COMPONENTS], [$COMPONENTS])
 
-AC_CONFIG_FILES([Makefile as/Makefile libstuff/Makefile])
+AC_CONFIG_FILES([Makefile libstuff/Makefile])
+AC_CONFIG_FILES([as/Makefile])
 for ast in $ASTARGETS; do
     case $ast in
     ppc)
-	AC_CONFIG_FILES([as/Makefile.ppc:as/Makefile.arch.in:as/Makefile.ppc.in])
-	AC_CONFIG_COMMANDS([as/Makefile.ppc.link], [mkdir -p ${ac_abs_top_builddir}/as/ppc_build; ln -s -f ../Makefile.ppc ${ac_abs_top_builddir}/as/ppc_build/Makefile])
+	AC_CONFIG_FILES([as/ppc/Makefile:as/ppc/Makefile.in:as/Makefile.arch.in])
 	;;
     ppc64)
-	AC_CONFIG_FILES([as/Makefile.ppc64:as/Makefile.arch.in:as/Makefile.ppc64.in])
-	AC_CONFIG_COMMANDS([as/Makefile.ppc64.link], [mkdir -p ${ac_abs_top_builddir}/as/ppc64_build; ln -s -f ../Makefile.ppc64 ${ac_abs_top_builddir}/as/ppc64_build/Makefile])
+	AC_CONFIG_FILES([as/ppc64/Makefile:as/ppc64/Makefile.in:as/Makefile.arch.in])
 	;;
     i386)
-	AC_CONFIG_FILES([as/Makefile.i386:as/Makefile.arch.in:as/Makefile.i386.in])
-	AC_CONFIG_COMMANDS([as/Makefile.i386.link], [mkdir -p ${ac_abs_top_builddir}/as/i386_build; ln -s -f ../Makefile.i386 ${ac_abs_top_builddir}/as/i386_build/Makefile])
+	AC_CONFIG_FILES([as/i386/Makefile:as/i386/Makefile.in:as/Makefile.arch.in])
 	;;
     *)
 	AC_MSG_ERROR([Unrecognized assembler target $ast])

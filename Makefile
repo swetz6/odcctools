@@ -10,9 +10,9 @@ PATCHFILES=as/driver.c ld-Bstatic.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 ADDEDFILES=configure.ac Makefile.in include/config.h.in install-sh	\
-	config.guess config.sub as/Makefile.in as/Makefile.ppc.in	\
-	as/Makefile.ppc64.in as/Makefile.i386.in as/Makefile.arch.in	\
-	libstuff/Makefile.in
+	config.guess config.sub as/Makefile.in as/Makefile.arch.in	\
+	as/ppc/Makefile.in as/ppc64/Makefile.in as/i386/Makefile.in	\
+	libstuff/Makefile.in as/apple_version.c
 
 default: none
 
@@ -45,6 +45,7 @@ patch: extract
 		done;						\
 		for p in $(ADDEDFILES); do			\
 			echo Adding file $$p;			\
+			mkdir -p $(DISTDIR)/`dirname $$p`;	\
 			cp $(ADDEDFILESDIR)/$$p $(DISTDIR)/$$p;	\
 		done;						\
 		touch .state.patch;				\
