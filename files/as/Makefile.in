@@ -6,6 +6,7 @@ top_srcdir = @top_srcdir@
 prefix	= @prefix@
 exec_prefix	= @exec_prefix@
 libexecdir	= @libexecdir@
+bindir		= @bindir@
 
 VPATH = @srcdir@
 
@@ -16,7 +17,10 @@ CPPFLAGS        = @CPPFLAGS@
 DEFS            = @DEFS@
 LDFLAGS         = @LDFLAGS@
 
+INSTALL		= @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
 ASLIBEXECDIR    = @ASLIBEXECDIR@
+transform	= @program_transform_name@
 
 MYINCLUDES      = -I$(srcdir) -I$(top_builddir)/include \
 			-I$(top_srcdir)/include
@@ -37,7 +41,7 @@ OBJS = $(CFILES:.c=.o)
 .c.o:
 	$(CC) $(MYCOMPILEFLAGS) -c -o $@ $<
 
-.PHONY: default driver $(ASTARGETS)
+.PHONY: default install clean distclean driver $(ASTARGETS)
 
 default: driver $(ASTARGETS)
 
@@ -47,6 +51,17 @@ $(ASTARGETS):
 driver: as
 as: $(OBJS)
 	$(CC) -o $@ $^ $(MYLINKFLAGS)
+
+install: driver install-arch
+	for p in as; do						\
+		$(INSTALL_PROGRAM) $$p \
+			$(DESTDIR)/$(bindir)/`echo $$p | sed '$(transform)'`;\
+	done
+
+install-arch:
+	for ast in $(ASTARGETS); do				\
+		(cd $${ast} && $(MAKE) install) || exit 1;	\
+	done
 
 clean:
 	rm -r -f *.o

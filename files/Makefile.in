@@ -16,17 +16,16 @@ VPATH = @srcdir@
 
 COMPONENTS = @COMPONENTS@
 
-.PHONY: default clean distclean $(COMPONENTS)
+.PHONY: default install clean distclean $(COMPONENTS)
 
 default: $(COMPONENTS)
 
-libstuff:
+libstuff as:
 	cd $@ && $(MAKE)
 
 as: libstuff
-	cd $@ && $(MAKE)
 
-clean distclean:
+clean distclean install:
 	for c in $(COMPONENTS); do              	\
 		(cd $$c && $(MAKE) $@) || exit 1;	\
 	done

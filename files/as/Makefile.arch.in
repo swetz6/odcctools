@@ -16,6 +16,8 @@ CPPFLAGS        = @CPPFLAGS@
 DEFS            = @DEFS@
 LDFLAGS         = @LDFLAGS@
 
+INSTALL		= @INSTALL@
+INSTALL_PROGRAM	= @INSTALL_PROGRAM@
 ASLIBEXECDIR    = @ASLIBEXECDIR@
 
 MYINCLUDES      = -I$(builddir) -I$(srcdir)/.. -I$(top_builddir)/include \
@@ -40,7 +42,7 @@ OBJS = $(CFILES:.c=.o)
 .c.o:
 	$(CC) $(MYCOMPILEFLAGS) -c -o $@ $<
 
-.PHONY: clean default
+.PHONY: default clean distclean install
 
 default: as
 
@@ -53,6 +55,9 @@ make.h makeUser.c: make.defs
 
 as: $(OBJS)
 	$(CC) -o $@ $^ $(MYLINKFLAGS)
+
+install: as
+	$(INSTALL_PROGRAM) as $(DESTDIR)/$(ASLIBEXECDIR)/$(ARCH)/as
 
 clean:
 	rm -r -f *.o

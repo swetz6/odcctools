@@ -19,7 +19,7 @@ MYDEFS		= -DINTERIM_PPC64
 MYCOMPILEFLAGS = $(CFLAGS) $(MDYNAMICNOPIC) $(CPPFLAGS) $(DEFS) \
 	$(MYINCLUDES) $(MYWARNINGS) $(MYDEFS)
 
-.PHONY: default clean
+.PHONY: default install clean distclean
 
 default: libstuff.a
 
@@ -40,9 +40,8 @@ libstuff.a: $(OBJS)
 .c.o:
 	$(CC) $(MYCOMPILEFLAGS) -c -o $@ $<
 
-clean shlib_clean:
+clean:
 	rm -r -f *.o
 	rm -f libstuff.a
 
-install: all
-
+install:
