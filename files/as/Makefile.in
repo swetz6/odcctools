@@ -41,7 +41,7 @@ OBJS = $(CFILES:.c=.o)
 .c.o:
 	$(CC) $(MYCOMPILEFLAGS) -c -o $@ $<
 
-.PHONY: default install clean distclean driver $(ASTARGETS)
+.PHONY: default install clean distclean $(ASTARGETS)
 
 default: driver $(ASTARGETS)
 
