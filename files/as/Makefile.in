@@ -15,12 +15,17 @@ CFLAGS          = @CFLAGS@
 WARNINGS	= @WARNINGS@
 MDYNAMICNOPIC   = @MDYNAMICNOPIC@
 CPPFLAGS        = @CPPFLAGS@
-DEFS            = @DEFS@
+DEFS            = @DEFS@ @ENDIAN_FLAG@
 LDFLAGS         = @LDFLAGS@
 HAVE_PRIVEXT    = @HAVE_PRIVEXT@
+HAVE_FOREIGN_HEADERS    = @HAVE_FOREIGN_HEADERS@
 
 ifeq ($(HAVE_PRIVEXT),NO)
 INCPRIVEXT      = -include $(top_srcdir)/include/extern.h
+endif
+
+ifeq ($(HAVE_FOREIGN_HEADERS),YES)
+FORHDRS         = -I$(top_srcdir)/include/foreign
 endif
 
 INSTALL		= @INSTALL@
@@ -29,7 +34,8 @@ ASLIBEXECDIR    = @ASLIBEXECDIR@
 transform	= @program_transform_name@
 
 MYINCLUDES      = -I$(srcdir) -I$(top_builddir)/include \
-			-I$(top_srcdir)/include $(INCPRIVEXT)
+			-I$(top_srcdir)/include $(INCPRIVEXT) \
+			$(FORHDRS)
 MYWARNINGS      = 
 MYDEFS          = -DNeXT_MOD -DASLIBEXECDIR="\"$(ASLIBEXECDIR)/\""
 MYLDFLAGS	= -L$(top_builddir)/libstuff

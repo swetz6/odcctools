@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528.5od3], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.21 $])
+AC_REVISION([$Revision: 1.22 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -19,6 +19,21 @@ darwin*)
 	AC_MSG_ERROR([$PACKAGE_NAME only supports targeting Darwin])
 	;;
 esac
+
+case $target_cpu in
+     powerpc*)
+        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 18, [Emulated CPU type])        
+        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 100, [Emulated CPU subtype])        
+	;;
+     i?86)
+        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 7, [Emulated CPU type])        
+        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 14, [Emulated CPU subtype])        
+	;;
+     *)
+	AC_MSG_ERROR([Unsupported target $target_cpu])
+	;;
+esac
+
 
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -71,6 +86,9 @@ AC_MSG_RESULT([$ASTARGETS])
 AC_SUBST([ASTARGETS], [$ASTARGETS]) 
 
 AC_SUBST([ASLIBEXECDIR], ['${libexecdir}/as'])
+
+AC_C_BIGENDIAN([AC_SUBST([ENDIAN_FLAG],[-D__BIG_ENDIAN__=1])],
+		[AC_SUBST([ENDIAN_FLAG],[-D__LITTLE_ENDIAN__=1])])
 
 ORIGCFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -mdynamic-no-pic"
@@ -134,6 +152,17 @@ AC_COMPILE_IFELSE(
 )
 CFLAGS=$ORIGCFLAGS
 
+ORIGCFLAGS=$CFLAGS
+CFLAGS="$CFLAGS -Wno-import"
+AC_MSG_CHECKING([if -Wno-import is supported])
+AC_COMPILE_IFELSE(
+   [AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]])],
+   [WARNINGS="$WARNINGS -Wno-import"
+    AC_MSG_RESULT([yes])],
+   [AC_MSG_RESULT([no])]
+)
+CFLAGS=$ORIGCFLAGS
+
 AC_SUBST([WARNINGS], [$WARNINGS])
 
 ORIGCFLAGS=$CFLAGS
@@ -177,7 +206,13 @@ AH_VERBATIM([HAVE_DECL_GETC_UNLOCKED_REPLACEMENT],
 # define getc_unlocked(a) getc(a)
 #endif])
 
-COMPONENTS="ar as libstuff ld man misc otool"
+if [[ "$host_os" = "darwin" ]]; then
+   COMPONENTS="ar as libstuff ld man misc otool"
+   AC_SUBST([HAVE_FOREIGN_HEADERS],[NO])
+else
+   COMPONENTS="as libstuff otool"
+   AC_SUBST([HAVE_FOREIGN_HEADERS],[YES])
+fi
 AC_SUBST([COMPONENTS], [$COMPONENTS])
 
 AC_CONFIG_FILES([Makefile libstuff/Makefile])

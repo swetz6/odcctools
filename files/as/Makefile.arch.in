@@ -14,12 +14,17 @@ WARNINGS	= @WARNINGS@
 CFLAGS          = @CFLAGS@
 MDYNAMICNOPIC   = @MDYNAMICNOPIC@
 CPPFLAGS        = @CPPFLAGS@
-DEFS            = @DEFS@
+DEFS            = @DEFS@ @ENDIAN_FLAG@
 LDFLAGS         = @LDFLAGS@
 HAVE_PRIVEXT    = @HAVE_PRIVEXT@
+HAVE_FOREIGN_HEADERS    = @HAVE_FOREIGN_HEADERS@
 
 ifeq ($(HAVE_PRIVEXT),NO)
 INCPRIVEXT      = -include $(top_srcdir)/include/extern.h
+endif
+
+ifeq ($(HAVE_FOREIGN_HEADERS),YES)
+FORHDRS         = -I$(top_srcdir)/include/foreign
 endif
 
 INSTALL		= @INSTALL@
@@ -27,7 +32,7 @@ INSTALL_PROGRAM	= @INSTALL_PROGRAM@
 ASLIBEXECDIR    = @ASLIBEXECDIR@
 
 MYINCLUDES      = -I$(builddir) -I$(srcdir)/.. -I$(top_builddir)/include \
-			-I$(top_srcdir)/include $(INCPRIVEXT)
+			-I$(top_srcdir)/include $(INCPRIVEXT) $(FORHDRS)
 MYWARNINGS      =
 MYDEFS          = -DNeXT_MOD -DASLIBEXECDIR="\"$(ASLIBEXECDIR)/\"" $(MYDEFS_$(ARCH))
 MYLDFLAGS	= -L$(top_builddir)/libstuff
@@ -43,8 +48,6 @@ CFILES = app.c as.c atof-generic.c atof-ieee.c expr.c fixes.c flonum-const.c \
          input-scrub.c layout.c messages.c obstack.c read.c sections.c \
          symbols.c write_object.c xmalloc.c $(CFILES_$(ARCH)) apple_version.c
 
-MIG	=	/usr/bin/mig
-
 OBJS = $(CFILES:.c=.o) 
 .c.o:
 	$(CC) $(MYCOMPILEFLAGS) -c -o $@ $<
@@ -52,13 +55,6 @@ OBJS = $(CFILES:.c=.o)
 .PHONY: default clean distclean install
 
 default: as
-
-makeUser.o messages.o: make.h
-
-make.h makeUser.c: make.defs
-	$(MIG) $<
-	rm -f makeServer.c
-
 
 as: $(OBJS)
 	$(CC) -o $@ $^ $(MYLINKFLAGS)

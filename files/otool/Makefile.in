@@ -14,13 +14,18 @@ CFLAGS          = @CFLAGS@
 WARNINGS	= @WARNINGS@
 MDYNAMICNOPIC   = @MDYNAMICNOPIC@
 CPPFLAGS        = @CPPFLAGS@
-DEFS            = @DEFS@
+DEFS            = @DEFS@ @ENDIAN_FLAG@
 LDFLAGS         = @LDFLAGS@
 OBJC		= @OBJC@
 HAVE_PRIVEXT    = @HAVE_PRIVEXT@
+HAVE_FOREIGN_HEADERS    = @HAVE_FOREIGN_HEADERS@
 
 ifeq ($(HAVE_PRIVEXT),NO)
 INCPRIVEXT      = -include $(top_srcdir)/include/extern.h
+endif
+
+ifeq ($(HAVE_FOREIGN_HEADERS),YES)
+FORHDRS         = -I$(top_srcdir)/include/foreign
 endif
 
 INSTALL		= @INSTALL@
@@ -28,7 +33,7 @@ INSTALL_PROGRAM	= @INSTALL_PROGRAM@
 transform       = @program_transform_name@
 
 MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(top_builddir)/include \
-			-I$(top_srcdir)/include $(INCPRIVEXT)
+			-I$(top_srcdir)/include $(INCPRIVEXT) $(FORHDRS)
 MYWARNINGS      = 
 MYDEFS          = -DINTERIM_PPC64
 MYLDFLAGS	= -L$(top_builddir)/libstuff
@@ -41,7 +46,7 @@ MYLINKFLAGS	= $(LDFLAGS) $(MYLDFLAGS) $(MYLIBS)
 
 CFILES = main.c ofile_print.c m68k_disasm.c i860_disasm.c \
          m88k_disasm.c i386_disasm.c ppc_disasm.c hppa_disasm.c \
-         sparc_disasm.c print_objc.c notify.c ofile.c
+         sparc_disasm.c print_objc.c ofile.c
 
 OBJS = $(CFILES:.c=.o) 
 .c.o:
