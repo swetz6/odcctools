@@ -8,7 +8,8 @@ TOPSRCDIR=$(shell pwd)
 PATCHFILESDIR=$(TOPSRCDIR)/patches
 PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	otool/nolibmstub.diff misc/ranlibname.diff			\
-	misc/libtool-ldpath.diff ar/ar-ranlibpath.diff
+	misc/libtool-ldpath.diff ar/ar-ranlibpath.diff			\
+	private_extern.diff otool/noobjc.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 ADDEDFILES=configure.ac Makefile.in include/config.h.in install-sh	\
