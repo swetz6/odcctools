@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528od1], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.11 $])
+AC_REVISION([$Revision: 1.12 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -89,6 +89,14 @@ AC_COMPILE_IFELSE(
    [AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]])],
    [AC_MSG_RESULT([yes])],
    [CFLAGS="$ORIGCFLAGS", AC_MSG_RESULT([no])]
+)
+
+ORIGLDFLAGS=$LDFLAGS
+LDFLAGS="-multiply_defined suppress"
+AC_MSG_CHECKING([if -multiply_defined suppress is supported])
+AC_LINK_IFELSE([AC_LANG_PROGRAM()],
+	[AC_MSG_RESULT([yes])],
+	[LDFLAGS="$ORIGLDFLAGS", AC_MSG_RESULT([no])]
 )
 
 AC_HEADER_STDC
