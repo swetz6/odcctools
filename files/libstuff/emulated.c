@@ -9,6 +9,8 @@
 #include <sys/attr.h>
 #include <errno.h>
 
+
+
 char            *mach_error_string(mach_error_t error_value)
 {
   return "Unknown mach error";
@@ -104,10 +106,12 @@ kern_return_t map_fd(
   return 0;
 }
 
+#ifndef HAVE_STRMODE
 void strmode(mode_t mode, char *bp)
 {
   sprintf(bp, "xxxxxxxxxx");
 }
+#endif
 
 int    getattrlist(const char* a,void* b,void* c,size_t d,unsigned int e)
 {

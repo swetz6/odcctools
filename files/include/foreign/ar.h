@@ -1,6 +1,14 @@
 #ifndef _AR_H_
 #define _AR_H_
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#ifdef HAVE_STRING_H
+#include <string.h>
+#endif
+
 #include <sys/types.h>
 
 #define ARMAG           "!<arch>\n"     /* ar "magic number" */
@@ -19,6 +27,8 @@ struct ar_hdr {
   char ar_fmag[2];                /* consistency check */
 };
 
+#ifndef HAVE_STRMODE
 void strmode(mode_t mode, char *bp);
+#endif
 
 #endif /* !_AR_H_ */
