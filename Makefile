@@ -60,5 +60,6 @@ regen: patch
 		( cd $(DISTDIR) &&				\
 		  autoheader &&					\
 		  autoconf );					\
+		rm -rf $(DISTDIR)/autom4te.cache;		\
 		touch .state.regen;				\
 	fi
