@@ -1,0 +1,11 @@
+--- libtool.c.orig	2004-09-05 16:48:06.000000000 -0700
++++ libtool.c	2004-09-05 16:48:41.000000000 -0700
+@@ -2270,7 +2270,7 @@
+ 	 */
+ 	for(i = 0; i < narchs || (i == 0 && narchs == 0); i++){
+ 	    reset_execute_list();
+-	    add_execute_list("ld");
++	    add_execute_list(makestr(BINDIR, "/", LDPROG, NULL));
+ 	    if(narchs != 0 && cmd_flags.arch_only_flag.name == NULL)
+ 		add_execute_list("-arch_multiple");
+ 	    if(archs != NULL){
