@@ -6,7 +6,7 @@ DISTDIR=$(CCTOOLSNAME)-$(CCTOOLSVERS)
 TOPSRCDIR=$(shell pwd)
 
 PATCHFILESDIR=$(TOPSRCDIR)/patches
-PATCHFILES=as/driver.c ld-Bstatic.diff
+PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 ADDEDFILES=configure.ac Makefile.in include/config.h.in install-sh	\

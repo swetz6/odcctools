@@ -1,0 +1,15 @@
+This is the source for the odcctools project, based on Apple's cctools
+project.
+
+The repository is set up to patch an existing tarball, using a
+combination of patch files and copying brand new files.  To generate a
+usable source directory, do the following:
+
+% make extract
+% make patch
+% make regen
+
+---
+
+Shantonu Sen
+<ssen@opendarwin.org>

@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528od1], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.7 $])
+AC_REVISION([$Revision: 1.8 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -90,6 +90,15 @@ AC_COMPILE_IFELSE(
    [AC_MSG_RESULT([yes])],
    [CFLAGS="$ORIGCFLAGS", AC_MSG_RESULT([no])]
 )
+
+AC_HEADER_STDC
+AC_CHECK_HEADER([stdio.h])
+AC_CHECK_DECLS([getc_unlocked])
+AH_VERBATIM([HAVE_DECL_GETC_UNLOCKED_REPLACEMENT],
+[/* For systems that don't have getc_unlocked, use getc  */
+#if !HAVE_DECL_GETC_UNLOCKED
+# define getc_unlocked(a) getc(a)
+#endif])
 
 COMPONENTS="as libstuff"
 AC_SUBST([COMPONENTS], [$COMPONENTS])
