@@ -18,7 +18,7 @@ ADDEDFILES=configure.ac Makefile.in include/config.h.in install-sh	\
 	libstuff/Makefile.in as/apple_version.c ar/Makefile.in		\
 	ld/apple_version.c ld/Makefile.in		\
 	otool/Makefile.in man/Makefile.in misc/Makefile.in		\
-	misc/apple_version.c
+	misc/apple_version.c include/extern.h
 
 default: none
 
