@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528od1], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.18 $])
+AC_REVISION([$Revision: 1.19 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -153,8 +153,10 @@ CFLAGS=$ORIGCFLAGS
 AC_MSG_CHECKING([if __private_extern__ is supported])
 AC_COMPILE_IFELSE(
    [AC_LANG_SOURCE([[__private_extern__ int foo;]])],
-   [AC_MSG_RESULT([yes])],
-   [AC_MSG_RESULT([no])]
+   [AC_SUBST([HAVE_PRIVEXT], [YES])
+    AC_MSG_RESULT([yes])],
+   [AC_SUBST([HAVE_PRIVEXT], [NO])
+    AC_MSG_RESULT([no])]
 )
 
 ORIGLDFLAGS=$LDFLAGS
