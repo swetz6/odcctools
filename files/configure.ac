@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528od1], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.3 $])
+AC_REVISION([$Revision: 1.4 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -44,7 +44,20 @@ AC_SUBST([ASTARGETS], [$ASTARGETS])
 AC_SYS_LARGEFILE
 AC_SYS_LONG_FILE_NAMES
 
-AC_CONFIG_FILES([Makefile as/Makefile])
+ORIGCFLAGS=$CFLAGS
+CFLAGS="$CFLAGS -mdynamic-no-pic"
+AC_MSG_CHECKING([if -mdynamic-no-pic is supported])
+AC_COMPILE_IFELSE(
+   [AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]])],
+   [AC_SUBST([MDYNAMICNOPIC],[-mdynamic-no-pic]) AC_MSG_RESULT([yes])],
+   [AC_SUBST([MDYNAMICNOPIC],[]) AC_MSG_RESULT([no])]
+)
+CFLAGS=$ORIGCFLAGS
+
+COMPONENTS="as libstuff"
+AC_SUBST([COMPONENTS], [$COMPONENTS])
+
+AC_CONFIG_FILES([Makefile as/Makefile libstuff/Makefile])
 for ast in $ASTARGETS; do
     case $ast in
     ppc)
