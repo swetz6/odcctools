@@ -1,4 +1,9 @@
-2004-08-30  Shantonu Sen  <shantonu@Shantonu-Sens-Computer.local>
+2004-08-31  Shantonu Sen  <ssen@opendarwin.org>
+
+	* files/configure.ac: Determine assembler targets and output
+	build directories
+
+2004-08-30  Shantonu Sen  <ssen@opendarwin.org>
 
 	* files/configure.ac: Start work on autoconf script
 
