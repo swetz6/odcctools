@@ -6,7 +6,7 @@ DISTDIR=$(CCTOOLSNAME)-$(CCTOOLSVERS)
 TOPSRCDIR=$(shell pwd)
 
 PATCHFILESDIR=$(TOPSRCDIR)/patches
-PATCHFILES=as/driver.c
+PATCHFILES=as/driver.c ld-Bstatic.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 ADDEDFILES=configure.ac

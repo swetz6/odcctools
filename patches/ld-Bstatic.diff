@@ -1,0 +1,188 @@
+diff -ur -p ../cctools-528.orig/ld/ld.c ./ld/ld.c
+--- ../cctools-528.orig/ld/ld.c	2004-08-30 16:21:30.000000000 -0700
++++ ./ld/ld.c	2004-08-30 16:21:49.000000000 -0700
+@@ -529,6 +529,9 @@ char *envp[])
+ 	    else{
+ 		p = &(argv[i][1]);
+ 		switch(*p){
++		case 'B': 
++			if(strcmp(p, "Bstatic") && strcmp(p, "Bdynamic")) goto unknown_flag;
++			break;
+ 		case 'l':
+ 		    if(p[1] == '\0')
+ 			fatal("-l: argument missing");
+@@ -2439,6 +2442,16 @@ unknown_flag:
+ 	    else{
+ 		p = &(argv[i][1]);
+ 		switch(*p){
++		case 'B':
++			if(strcmp(p, "Bstatic") == 0){
++				search_lib_extensions[0]=".a";
++				search_lib_extensions[1]=".dylib";
++				break;
++			} else if (strcmp(p, "Bdynamic") == 0){
++				search_lib_extensions[0]=".dylib";
++				search_lib_extensions[1]=".a";
++				break;
++			}
+ 		case 'b':
+ 		    if(strcmp(p, "bundle_loader") == 0){
+ 			/*
+Only in ./ld: ld.c.orig
+diff -ur -p ../cctools-528.orig/ld/pass1.c ./ld/pass1.c
+--- ../cctools-528.orig/ld/pass1.c	2004-08-30 16:21:30.000000000 -0700
++++ ./ld/pass1.c	2004-08-30 16:21:49.000000000 -0700
+@@ -115,6 +115,13 @@ __private_extern__ char *standard_framew
+ 
+ /* the pointer to the head of the base object file's segments */
+ __private_extern__ struct merged_segment *base_obj_segments = NULL;
++
++__private_extern__ char *search_lib_extensions[] = {
++	".dylib",
++	".a",
++	NULL
++};
++
+ #endif /* !defined(RLD) */
+ 
+ #if !defined(SA_RLD) && !(defined(KLD) && defined(__STATIC__))
+@@ -317,6 +324,7 @@ enum bool force_weak)
+     char *file_name;
+ #ifndef RLD
+     char *p, *type;
++    int search_lib_index = 0;
+ #endif /* !defined(RLD) */
+     kern_return_t r;
+     unsigned long file_size;
+@@ -334,7 +342,6 @@ enum bool force_weak)
+ 	/* this function" can safely be ignored */
+ 	file_name = NULL;
+ #endif /* DEBUG */
+-
+ 	fd = -1;
+ #ifndef RLD
+ 	if(lname){
+@@ -356,12 +363,11 @@ enum bool force_weak)
+ 			search_paths_for_lname(&name[2], &file_name, &fd);
+ 		    }
+ 		    else{
+-			p = mkstr("lib", &name[2], ".dylib", NULL);
+-			search_for_file(p, &file_name, &fd);
+-			if(fd == -1){
+-			    p = mkstr("lib", &name[2], ".a", NULL);
+-			    search_for_file(p, &file_name, &fd);
+-			}
++			while (search_lib_extensions[search_lib_index] && (fd == -1)) {
++				p = mkstr("lib", &name[2], search_lib_extensions[search_lib_index], NULL);
++				search_for_file(p, &file_name, &fd);
++				search_lib_index++;
++				}
+ 		    }
+ 		}
+ 		else{
+@@ -600,15 +606,16 @@ const char *lname_argument,
+ char **file_name,
+ int *fd)
+ {
+-	*file_name = mkstr(dir, "/", "lib", lname_argument, ".dylib", NULL);
+-	if((*fd = open(*file_name, O_RDONLY)) != -1)
+-	    return;
+-	free(*file_name);
+-
+-	*file_name = mkstr(dir, "/", "lib", lname_argument, ".a", NULL);
+-	if((*fd = open(*file_name, O_RDONLY)) != -1)
+-	    return;
+-	free(*file_name);
++	int search_lib_index=0;
++	*fd = -1;
++	while (search_lib_extensions[search_lib_index] && (*fd == -1)) {
++		*file_name = mkstr(dir, "/", "lib", lname_argument, search_lib_extensions[search_lib_index], NULL);
++		if((*fd = open(*file_name, O_RDONLY)) != -1)
++			break;
++	search_lib_index++;
++	}
++	if (*fd == -1)
++		free(*file_name);
+ }
+ #endif /* !defined(RLD) */
+ 
+Only in ./ld: pass1.c.orig
+diff -ur -p ../cctools-528.orig/ld/pass1.h ./ld/pass1.h
+--- ../cctools-528.orig/ld/pass1.h	2004-08-30 16:21:30.000000000 -0700
++++ ./ld/pass1.h	2004-08-30 16:21:49.000000000 -0700
+@@ -56,6 +56,8 @@ __private_extern__ char *standard_framew
+ /* the pointer to the head of the base object file's segments */
+ __private_extern__ struct merged_segment *base_obj_segments;
+ 
++__private_extern__ char *search_lib_extensions[];
++
+ /*
+  * These are pointers to strings and symbols used to search of the table of
+  * contents of a library.  These have to be can not be local so that routines
+Only in ./ld: pass1.h.orig
+diff -ur -p ../cctools-528.orig/man/ld.1 ./man/ld.1
+--- ../cctools-528.orig/man/ld.1	2004-08-30 16:21:30.000000000 -0700
++++ ./man/ld.1	2004-08-30 16:21:49.000000000 -0700
+@@ -1679,6 +1679,18 @@ module for each object file linked in.  
+ .BI \-dylinker_install_name " name"
+ For dynamic link editor files, specifies the name of the file
+ the dynamic link editor will be installed in for programs that use it.
++.TP
++.BI \-Bstatic
++Search for static archives before dynamic shared libraries. Both
++.BI \-Bstatic
++and
++.BI \-Bdynamic
++can be specified multiple times, and affect only the following
++.BI \-l
++arguments.
++.TP
++.BI \-Bdynamic
++This is the default. Search for dynamic shared libraries first, then static.
+ .PP
+ The following environment variable is used to control the use of incompatible
+ features in the output with respect to Mac OS X releases.
+diff -ur -p ../cctools-528.orig/man/libtool.1 ./man/libtool.1
+--- ../cctools-528.orig/man/libtool.1	2004-08-30 16:21:30.000000000 -0700
++++ ./man/libtool.1	2004-08-30 16:21:50.000000000 -0700
+@@ -307,6 +307,8 @@ flags are accepted and passed through:
+ .B \-m,
+ .B \-dead_strip,
+ .B \-no_dead_strip_inits_and_terms,
++.B \-Bstatic,
++.B \-Bdynamic,
+ .B \-executable_path.
+ See the
+ .IR ld (1)
+Only in ./man: libtool.1.orig
+diff -ur -p ../cctools-528.orig/misc/libtool.c ./misc/libtool.c
+--- ../cctools-528.orig/misc/libtool.c	2004-08-30 16:21:31.000000000 -0700
++++ ./misc/libtool.c	2004-08-30 16:21:50.000000000 -0700
+@@ -773,6 +773,15 @@ char **envp)
+ 		    cmd_flags.files[cmd_flags.nfiles++] = argv[i];
+ 		    lflags_seen = TRUE;
+ 		}
++		else if(strncmp(argv[i], "-Bstatic", 8) == 0 ||
++			    strncmp(argv[i], "-Bdynamic",9) == 0){
++		    if(cmd_flags.ranlib == TRUE){
++			error("unknown option: %s", argv[i]);
++			usage();
++		    }
++		    cmd_flags.files[cmd_flags.nfiles++] = argv[i];
++		    lflags_seen = TRUE;
++		}
+ 		else if(strncmp(argv[i], "-weak-l", 7) == 0){
+ 		    if(cmd_flags.ranlib == TRUE){
+ 			error("unknown option: %s", argv[i]);
+@@ -1135,6 +1144,10 @@ void)
+ 		i++;
+ 		continue;
+ 	    }
++		else if(strncmp(cmd_flags.files[i], "-Bstatic",8) == 0 ||
++			strncmp(cmd_flags.files[i], "-Bdynamic",9) == 0){
++		continue;
++		}
+ 	    else{
+ 		if(ofile_map(cmd_flags.files[i], NULL, NULL, ofiles + i,
+ 			     TRUE) == FALSE)
+Only in ./misc: libtool.c.orig
