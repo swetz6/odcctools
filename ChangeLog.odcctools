@@ -1,3 +1,8 @@
+2004-09-03  Shantonu Sen  <ssen@opendarwin.org>>
+
+	* files/ar/Makefile.in: Get ar building
+	* files/include/Makefile.in: Install headers
+
 2004-09-02  Shantonu Sen  <ssen@opendarwin.org>
 
 	* files/as/Makefile.in: Get assemblers building
