@@ -2,7 +2,9 @@
 
 	* files/ar/Makefile.in: Get ar building
 	* files/include/Makefile.in: Install headers
-
+	* files/ld/Makefile: Get ld building
+	* files/otool/Makefile: Get otool building
+	
 2004-09-02  Shantonu Sen  <ssen@opendarwin.org>
 
 	* files/as/Makefile.in: Get assemblers building

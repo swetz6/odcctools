@@ -13,7 +13,8 @@ ADDEDFILES=configure.ac Makefile.in include/config.h.in install-sh	\
 	config.guess config.sub as/Makefile.in as/Makefile.arch.in	\
 	as/ppc/Makefile.in as/ppc64/Makefile.in as/i386/Makefile.in	\
 	libstuff/Makefile.in as/apple_version.c ar/Makefile.in		\
-	include/Makefile.in ld/apple_version.c ld/Makefile.in
+	include/Makefile.in ld/apple_version.c ld/Makefile.in		\
+	otool/Makefile.in
 
 default: none
 
