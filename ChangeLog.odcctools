@@ -1,3 +1,7 @@
+2005-03-26  Shantonu Sen  <ssen@opendarwin.org>
+
+	* Import cctools-576, bring forward patches
+
 2005-03-06  Shantonu Sen  <ssen@opendarwin.org>
 
 	* Don't let the assembler delete special files

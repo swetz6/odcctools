@@ -36,7 +36,7 @@ MYINCLUDES      = -I$(builddir) -I$(srcdir)/.. -I$(top_builddir)/include \
 MYWARNINGS      =
 MYDEFS          = -DNeXT_MOD -DASLIBEXECDIR="\"$(ASLIBEXECDIR)/\"" $(MYDEFS_$(ARCH))
 MYLDFLAGS	= -L$(top_builddir)/libstuff
-MYLIBS		= -lstuff
+MYLIBS		= $(MYLIBS_$(ARCH))
 
 MYCOMPILEFLAGS  = $(WARNINGS) $(MYWARNINGS) $(DEFS) $(MYDEFS) \
 	$(CPPFLAGS) $(MYINCLUDES) $(CFLAGS) $(MDYNAMICNOPIC) 

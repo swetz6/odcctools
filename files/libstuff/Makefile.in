@@ -33,10 +33,6 @@ MYDEFS		=
 MYCOMPILEFLAGS	= $(WARNINGS) $(MYWARNINGS) $(DEFS) $(MYDEFS) \
 	$(CPPFLAGS) $(MYINCLUDES) $(CFLAGS) $(MDYNAMICNOPIC) 
 
-.PHONY: default install clean distclean
-
-default: libstuff.a libstuff64.a
-
 CFILES = allocate.c errors.c arch.c execute.c bytesex.c round.c hppa.c \
 	  swap_headers.c reloc.c version_number.c get_toc_byte_sex.c \
 	  best_arch.c fatals.c arch_usage.c ofile.c ofile_error.c print.c \
@@ -48,6 +44,11 @@ CFILES = allocate.c errors.c arch.c execute.c bytesex.c round.c hppa.c \
 
 OBJS = $(CFILES:.c=.o)
 OBJS64 = $(CFILES:.c=.64o)
+
+
+.PHONY: default install clean distclean
+
+default: libstuff.a libstuff64.a
 
 libstuff.a: $(OBJS)
 	$(AR) cru $@ $^
