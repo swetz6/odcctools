@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528od1], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.9 $])
+AC_REVISION([$Revision: 1.10 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -100,7 +100,7 @@ AH_VERBATIM([HAVE_DECL_GETC_UNLOCKED_REPLACEMENT],
 # define getc_unlocked(a) getc(a)
 #endif])
 
-COMPONENTS="ar as libstuff include"
+COMPONENTS="ar as libstuff include ld"
 AC_SUBST([COMPONENTS], [$COMPONENTS])
 
 AC_CONFIG_FILES([Makefile libstuff/Makefile])
@@ -123,4 +123,5 @@ for ast in $ASTARGETS; do
     esac
 done
 AC_CONFIG_FILES([include/Makefile])
+AC_CONFIG_FILES([ld/Makefile])
 AC_OUTPUT

@@ -20,11 +20,10 @@ COMPONENTS = @COMPONENTS@
 
 default: $(COMPONENTS)
 
-libstuff as ar include:
+libstuff as ar include ld:
 	cd $@ && $(MAKE)
 
-as: libstuff
-ar: libstuff
+as ar ld: libstuff
 
 clean distclean install:
 	for c in $(COMPONENTS); do              	\
