@@ -23,7 +23,7 @@ default: $(COMPONENTS)
 $(COMPONENTS):
 	cd $@ && $(MAKE)
 
-as ar ld otool: libstuff
+as ar ld misc otool: libstuff
 
 clean distclean install:
 	for c in $(COMPONENTS); do              	\

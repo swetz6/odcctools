@@ -21,11 +21,12 @@ INSTALL		= @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA	= @INSTALL_DATA@
 transform	= @program_transform_name@
+RANLIBPROG      = $(shell echo ranlib | sed '$(transform)')
 
 MYINCLUDES      = -I$(srcdir) -I$(top_builddir)/include \
 			-I$(top_srcdir)/include
 MYWARNINGS      = -Wall -Wno-long-double
-MYDEFS          = 
+MYDEFS          = -DBINDIR="\"$(bindir)\"" -DRANLIBPROG="\"$(RANLIBPROG)\""
 MYLDFLAGS	= -L$(top_builddir)/libstuff
 MYLIBS		= -lstuff
 
