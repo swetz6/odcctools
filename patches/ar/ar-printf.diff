@@ -1,6 +1,6 @@
 --- archive.c.orig	2004-11-07 11:13:30.000000000 -0800
 +++ archive.c	2004-11-07 11:14:02.000000000 -0800
-@@ -307,21 +307,21 @@
+@@ -313,21 +313,21 @@
  			(void)sprintf(hb, HDR3, name, (long int)sb->st_mtime,
  			    (unsigned int)(u_short)sb->st_uid,
  			    (unsigned int)(u_short)sb->st_gid,

@@ -13,7 +13,7 @@
  #endif
  
  /* used by error routines as the name of the program */
-@@ -2188,6 +2186,7 @@
+@@ -2282,6 +2280,7 @@
  char *arch_name,
  char *fileName)
  {
@@ -21,7 +21,7 @@
      char message_buf[1024];
      mach_port_t ProjectBuilder_port;
      char *portName;
-@@ -2223,6 +2222,7 @@
+@@ -2317,6 +2318,7 @@
  	    NULL, 0,
  	    0,
  	    message_buf, strlen(message_buf) + 1);
