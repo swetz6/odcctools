@@ -92,8 +92,8 @@ kern_return_t map_fd(
 
   void *addr = NULL;
 
-  addr = mmap(0, size, PROT_READ,
-	      MAP_SHARED|MAP_FILE, fd, offset);
+  addr = mmap(0, size, PROT_READ|PROT_WRITE,
+	      MAP_PRIVATE|MAP_FILE, fd, offset);
 
   if(addr == (void *)-1) {
     return 1;
