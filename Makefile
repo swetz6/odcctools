@@ -1,5 +1,5 @@
 CCTOOLSNAME=cctools
-CCTOOLSVERS=528.5
+CCTOOLSVERS=576
 DISTFILE=$(CCTOOLSNAME)-$(CCTOOLSVERS).tar.bz2
 DISTDIR=$(CCTOOLSNAME)-$(CCTOOLSVERS)
 
@@ -12,8 +12,7 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	private_extern.diff otool/noobjc.diff as/input-scrub.diff	\
 	as/messages.diff ar/contents.diff ar/errno.diff			\
 	ar/archive.diff misc/libtool-pb.diff ar/ar-printf.diff 		\
-	ld/ld-pb.diff ld-sysroot.diff ld/ld-indirect-symbols.diff	\
-	as/write_object.nounlink.diff as/relax.diff			\
+	ld/ld-pb.diff ld-sysroot.diff as/relax.diff			\
 	as/bignum.diff include/architecture/i386/selguard.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
@@ -46,7 +45,7 @@ patch: extract
 			echo Applying patch $$p;		\
 			dir=`dirname $$p`;			\
 			( cd $(DISTDIR)/$$dir; 			\
-			  patch --posix -p0 < $(PATCHFILESDIR)/$$p );	\
+			  patch --no-backup-if-mismatch --posix -p0 < $(PATCHFILESDIR)/$$p );	\
 		done;						\
 		tar cf - --exclude=CVS -C $(ADDEDFILESDIR) . | 	\
 			tar xvf - -C $(DISTDIR);			\

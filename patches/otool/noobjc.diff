@@ -1,6 +1,6 @@
---- main.c.orig	2004-11-10 20:51:58.000000000 -0800
-+++ main.c	2004-11-10 20:55:08.000000000 -0800
-@@ -41,6 +41,10 @@
+--- main.c.orig	2005-03-26 12:11:18.000000000 -0800
++++ main.c	2005-03-26 12:14:48.000000000 -0800
+@@ -44,6 +44,10 @@
  #include "hppa_disasm.h"
  #include "sparc_disasm.h"
  
@@ -11,12 +11,12 @@
  /* Name of this program for error messages (argv[0]) */
  char *progname = NULL;
  
-@@ -975,23 +979,36 @@
+@@ -997,23 +1001,35 @@
  		S_ATTR_SOME_INSTRUCTIONS){
  	    if(strcmp(segname, SEG_OBJC) == 0 &&
  	       strcmp(sectname, "__protocol") == 0 && vflag == TRUE){
 +#ifdef HAVE_OBJC_OBJC_RUNTIME_H
- 		print_objc_protocol_section(ofile->mh, ofile->load_commands,
+ 		print_objc_protocol_section(ofile_mh, ofile->load_commands,
  		   ofile->object_byte_sex, ofile->object_addr,
  		   ofile->object_size, vflag);
 +#else
@@ -28,43 +28,42 @@
  	             strcmp(sectname, "__cstring_object") == 0) &&
  		    vflag == TRUE){
 +#ifdef HAVE_OBJC_OBJC_RUNTIME_H
- 		print_objc_string_object_section(sectname, ofile->mh,
+ 		print_objc_string_object_section(sectname, ofile_mh,
  		   ofile->load_commands, ofile->object_byte_sex,
  		   ofile->object_addr, ofile->object_size, vflag);
 +#else
 +		printf("Objective-C not supported\n");
 +#endif
-+
  	    }
  	    else if(strcmp(segname, SEG_OBJC) == 0 &&
  	       strcmp(sectname, "__runtime_setup") == 0 && vflag == TRUE){
 +#ifdef HAVE_OBJC_OBJC_RUNTIME_H
- 		print_objc_runtime_setup_section(ofile->mh,ofile->load_commands,
+ 		print_objc_runtime_setup_section(ofile_mh,ofile->load_commands,
  		   ofile->object_byte_sex, ofile->object_addr,
  		   ofile->object_size, vflag);
 +#else
 +		printf("Objective-C not supported\n");
 +#endif
  	    }
- 	    else if(get_sect_info(segname, sectname, ofile->mh,
+ 	    else if(get_sect_info(segname, sectname, ofile_mh,
  		ofile->load_commands, ofile->object_byte_sex,
-@@ -1071,10 +1088,14 @@
+@@ -1093,10 +1109,14 @@
  			     ofile->object_size);
  
  	if(oflag)
 +#ifdef HAVE_OBJC_OBJC_RUNTIME_H
- 	    print_objc_segment(ofile->mh, ofile->load_commands,
+ 	    print_objc_segment(ofile_mh, ofile->load_commands,
  			       ofile->object_byte_sex, ofile->object_addr,
  			       ofile->object_size, sorted_symbols,
  			       nsorted_symbols, vflag);
 +#else
-+	printf("Objective-C not supported\n");
++		printf("Objective-C not supported\n");
 +#endif
  
  	if(load_commands != NULL)
  	    free(load_commands);
---- print_objc.c.orig	2004-11-10 20:55:15.000000000 -0800
-+++ print_objc.c	2004-11-10 20:55:47.000000000 -0800
+--- print_objc.c.orig	2004-09-15 15:24:36.000000000 -0700
++++ print_objc.c	2005-03-26 12:11:55.000000000 -0800
 @@ -20,6 +20,13 @@
   * 
   * @APPLE_LICENSE_HEADER_END@
@@ -78,8 +77,8 @@
 +
  #include "stdio.h"
  #include "string.h"
- #include "mach-o/loader.h"
-@@ -2039,3 +2046,5 @@
+ #include "stuff/target_arch.h"
+@@ -2041,3 +2048,5 @@
  	}
  	return(FALSE);
  }

@@ -647,15 +647,18 @@ diff -ur ../cctools-528.orig/ld/pass1.h ./ld/pass1.h
  #endif /* !defined(RLD) */
  
  /*
-@@ -122,7 +122,7 @@
+@@ -122,9 +122,9 @@
   * can contain archive libraries when archive libraries appear after dynamic
   * libraries on the link line.
   */
 -__private_extern__ struct dynamic_library *dynamic_libs;
 +extern struct dynamic_library *dynamic_libs;
+ 
+-__private_extern__ unsigned int indirect_library_ratio;
++extern unsigned int indirect_library_ratio;
+ 
  #endif /* !defined(RLD) */
  
- __private_extern__ void pass1(
 diff -ur ../cctools-528.orig/ld/pass2.h ./ld/pass2.h
 --- ../cctools-528.orig/ld/pass2.h	Wed Aug 13 17:38:42 2003
 +++ ./ld/pass2.h	Wed Sep  8 08:46:59 2004
@@ -738,7 +741,7 @@ diff -ur ../cctools-528.orig/ld/specs.h ./ld/specs.h
 diff -ur ../cctools-528.orig/ld/symbols.h ./ld/symbols.h
 --- ../cctools-528.orig/ld/symbols.h	Wed Feb 11 17:11:31 2004
 +++ ./ld/symbols.h	Wed Sep  8 08:49:49 2004
-@@ -181,25 +181,25 @@
+@@ -182,25 +182,25 @@
   * count of the merged symbols.  The count of merged symbols referenced only
   * from dylibs will not be in the output file.
   */
@@ -772,7 +775,7 @@ diff -ur ../cctools-528.orig/ld/symbols.h ./ld/symbols.h
  
  /*
   * The head of the undefined list itself.  This is a circular list so it can be
-@@ -207,26 +207,26 @@
+@@ -208,26 +208,26 @@
   * structure never has it's merged_symbol filled in but only serves as the
   * head and tail of the list.
   */
@@ -804,7 +807,7 @@ diff -ur ../cctools-528.orig/ld/symbols.h ./ld/symbols.h
  
  /*
   * For local symbols of an object file that are not to be in the output a
-@@ -277,7 +277,7 @@
+@@ -278,7 +278,7 @@
      char *sectname;	 /* the section name */
      struct merged_section *ms;	/* the merged section structure */
  };
@@ -813,7 +816,7 @@ diff -ur ../cctools-528.orig/ld/symbols.h ./ld/symbols.h
  
  /*
   * The indr_symbol_pair structure is used when there are chains of N_INDR
-@@ -293,8 +293,8 @@
+@@ -294,8 +294,8 @@
      struct merged_symbol *merged_symbol;
      struct merged_symbol *indr_symbol;
  };
@@ -823,4 +826,4 @@ diff -ur ../cctools-528.orig/ld/symbols.h ./ld/symbols.h
 +extern unsigned long nindr_symbol_pairs;
  
  /*
-  * The strings in the string table can't start at offset 0 because a symbol with
+  * merged_symbols_relocated is set when the merged symbols are relocated to
