@@ -9,8 +9,8 @@ PATCHFILESDIR=$(TOPSRCDIR)/patches
 PATCHFILES=as/driver.c ld-Bstatic.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
-ADDEDFILES=configure.ac
-
+ADDEDFILES=configure.ac Makefile.in include/config.h.in install-sh	\
+	config.guess config.sub
 
 default: none
 
@@ -40,3 +40,7 @@ patch: extract
 		echo Adding file $$p;				\
 		cp $(ADDEDFILESDIR)/$$p $(DISTDIR)/$$p;		\
 	done
+
+regen:
+	cd $(DISTDIR) && autoheader;
+	cd $(DISTDIR) && autoconf;
