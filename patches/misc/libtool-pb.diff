@@ -1,0 +1,31 @@
+--- libtool.c.orig	2004-11-07 10:02:03.000000000 -0800
++++ libtool.c	2004-11-07 10:07:45.000000000 -0800
+@@ -47,12 +47,10 @@
+ #include "stuff/execute.h"
+ #include "stuff/version_number.h"
+ 
+-#include "make.h"
+ #include <mach/mach_init.h>
+ #if defined(__OPENSTEP__) || defined(__GONZO_BUNSEN_BEAKER__)
+ #include <servers/netname.h>
+ #else
+-#include <servers/bootstrap.h>
+ #endif
+ 
+ /* used by error routines as the name of the program */
+@@ -2188,6 +2186,7 @@
+ char *arch_name,
+ char *fileName)
+ {
++#ifdef OLD_PROJECTBUILDER_INTERFACE
+     char message_buf[1024];
+     mach_port_t ProjectBuilder_port;
+     char *portName;
+@@ -2223,6 +2222,7 @@
+ 	    NULL, 0,
+ 	    0,
+ 	    message_buf, strlen(message_buf) + 1);
++#endif
+ }
+ 
+ /*
