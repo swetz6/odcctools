@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528.5od3], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.25 $])
+AC_REVISION([$Revision: 1.26 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -200,13 +200,15 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM()],
 )
 
 AC_HEADER_STDC
-AC_CHECK_HEADER([stdio.h])
+AC_CHECK_HEADERS([stdio.h errno.h objc/objc-runtime.h])
 AC_CHECK_DECLS([getc_unlocked])
 AH_VERBATIM([HAVE_DECL_GETC_UNLOCKED_REPLACEMENT],
 [/* For systems that don't have getc_unlocked, use getc  */
 #if !HAVE_DECL_GETC_UNLOCKED
 # define getc_unlocked(a) getc(a)
 #endif])
+
+
 
 case $host_os in
      darwin*)

@@ -15,6 +15,4 @@
 #include <sys/types.h>
 #include <sys/param.h>
 
-#define EBADRPC ENOTSUP
-
 #endif
