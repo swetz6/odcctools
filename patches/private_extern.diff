@@ -1,0 +1,826 @@
+diff -ur ../cctools-528.orig/include/stuff/errors.h ./include/stuff/errors.h
+--- ../cctools-528.orig/include/stuff/errors.h	Mon May 17 16:27:25 2004
++++ ./include/stuff/errors.h	Wed Sep  8 08:36:37 2004
+@@ -32,11 +32,11 @@
+ #import "mach/mach.h"
+ 
+ /* user defined (imported) */
+-__private_extern__ char *progname;
++extern char *progname;
+ 
+ /* defined in errors.c */
+ /* number of detected calls to error() */
+-__private_extern__ unsigned long errors;
++extern unsigned long errors;
+ 
+ __private_extern__ void warning(
+     const char *format, ...)
+diff -ur ../cctools-528.orig/ld/dylibs.h ./ld/dylibs.h
+--- ../cctools-528.orig/ld/dylibs.h	Wed Aug 13 17:38:42 2003
++++ ./ld/dylibs.h	Wed Sep  8 08:51:57 2004
+@@ -28,7 +28,7 @@
+  * Global types, variables and routines declared in the file dylibs.c.
+  */
+ 
+-__private_extern__ enum bool has_dynamic_linker_command;
++extern enum bool has_dynamic_linker_command;
+ 
+ #ifndef RLD
+ 
+@@ -46,10 +46,10 @@
+     struct merged_dylib *next;	/* The next in the list, NULL otherwise */
+ };
+ /* the pointer to the head of the dynamicly linked shared library commands */
+-__private_extern__ struct merged_dylib *merged_dylibs;
++extern struct merged_dylib *merged_dylibs;
+ 
+ /* the pointer to the head of the dynamicly linked shared library segments */
+-__private_extern__ struct merged_segment *dylib_segments;
++extern struct merged_segment *dylib_segments;
+ 
+ __private_extern__ void create_dylib_id_command(
+     void);
+@@ -68,7 +68,7 @@
+ 	*definition_object;	/*  command was found in */
+ };
+ /* the pointer to the merged the dynamic linker command if any */
+-__private_extern__ struct merged_dylinker *merged_dylinker;
++extern struct merged_dylinker *merged_dylinker;
+ 
+ __private_extern__ void create_dylinker_id_command(
+     void);
+@@ -79,7 +79,7 @@
+ 	*sub;			/* The load command for the output file */
+ };
+ /* the pointer to the merged sub_framework command if any */
+-__private_extern__ struct merged_sub_frameworks *merged_sub_framework;
++extern struct merged_sub_frameworks *merged_sub_framework;
+ 
+ __private_extern__ void create_sub_framework_command(
+     void);
+@@ -89,7 +89,7 @@
+ 	*sub;			/* The load command for the output file */
+ };
+ /* the pointer to the merged sub_umbrella commands if any */
+-__private_extern__ struct merged_sub_umbrella *merged_sub_umbrellas;
++extern struct merged_sub_umbrella *merged_sub_umbrellas;
+ 
+ __private_extern__ unsigned long create_sub_umbrella_commands(
+     void);
+@@ -99,7 +99,7 @@
+ 	*sub;			/* The load command for the output file */
+ };
+ /* the pointer to the merged sub_library commands if any */
+-__private_extern__ struct merged_sub_library *merged_sub_librarys;
++extern struct merged_sub_library *merged_sub_librarys;
+ 
+ __private_extern__ unsigned long create_sub_library_commands(
+     void);
+@@ -109,7 +109,7 @@
+ 	*sub;			/* The load command for the output file */
+ };
+ /* the pointer to the merged sub_client commands if any */
+-__private_extern__ struct merged_sub_client *merged_sub_clients;
++extern struct merged_sub_client *merged_sub_clients;
+ 
+ __private_extern__ unsigned long create_sub_client_commands(
+     void);
+diff -ur ../cctools-528.orig/ld/fvmlibs.h ./ld/fvmlibs.h
+--- ../cctools-528.orig/ld/fvmlibs.h	Wed Aug 13 17:38:42 2003
++++ ./ld/fvmlibs.h	Wed Sep  8 08:59:14 2004
+@@ -45,10 +45,10 @@
+ };
+ 
+ /* the pointer to the head of the load fixed VM shared library commamds */
+-__private_extern__ struct merged_fvmlib *merged_fvmlibs;
++extern struct merged_fvmlib *merged_fvmlibs;
+ 
+ /* the pointer to the head of the fixed VM shared library segments */
+-__private_extern__ struct merged_segment *fvmlib_segments;
++extern struct merged_segment *fvmlib_segments;
+ 
+ __private_extern__ void merge_fvmlibs(
+     void);
+diff -ur ../cctools-528.orig/ld/indirect_sections.h ./ld/indirect_sections.h
+--- ../cctools-528.orig/ld/indirect_sections.h	Mon Apr  5 15:00:58 2004
++++ ./ld/indirect_sections.h	Wed Sep  8 08:52:15 2004
+@@ -27,7 +27,7 @@
+ /*
+  * The number of indirect symbol table entries in the output file.
+  */
+-__private_extern__ unsigned long nindirectsyms;
++extern unsigned long nindirectsyms;
+ 
+ /*
+  * If we are still attempting to prebind when indirect_section_merge() is
+@@ -37,7 +37,7 @@
+  * various problems.  But the count of relocs can't change after layout so
+  * we'll put them out anyway.
+  */
+-__private_extern__ enum bool save_lazy_symbol_pointer_relocs;
++extern enum bool save_lazy_symbol_pointer_relocs;
+ 
+ /*
+  * The literal_data which is set into a merged_section's literal_data field for
+diff -ur ../cctools-528.orig/ld/layout.h ./ld/layout.h
+--- ../cctools-528.orig/ld/layout.h	Wed Aug 13 17:38:42 2003
++++ ./ld/layout.h	Wed Sep  8 08:47:22 2004
+@@ -33,7 +33,7 @@
+  */
+ 
+ /* The output file's mach header */
+-__private_extern__ struct mach_header output_mach_header;
++extern struct mach_header output_mach_header;
+ 
+ /*
+  * The output file's symbol table load command and the offsets used in the
+@@ -46,7 +46,7 @@
+       output_merged_strsize, /* the current merged string table size in pass2 */
+       output_local_strsize;  /* the current local string table size in pass2 */
+ };
+-__private_extern__ struct symtab_info output_symtab_info;
++extern struct symtab_info output_symtab_info;
+ 
+ /*
+  * The output file's dynamic symbol table load command.
+@@ -54,7 +54,7 @@
+ struct dysymtab_info {
+     struct dysymtab_command dysymtab_command;
+ };
+-__private_extern__ struct dysymtab_info output_dysymtab_info;
++extern struct dysymtab_info output_dysymtab_info;
+ 
+ /*
+  * The output file's two level hints load command.
+@@ -62,7 +62,7 @@
+ struct hints_info {
+     struct twolevel_hints_command twolevel_hints_command;
+ };
+-__private_extern__ struct hints_info output_hints_info;
++extern struct hints_info output_hints_info;
+ 
+ /*
+  * The output file's prebind_cksum load command.
+@@ -70,7 +70,7 @@
+ struct cksum_info {
+     struct prebind_cksum_command prebind_cksum_command;
+ };
+-__private_extern__ struct cksum_info output_cksum_info;
++extern struct cksum_info output_cksum_info;
+ 
+ /*
+  * The output file's thread load command and the machine specific information
+@@ -88,7 +88,7 @@
+     unsigned long second_count;	/* the count (sizeof(long)) of second_state */
+     void *second_state;		/* a pointer to the second thread state */
+ };
+-__private_extern__ struct thread_info output_thread_info;
++extern struct thread_info output_thread_info;
+ 
+ /*
+  * The output file's routines load command and the information for it.
+@@ -97,7 +97,7 @@
+     struct routines_command routines_command;
+     enum bool routines_in_output;/* TRUE if the output file has a routines cmd*/
+ };
+-__private_extern__ struct routines_info output_routines_info;
++extern struct routines_info output_routines_info;
+ 
+ __private_extern__ void layout(
+     void);
+diff -ur ../cctools-528.orig/ld/ld.h ./ld/ld.h
+--- ../cctools-528.orig/ld/ld.h	Wed Feb 11 17:11:31 2004
++++ ./ld/ld.h	Wed Sep  8 08:42:00 2004
+@@ -81,25 +81,25 @@
+     WEAK_REFS_MISMATCH_NON_WEAK
+ };
+ 
+-__private_extern__ enum macosx_deployment_target_value macosx_deployment_target;
+-__private_extern__ const char *macosx_deployment_target_name;
++extern enum macosx_deployment_target_value macosx_deployment_target;
++extern const char *macosx_deployment_target_name;
+ 
+ /* name of this program as executed (argv[0]) */
+-__private_extern__ char *progname;
++extern char *progname;
+ /* indication of an error set in error(), for processing a number of errors
+    and then exiting */
+-__private_extern__ unsigned long errors;
++extern unsigned long errors;
+ /* the pagesize of the machine this program is running on, getpagesize() value*/
+-__private_extern__ unsigned long host_pagesize;
++extern unsigned long host_pagesize;
+ /* the byte sex of the machine this program is running on */
+-__private_extern__ enum byte_sex host_byte_sex;
++extern enum byte_sex host_byte_sex;
+ 
+ /* name of output file */
+-__private_extern__ char *outputfile;
++extern char *outputfile;
+ /* type of output file */
+-__private_extern__ unsigned long filetype;
++extern unsigned long filetype;
+ /* multi or single module dylib output */
+-__private_extern__ enum bool multi_module_dylib;
++extern enum bool multi_module_dylib;
+ 
+ /*
+  * The architecture of the output file as specified by -arch and the cputype
+@@ -107,69 +107,69 @@
+  * cputype and cpusubtype.  specific_arch_flag is true if an -arch flag is
+  * specified and the flag for a specific implementation of an architecture.
+  */
+-__private_extern__ struct arch_flag arch_flag;
+-__private_extern__ enum bool specific_arch_flag;
++extern struct arch_flag arch_flag;
++extern enum bool specific_arch_flag;
+ 
+ /*
+  * The -force_cpusubtype_ALL flag.
+  */
+-__private_extern__ enum bool force_cpusubtype_ALL;
++extern enum bool force_cpusubtype_ALL;
+ 
+ /* the byte sex of the output file */
+-__private_extern__ enum byte_sex target_byte_sex;
++extern enum byte_sex target_byte_sex;
+ 
+-__private_extern__
++extern
+ enum bool trace;		/* print stages of link-editing */
+-__private_extern__
++extern
+ enum bool save_reloc;		/* save relocation information */
+-__private_extern__
++extern
+ enum bool output_for_dyld;	/* produce output for use with dyld */
+-__private_extern__
++extern
+ enum bool bind_at_load;		/* mark the output for dyld to be bound
+ 				   when loaded */
+-__private_extern__
++extern
+ enum bool no_fix_prebinding;	/* mark the output for dyld to never
+ 				   run fix_prebinding */
+-__private_extern__
++extern
+ enum bool load_map;		/* print a load map */
+-__private_extern__
++extern
+ enum bool define_comldsyms;	/* define common and link-editor defined
+ 					   symbol reguardless of file type */
+-__private_extern__
++extern
+ enum bool seglinkedit;		/* create the link edit segment */
+-__private_extern__
++extern
+ enum bool whyload;		/* print why archive members are 
+ 					   loaded */
+-__private_extern__
++extern
+ enum bool flush;		/* Use the output_flush routine to flush
+ 				   output file by pages */
+-__private_extern__
++extern
+ enum bool sectorder_detail;	/* print sectorder warnings in detail */
+-__private_extern__
++extern
+ enum bool nowarnings;		/* suppress warnings */
+-__private_extern__
++extern
+ enum bool no_arch_warnings;	/* suppress wrong arch warnings */
+-__private_extern__
++extern
+ enum bool arch_errors_fatal;	/* cause wrong arch errors to be fatal */
+-__private_extern__
++extern
+ enum bool archive_ObjC;		/* objective-C archive semantics */
+-__private_extern__
++extern
+ enum bool archive_all;		/* always load everything in archives */
+-__private_extern__
++extern
+ enum bool keep_private_externs;	/* don't turn private externs into
+ 					   non-external symbols */
+ /* TRUE if -dynamic is specified, FALSE if -static is specified */
+-__private_extern__ enum bool dynamic;
++extern enum bool dynamic;
+ 
+ /* The level of symbol table stripping */
+-__private_extern__ enum strip_levels strip_level;
++extern enum strip_levels strip_level;
+ /* Strip the base file symbols (the -A argument's symbols) */
+-__private_extern__ enum bool strip_base_symbols;
++extern enum bool strip_base_symbols;
+ 
+ /* strip dead blocks */
+-__private_extern__ enum bool dead_strip;
++extern enum bool dead_strip;
+ /* don't strip module init and term sections */
+-__private_extern__ enum bool no_dead_strip_inits_and_terms;
++extern enum bool no_dead_strip_inits_and_terms;
+ 
+ #ifndef RLD
+ /*
+@@ -177,157 +177,157 @@
+  * save_symbols is the names of the symbols from -exported_symbols_list
+  * remove_symbols is the names of the symbols from -unexported_symbols_list
+  */
+-__private_extern__ struct symbol_list *save_symbols;
+-__private_extern__ unsigned long nsave_symbols;
+-__private_extern__ struct symbol_list *remove_symbols;
+-__private_extern__ unsigned long nremove_symbols;
++extern struct symbol_list *save_symbols;
++extern unsigned long nsave_symbols;
++extern struct symbol_list *remove_symbols;
++extern unsigned long nremove_symbols;
+ 
+ /*
+  * -executable_path option's argument, executable_path is used to replace
+  * "@executable_path for dependent libraries.
+  */
+-__private_extern__ char *executable_path;
++extern char *executable_path;
+ #endif /* RLD */
+ 
+ /* The list of symbols to be traced */
+-__private_extern__ char **trace_syms;
+-__private_extern__ unsigned long ntrace_syms;
++extern char **trace_syms;
++extern unsigned long ntrace_syms;
+ 
+ /* The number of references of undefined symbols to print */
+-__private_extern__ unsigned long Yflag;
++extern unsigned long Yflag;
+ 
+ /* The list of allowed undefined symbols */
+-__private_extern__ char **undef_syms;
+-__private_extern__ unsigned long nundef_syms;
++extern char **undef_syms;
++extern unsigned long nundef_syms;
+ 
+ /* The list of -dylib_file arguments */
+-__private_extern__ char **dylib_files;
+-__private_extern__ unsigned long ndylib_files;
++extern char **dylib_files;
++extern unsigned long ndylib_files;
+ 
+ /* The checking for undefined symbols */
+-__private_extern__ enum undefined_check_level undefined_flag;
++extern enum undefined_check_level undefined_flag;
+ 
+ /* The checking for (twolevel namespace) multiply defined symbols */
+-__private_extern__ enum multiply_defined_check_level
++extern enum multiply_defined_check_level
+     multiply_defined_flag;
+-__private_extern__ enum multiply_defined_check_level
++extern enum multiply_defined_check_level
+     multiply_defined_unused_flag;
+ /* the -nomultidefs option */
+-__private_extern__ enum bool nomultidefs;
++extern enum bool nomultidefs;
+ 
+ /* The checking for read only relocs */
+-__private_extern__ enum read_only_reloc_check_level read_only_reloc_flag;
++extern enum read_only_reloc_check_level read_only_reloc_flag;
+ 
+ /* The checking for pic relocs */
+-__private_extern__ enum sect_diff_reloc_check_level sect_diff_reloc_flag;
++extern enum sect_diff_reloc_check_level sect_diff_reloc_flag;
+ 
+ /* The handling for weak reference mismatches */
+-__private_extern__ enum weak_reference_mismatches_handling
++extern enum weak_reference_mismatches_handling
+     weak_reference_mismatches;
+ 
+ /* The prebinding optimization */
+-__private_extern__ enum bool prebinding;
+-__private_extern__ enum bool prebind_allow_overlap;
+-__private_extern__ enum bool prebind_all_twolevel_modules;
++extern enum bool prebinding;
++extern enum bool prebind_allow_overlap;
++extern enum bool prebind_all_twolevel_modules;
+ 
+ /* True if -m is specified to allow multiply symbols, as a warning */
+-__private_extern__ enum bool allow_multiply_defined_symbols;
++extern enum bool allow_multiply_defined_symbols;
+ 
+ /* The segment alignment */
+-__private_extern__ unsigned long segalign;
++extern unsigned long segalign;
+ #ifndef RLD
+-__private_extern__ enum bool segalign_specified;
++extern enum bool segalign_specified;
+ #endif /* !defined(RLD) */
+ /* The size of pagezero from the -pagezero_size flag */
+-__private_extern__ unsigned long pagezero_size;
++extern unsigned long pagezero_size;
+ /* The maximum segment alignment allowed to be specified, in hex */
+ #define MAXSEGALIGN		0x8000
+ /* The default section alignment */
+-__private_extern__ unsigned long defaultsectalign;
++extern unsigned long defaultsectalign;
+ /* The maximum section alignment allowed to be specified, as a power of two */
+ #define MAXSECTALIGN		15 /* 2**15 or 0x8000 */
+ /* The default section alignment if not specified, as a power of two */
+ #define DEFAULTSECTALIGN	4  /* 2**4 or 16 */
+ 
+ /* The first segment address */
+-__private_extern__ unsigned long seg1addr;
+-__private_extern__ enum bool seg1addr_specified;
++extern unsigned long seg1addr;
++extern enum bool seg1addr_specified;
+ 
+ /* read-only and read-write segment addresses */
+-__private_extern__ unsigned long segs_read_only_addr;
+-__private_extern__ enum bool segs_read_only_addr_specified;
+-__private_extern__ unsigned long segs_read_write_addr;
+-__private_extern__ enum bool segs_read_write_addr_specified;
++extern unsigned long segs_read_only_addr;
++extern enum bool segs_read_only_addr_specified;
++extern unsigned long segs_read_write_addr;
++extern enum bool segs_read_write_addr_specified;
+ 
+ /* The stack address and size */
+-__private_extern__ unsigned long stack_addr;
+-__private_extern__ enum bool stack_addr_specified;
+-__private_extern__ unsigned long stack_size;
+-__private_extern__ enum bool stack_size_specified;
++extern unsigned long stack_addr;
++extern enum bool stack_addr_specified;
++extern unsigned long stack_size;
++extern enum bool stack_size_specified;
+ 
+ /* The header pad */
+-__private_extern__ unsigned long headerpad;
++extern unsigned long headerpad;
+ /*
+  * If specified makes sure the header pad is big enough to change all the
+  * install name of the dylibs in the output to MAXPATHLEN.
+  */
+-__private_extern__ enum bool headerpad_max_install_names;
++extern enum bool headerpad_max_install_names;
+ 
+ /* The name of the specified entry point */
+-__private_extern__ char *entry_point_name;
++extern char *entry_point_name;
+ 
+ /* The name of the specified library initialization routine */
+-__private_extern__ char *init_name;
++extern char *init_name;
+ 
+ /* The dylib information */
+-__private_extern__ char *dylib_install_name;
+-__private_extern__ unsigned long dylib_current_version;
+-__private_extern__ unsigned long dylib_compatibility_version;
++extern char *dylib_install_name;
++extern unsigned long dylib_current_version;
++extern unsigned long dylib_compatibility_version;
+ 
+ /* the umbrella/sub framework information */
+-__private_extern__ enum bool sub_framework;
+-__private_extern__ enum bool umbrella_framework;
+-__private_extern__ char *sub_framework_name;
+-__private_extern__ char *umbrella_framework_name;
+-__private_extern__ char *client_name;
+-__private_extern__ char **allowable_clients;
+-__private_extern__ unsigned long nallowable_clients;
++extern enum bool sub_framework;
++extern enum bool umbrella_framework;
++extern char *sub_framework_name;
++extern char *umbrella_framework_name;
++extern char *client_name;
++extern char **allowable_clients;
++extern unsigned long nallowable_clients;
+ 
+ /* The list of sub_umbrella frameworks */
+-__private_extern__ char **sub_umbrellas;
+-__private_extern__ unsigned long nsub_umbrellas;
++extern char **sub_umbrellas;
++extern unsigned long nsub_umbrellas;
+ 
+ /* The list of sub_library dynamic libraries */
+-__private_extern__ char **sub_librarys;
+-__private_extern__ unsigned long nsub_librarys;
++extern char **sub_librarys;
++extern unsigned long nsub_librarys;
+ 
+ /* The dylinker information */
+-__private_extern__ char *dylinker_install_name;
++extern char *dylinker_install_name;
+ 
+ /* set to TRUE if -private_bundle is specified */
+-__private_extern__ enum bool private_bundle;
++extern enum bool private_bundle;
+ 
+ /* The value of the environment variable NEXT_ROOT */
+-__private_extern__ char *next_root;
++extern char *next_root;
+ 
+ /* TRUE if the environment variable RC_TRACE_ARCHIVES is set */
+-__private_extern__ enum bool rc_trace_archives;
++extern enum bool rc_trace_archives;
+ 
+ /* TRUE if the environment variable RC_TRACE_DYLIBS is set */
+-__private_extern__ enum bool rc_trace_dylibs;
++extern enum bool rc_trace_dylibs;
+ 
+ /* TRUE if the environment variable RC_TRACE_PREBINDING_DISABLED is set */
+-__private_extern__ enum bool rc_trace_prebinding_disabled;
++extern enum bool rc_trace_prebinding_disabled;
+ 
+ /* the argument to -final_output if any */
+-__private_extern__ char *final_output;
++extern char *final_output;
+ 
+ /* The variables to support namespace options */
+-__private_extern__ enum bool namespace_specified;
+-__private_extern__ enum bool twolevel_namespace;
+-__private_extern__ enum bool force_flat_namespace;
++extern enum bool namespace_specified;
++extern enum bool twolevel_namespace;
++extern enum bool force_flat_namespace;
+ 
+-__private_extern__ enum bool twolevel_namespace_hints;
++extern enum bool twolevel_namespace_hints;
+ 
+ __private_extern__ void *allocate(
+     unsigned long size);
+@@ -364,5 +364,5 @@
+     char *format, ...) __attribute__ ((format (printf, 2, 3)));
+ 
+ #ifdef DEBUG
+-__private_extern__ unsigned long debug;		/* link-editor debugging */
++extern unsigned long debug;		/* link-editor debugging */
+ #endif /* DEBUG */
+diff -ur ../cctools-528.orig/ld/mod_sections.h ./ld/mod_sections.h
+--- ../cctools-528.orig/ld/mod_sections.h	Wed Feb 11 17:11:31 2004
++++ ./ld/mod_sections.h	Wed Sep  8 09:00:35 2004
+@@ -35,8 +35,8 @@
+ /*
+  * Global types, variables and routines declared in the file modinit_sections.c.
+  */
+-__private_extern__ unsigned long ninit;
+-__private_extern__ unsigned long nterm;
++extern unsigned long ninit;
++extern unsigned long nterm;
+ 
+ __private_extern__ void mod_section_merge(
+     struct mod_term_data *data, 
+diff -ur ../cctools-528.orig/ld/objects.h ./ld/objects.h
+--- ../cctools-528.orig/ld/objects.h	Mon Apr  5 15:00:58 2004
++++ ./ld/objects.h	Wed Sep  8 08:46:43 2004
+@@ -258,18 +258,18 @@
+  * The head of the object file list and the total count of all object files
+  * in the list.
+  */
+-__private_extern__ struct object_list *objects;
+-__private_extern__ unsigned long nobjects;
++extern struct object_list *objects;
++extern unsigned long nobjects;
+ 
+ /*
+  * A pointer to the current object being processed in pass1 or pass2.
+  */
+-__private_extern__ struct object_file *cur_obj;
++extern struct object_file *cur_obj;
+ 
+ /*
+  * A pointer to the base object for an incremental link if not NULL.
+  */
+-__private_extern__ struct object_file *base_obj;
++extern struct object_file *base_obj;
+ 
+ __private_extern__ struct object_file *new_object_file(
+     void);
+diff -ur ../cctools-528.orig/ld/pass1.h ./ld/pass1.h
+--- ../cctools-528.orig/ld/pass1.h	Tue Sep  7 19:26:37 2004
++++ ./ld/pass1.h	Wed Sep  8 08:44:29 2004
+@@ -33,39 +33,39 @@
+ 
+ #ifndef RLD
+ /* TRUE if -search_paths_first was specified */
+-__private_extern__ enum bool search_paths_first;
++extern enum bool search_paths_first;
+ 
+ /* the user specified directories to search for -lx filenames, and the number
+    of them */
+-__private_extern__ char **search_dirs;
+-__private_extern__ unsigned long nsearch_dirs;
++extern char **search_dirs;
++extern unsigned long nsearch_dirs;
+ 
+ /* the standard directories to search for -lx filenames */
+-__private_extern__ char *standard_dirs[];
++extern char *standard_dirs[];
+ 
+ /*
+  * The user specified directories to search for "-framework Foo" names, and the
+  * number of them.  These are specified with -F options.
+  */
+-__private_extern__ char **framework_dirs;
+-__private_extern__ unsigned long nframework_dirs;
++extern char **framework_dirs;
++extern unsigned long nframework_dirs;
+ 
+ /* the standard framework directories to search for "-framework Foo" names */
+-__private_extern__ char *standard_framework_dirs[];
++extern char *standard_framework_dirs[];
+ 
+ /* the pointer to the head of the base object file's segments */
+-__private_extern__ struct merged_segment *base_obj_segments;
++extern struct merged_segment *base_obj_segments;
+ 
+-__private_extern__ char *search_lib_extensions[];
++extern char *search_lib_extensions[];
+ 
+ /*
+  * These are pointers to strings and symbols used to search of the table of
+  * contents of a library.  These have to be can not be local so that routines
+  * can set them and that ranlib_bsearch() and dylib_bsearch() can use them.
+  */
+-__private_extern__ char *bsearch_strings;
++extern char *bsearch_strings;
+ #ifndef RLD
+-__private_extern__ struct nlist *bsearch_symbols;
++extern struct nlist *bsearch_symbols;
+ #endif /* !defined(RLD) */
+ 
+ /*
+@@ -122,7 +122,7 @@
+  * can contain archive libraries when archive libraries appear after dynamic
+  * libraries on the link line.
+  */
+-__private_extern__ struct dynamic_library *dynamic_libs;
++extern struct dynamic_library *dynamic_libs;
+ #endif /* !defined(RLD) */
+ 
+ __private_extern__ void pass1(
+diff -ur ../cctools-528.orig/ld/pass2.h ./ld/pass2.h
+--- ../cctools-528.orig/ld/pass2.h	Wed Aug 13 17:38:42 2003
++++ ./ld/pass2.h	Wed Sep  8 08:46:59 2004
+@@ -27,14 +27,14 @@
+ /*
+  * The total size of the output file and the memory buffer for the output file.
+  */
+-__private_extern__ unsigned long output_size;
+-__private_extern__ char *output_addr;
++extern unsigned long output_size;
++extern char *output_addr;
+ 
+ /*
+  * This is used to setting the SG_NORELOC flag in the segment flags correctly.
+  * See the comments in the file pass2.c where this is defined.
+  */
+-__private_extern__ struct merged_section **output_sections;
++extern struct merged_section **output_sections;
+ 
+ __private_extern__ void pass2(
+     void);
+diff -ur ../cctools-528.orig/ld/sections.h ./ld/sections.h
+--- ../cctools-528.orig/ld/sections.h	Fri Feb 20 11:34:45 2004
++++ ./ld/sections.h	Wed Sep  8 08:52:55 2004
+@@ -145,19 +145,19 @@
+ };
+ 
+ /* the pointer to the head of the output file's section list */
+-__private_extern__ struct merged_segment *merged_segments;
++extern struct merged_segment *merged_segments;
+ #ifdef RLD
+-__private_extern__ struct merged_segment *original_merged_segments;
++extern struct merged_segment *original_merged_segments;
+ #endif /* RLD */
+ 
+ /* the total number relocation entries */
+-__private_extern__ unsigned long nreloc;
++extern unsigned long nreloc;
+ 
+ /*
+  * This is set to TRUE if any of the input objects do not have the
+  * MH_SUBSECTIONS_VIA_SYMBOLS bit set in the mach_header flags field.
+  */
+-__private_extern__ enum bool some_non_subsection_via_symbols_objects;
++extern enum bool some_non_subsection_via_symbols_objects;
+ 
+ __private_extern__ void merge_sections(
+     void);
+diff -ur ../cctools-528.orig/ld/sets.h ./ld/sets.h
+--- ../cctools-528.orig/ld/sets.h	Wed Aug 13 17:38:42 2003
++++ ./ld/sets.h	Wed Sep  8 08:53:26 2004
+@@ -49,11 +49,11 @@
+ /*
+  * Pointer to the array of set structures.
+  */
+-__private_extern__ struct set *sets;
++extern struct set *sets;
+ /*
+  * Index into the array of set structures for the current set.
+  */
+-__private_extern__ long cur_set;
++extern long cur_set;
+ 
+ __private_extern__ void new_set(
+     void);
+diff -ur ../cctools-528.orig/ld/specs.h ./ld/specs.h
+--- ../cctools-528.orig/ld/specs.h	Wed Aug 13 17:38:42 2003
++++ ./ld/specs.h	Wed Sep  8 09:01:40 2004
+@@ -63,8 +63,8 @@
+ };
+ 
+ /* The structures to hold the information specified about segments */
+-__private_extern__ struct segment_spec *segment_specs;
+-__private_extern__ unsigned long nsegment_specs;
++extern struct segment_spec *segment_specs;
++extern unsigned long nsegment_specs;
+ 
+ __private_extern__ struct segment_spec *create_segment_spec(
+     char *segname);
+diff -ur ../cctools-528.orig/ld/symbols.h ./ld/symbols.h
+--- ../cctools-528.orig/ld/symbols.h	Wed Feb 11 17:11:31 2004
++++ ./ld/symbols.h	Wed Sep  8 08:49:49 2004
+@@ -181,25 +181,25 @@
+  * count of the merged symbols.  The count of merged symbols referenced only
+  * from dylibs will not be in the output file.
+  */
+-__private_extern__ struct merged_symbol_list *merged_symbol_lists;
+-__private_extern__ unsigned long nmerged_symbols;
+-__private_extern__ unsigned long nmerged_private_symbols;
+-__private_extern__ unsigned long nmerged_symbols_referenced_only_from_dylibs;
++extern struct merged_symbol_list *merged_symbol_lists;
++extern unsigned long nmerged_symbols;
++extern unsigned long nmerged_private_symbols;
++extern unsigned long nmerged_symbols_referenced_only_from_dylibs;
+ 
+ /*
+  * nstripped_merged_symbols is set to the number of merged symbol being stripped
+  * out when the strip_level is STRIP_DYNAMIC_EXECUTABLE.
+  */
+-__private_extern__ unsigned long nstripped_merged_symbols;
++extern unsigned long nstripped_merged_symbols;
+ 
+ /*
+  * The head of the list of the blocks that store the strings for the merged
+  * symbols and the total size of all the strings.  The size of the strings for
+  * the private externals is included in the the merge string size.
+  */
+-__private_extern__ struct string_block *merged_string_blocks;
+-__private_extern__ unsigned long merged_string_size;
+-__private_extern__ unsigned long merged_private_string_size;
++extern struct string_block *merged_string_blocks;
++extern unsigned long merged_string_size;
++extern unsigned long merged_private_string_size;
+ 
+ /*
+  * The head of the undefined list itself.  This is a circular list so it can be
+@@ -207,26 +207,26 @@
+  * structure never has it's merged_symbol filled in but only serves as the
+  * head and tail of the list.
+  */
+-__private_extern__ struct undefined_list undefined_list;
++extern struct undefined_list undefined_list;
+ 
+ /*
+  * The common symbol load map.  Only allocated and filled in if load map is
+  * requested.
+  */
+-__private_extern__ struct common_load_map common_load_map;
++extern struct common_load_map common_load_map;
+ 
+ /*
+  * The object file that is created for the common symbols to be allocated in.
+  */
+-__private_extern__
++extern
+ struct object_file link_edit_common_object;
+ 
+ /*
+  * The number of local symbols that will appear in the output file and the
+  * size of their strings.
+  */
+-__private_extern__ unsigned long nlocal_symbols;
+-__private_extern__ unsigned long local_string_size;
++extern unsigned long nlocal_symbols;
++extern unsigned long local_string_size;
+ 
+ /*
+  * For local symbols of an object file that are not to be in the output a
+@@ -277,7 +277,7 @@
+     char *sectname;	 /* the section name */
+     struct merged_section *ms;	/* the merged section structure */
+ };
+-__private_extern__ struct sect_object_symbols sect_object_symbols;
++extern struct sect_object_symbols sect_object_symbols;
+ 
+ /*
+  * The indr_symbol_pair structure is used when there are chains of N_INDR
+@@ -293,8 +293,8 @@
+     struct merged_symbol *merged_symbol;
+     struct merged_symbol *indr_symbol;
+ };
+-__private_extern__ struct indr_symbol_pair *indr_symbol_pairs;
+-__private_extern__ unsigned long nindr_symbol_pairs;
++extern struct indr_symbol_pair *indr_symbol_pairs;
++extern unsigned long nindr_symbol_pairs;
+ 
+ /*
+  * The strings in the string table can't start at offset 0 because a symbol with
