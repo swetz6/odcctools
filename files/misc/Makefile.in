@@ -35,7 +35,7 @@ LDPROG		= $(shell echo ld | sed '$(transform)')
 MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(top_builddir)/include \
 			-I$(top_srcdir)/include $(INCPRIVEXT) $(FORHDRS)
 MYWARNINGS      = 
-MYDEFS          = -DINTERIM_PPC64 -DBINDIR="\"$(bindir)\"" -DLDPROG="\"$(LDPROG)\""
+MYDEFS          = -DBINDIR="\"$(bindir)\"" -DLDPROG="\"$(LDPROG)\""
 MYLDFLAGS	= -L$(top_builddir)/libstuff
 MYLIBS		= -lstuff
 
