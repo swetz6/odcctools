@@ -27,9 +27,9 @@ clean:
 
 none:
 	@echo "Please choose an action:"
-	@echo "\textract"
-	@echo "\tpatch"
-	@echo "\tclean"
+	@echo "	extract"
+	@echo "	patch"
+	@echo "	clean"
 
 
 extract:
