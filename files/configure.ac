@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [528.5od3], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.24 $])
+AC_REVISION([$Revision: 1.25 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -86,6 +86,11 @@ AC_MSG_RESULT([$ASTARGETS])
 AC_SUBST([ASTARGETS], [$ASTARGETS]) 
 
 AC_SUBST([ASLIBEXECDIR], ['${libexecdir}/as'])
+
+AC_ARG_WITH([sysroot],
+		AC_HELP_STRING([--with-sysroot],
+				[filesystem root of cross build environment]),
+		[AC_DEFINE_UNQUOTED([CROSS_SYSROOT],["$withval"],[filesystem root of cross build environment])])
 
 ORIGCFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -mdynamic-no-pic"
