@@ -1,9 +1,9 @@
 AC_INIT([odcctools], [528od1], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.16 $])
+AC_REVISION([$Revision: 1.17 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
-AC_CONFIG_HEADERS([include/config.h])
+AC_CONFIG_HEADERS([include/config.h include/extern.h])
 
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
@@ -138,7 +138,7 @@ AC_SUBST([WARNINGS], [$WARNINGS])
 
 ORIGCFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -x objective-c"
-OBJC="-ObjC"
+OBJC="-x objective-c"
 AC_MSG_CHECKING([if -x objective-c is supported])
 AC_COMPILE_IFELSE(
    [AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]])],
@@ -150,6 +150,12 @@ AC_COMPILE_IFELSE(
 AC_SUBST([OBJC], [$OBJC])
 CFLAGS=$ORIGCFLAGS
 
+AC_MSG_CHECKING([if __private_extern__ is supported])
+AC_COMPILE_IFELSE(
+   [AC_LANG_SOURCE([[__private_extern__ int foo;]])],
+   [AC_MSG_RESULT([yes])],
+   [AC_MSG_RESULT([no])]
+)
 
 ORIGLDFLAGS=$LDFLAGS
 LDFLAGS="-multiply_defined suppress"
