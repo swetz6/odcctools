@@ -1,0 +1,38 @@
+builddir = @builddir@
+top_builddir = @top_builddir@
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+
+prefix	= @prefix@
+exec_prefix	= @exec_prefix@
+mandir		= @mandir@
+includedir	= @includedir@
+
+VPATH = @srcdir@
+
+INSTALL		= @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA	= @INSTALL_DATA@
+
+.PHONY: default install clean distclean
+
+default:
+
+install: 
+	mkdir -p $(DESTDIR)/$(includedir)
+	mkdir -p $(DESTDIR)/$(includedir)/mach-o
+	mkdir -p $(DESTDIR)/$(includedir)/mach-o/ppc
+	mkdir -p $(DESTDIR)/$(includedir)/mach-o/i386
+	for h in arch.h ldsyms.h reloc.h nlist.h stab.h		\
+		loader.h fat.h swap.h getsect.h ranlib.h	\
+		redo_prebinding.h; do				\
+		$(INSTALL_DATA) -m 644 $(srcdir)/mach-o/$$h	\
+			$(DESTDIR)/$(includedir)/mach-o/$$h;	\
+	done
+	for h in ppc/reloc.h ppc/swap.h i386/swap.h; do		\
+		$(INSTALL_DATA) -m 644 $(srcdir)/mach-o/$$h	\
+			$(DESTDIR)/$(includedir)/mach-o/$$h;	\
+	done
+
+
+clean:
