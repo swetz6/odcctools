@@ -48,52 +48,52 @@ PROGRAMS = checksyms lipo size strings nm libtool redo_prebinding seg_addr_table
 		seg_hack install_name_tool indr strip nmedit segedit pagestuff \
 		ranlib
 
-CFILES_checksyms	= checksyms.c apple_version.c
+CFILES_checksyms	= checksyms.c
 OBJS_checksyms	= $(CFILES_checksyms:.c=.o)
 
-CFILES_lipo	= lipo.c apple_version.c
+CFILES_lipo	= lipo.c
 OBJS_lipo	= $(CFILES_lipo:.c=.o)
 
-CFILES_size	= size.c apple_version.c
+CFILES_size	= size.c
 OBJS_size	= $(CFILES_size:.c=.o)
 
-CFILES_strings	= strings.c apple_version.c
+CFILES_strings	= strings.c
 OBJS_strings	= $(CFILES_strings:.c=.o)
 
-CFILES_nm	= nm.c apple_version.c
+CFILES_nm	= nm.c
 OBJS_nm		= $(CFILES_nm:.c=.o)
 
-CFILES_libtool	= libtool.c apple_version.c
+CFILES_libtool	= libtool.c
 OBJS_libtool	= $(CFILES_libtool:.c=.o)
 
-CFILES_ranlib	= libtool.c apple_version.c
-OBJS_ranlib	= ranlib.o apple_version.o
+CFILES_ranlib	= libtool.c
+OBJS_ranlib	= ranlib.o
 
-CFILES_redo_prebinding	= redo_prebinding.o apple_version.c
+CFILES_redo_prebinding	= redo_prebinding.o
 OBJS_redo_prebinding	= $(CFILES_redo_prebinding:.c=.o)
 
-CFILES_seg_addr_table	= seg_addr_table.c apple_version.c
+CFILES_seg_addr_table	= seg_addr_table.c
 OBJS_seg_addr_table	= $(CFILES_seg_addr_table:.c=.o)
 
-CFILES_seg_hack	= seg_hack.c apple_version.c
+CFILES_seg_hack	= seg_hack.c
 OBJS_seg_hack	= $(CFILES_seg_hack:.c=.o)
 
-CFILES_install_name_tool	= install_name_tool.c apple_version.c
+CFILES_install_name_tool	= install_name_tool.c
 OBJS_install_name_tool		= $(CFILES_install_name_tool:.c=.o)
 
-CFILES_indr	= indr.c apple_version.c
+CFILES_indr	= indr.c
 OBJS_indr	= $(CFILES_indr:.c=.o)
 
-CFILES_strip	= strip.c apple_version.c
+CFILES_strip	= strip.c
 OBJS_strip	= $(CFILES_strip:.c=.o)
 
-CFILES_nmedit	= strip.c apple_version.c
-OBJS_nmedit	= nmedit.o apple_version.o
+CFILES_nmedit	= strip.c
+OBJS_nmedit	= nmedit.o
 
-CFILES_segedit	= segedit.c apple_version.c
+CFILES_segedit	= segedit.c
 OBJS_segedit	= $(CFILES_segedit:.c=.o)
 
-CFILES_pagestuff	= pagestuff.c apple_version.c
+CFILES_pagestuff	= pagestuff.c
 OBJS_pagestuff	= $(CFILES_pagestuff:.c=.o)
 
 .c.o:
