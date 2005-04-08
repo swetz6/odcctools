@@ -26,11 +26,6 @@
 #ifndef	_MACH_PPC_THREAD_STATUS_H_
 #define _MACH_PPC_THREAD_STATUS_H_
 
-#include <sys/appleapiopts.h>
-
-#ifdef MACH_KERNEL_PRIVATE
-#include <ppc/savearea.h>
-#endif
 /*
  * ppc_thread_state is the structure that is exported to user threads for 
  * use in status/mutate calls.  This structure should never change.
@@ -168,19 +163,6 @@ typedef struct ppc_vector_state {
 	unsigned int	save_vrvalid;			/* VRs that have been saved */
 	unsigned int	save_pad6[7];
 } ppc_vector_state_t;
-
-/*
- * saved state structure
- *
- * This structure corresponds to the saved state. 
- *
- */
-
-#if defined(__APPLE_API_PRIVATE) && defined(MACH_KERNEL_PRIVATE)
-typedef struct savearea ppc_saved_state_t;
-#else
-typedef struct ppc_thread_state ppc_saved_state_t;
-#endif /* __APPLE_API_PRIVATE && MACH_KERNEL_PRIVATE */
 
 /*
  * ppc_exception_state
