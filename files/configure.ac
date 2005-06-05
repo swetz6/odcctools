@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [576od7], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.31 $])
+AC_REVISION([$Revision: 1.32 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -204,13 +204,32 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM()],
 )
 
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stdio.h errno.h])
+AC_CHECK_HEADERS([stdio.h errno.h limits.h])
 if [[ "x$OBJC" != "x" ]]; then
    ORIGCFLAGS=$CFLAGS
    CFLAGS="$CFLAGS $OBJC"
    AC_CHECK_HEADERS([objc/objc-runtime.h])
    CFLAGS="$ORIGCFLAGS"
 fi
+
+AC_MSG_CHECKING([for max unsigned long long])
+AC_COMPILE_IFELSE(
+   [AC_LANG_SOURCE([[#if HAVE_LIMITS_H
+			 #include <limits.h>
+		     #endif
+		     unsigned long long a = ULLONG_MAX;]])],
+   [AC_MSG_RESULT([ULLONG_MAX])],
+   [AC_COMPILE_IFELSE(
+	[AC_LANG_SOURCE([[#if HAVE_LIMITS_H
+			      #include <limits.h>
+			 #endif
+			 unsigned long long a = 18446744073709551615ULL;]])],
+	[AC_DEFINE(ULLONG_MAX, [18446744073709551615ULL], [max unsigned long long])
+	 AC_MSG_RESULT([18446744073709551615ULL])],
+	[AC_MSG_RESULT([none]) ]
+	)
+    ]
+)
 
 AC_CHECK_FUNCS([strmode])
 
