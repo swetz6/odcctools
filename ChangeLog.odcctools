@@ -1,3 +1,8 @@
+2005-06-06  Shantonu Sen  <ssen@opendarwin.org>
+
+	* Build and install libmacho.a, headers,
+	and arch(3) man page
+
 2005-03-26  Shantonu Sen  <ssen@opendarwin.org>
 
 	* Import cctools-576, bring forward patches

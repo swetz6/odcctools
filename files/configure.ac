@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [576od7], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.32 $])
+AC_REVISION([$Revision: 1.33 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -254,10 +254,10 @@ case $host_os in
 	;;
 esac
 
-COMPONENTS="ar as libstuff ld man misc otool"
+COMPONENTS="ar as include libstuff libmacho ld man misc otool"
 AC_SUBST([COMPONENTS], [$COMPONENTS])
 
-AC_CONFIG_FILES([Makefile libstuff/Makefile])
+AC_CONFIG_FILES([Makefile include/Makefile libstuff/Makefile libmacho/Makefile])
 AC_CONFIG_FILES([ar/Makefile])
 AC_CONFIG_FILES([as/Makefile])
 for ast in $ASTARGETS; do

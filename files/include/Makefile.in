@@ -21,15 +21,7 @@ default:
 install: 
 	mkdir -p $(DESTDIR)/$(includedir)
 	mkdir -p $(DESTDIR)/$(includedir)/mach-o
-	mkdir -p $(DESTDIR)/$(includedir)/mach-o/ppc
-	mkdir -p $(DESTDIR)/$(includedir)/mach-o/i386
-	for h in arch.h ldsyms.h reloc.h nlist.h stab.h		\
-		loader.h fat.h swap.h getsect.h ranlib.h	\
-		redo_prebinding.h; do				\
-		$(INSTALL_DATA) $(srcdir)/mach-o/$$h		\
-			$(DESTDIR)/$(includedir)/mach-o/$$h;	\
-	done
-	for h in ppc/reloc.h ppc/swap.h i386/swap.h; do		\
+	for h in arch.h loader.h fat.h machine.h; do		\
 		$(INSTALL_DATA) $(srcdir)/mach-o/$$h		\
 			$(DESTDIR)/$(includedir)/mach-o/$$h;	\
 	done
