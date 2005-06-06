@@ -1,0 +1,18 @@
+--- arch.h.orig	2005-06-06 10:46:57.300389655 +0000
++++ arch.h	2005-06-06 10:47:12.875916738 +0000
+@@ -30,8 +30,13 @@
+  */
+ 
+ #include <stdint.h>
+-#include <mach/machine.h>
+-#include <architecture/byte_order.h>
++#include <mach-o/machine.h>
++
++enum NXByteOrder {
++  NX_UnknownByteOrder,
++  NX_LittleEndian,
++  NX_BigEndian
++};
+ 
+ /* The NXArchInfo structs contain the architectures symbolic name
+  * (such as "ppc"), its CPU type and CPU subtype as defined in
