@@ -34,6 +34,11 @@ NXSwapLong(
   return (long)NXSwapInt((int)inv);
 }
 
+enum NXByteOrder {
+  NX_UnknownByteOrder,
+  NX_LittleEndian,
+    NX_BigEndian
+};
 
 
 #endif
