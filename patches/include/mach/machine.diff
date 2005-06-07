@@ -1,6 +1,6 @@
---- machine.h.orig	2005-06-06 10:53:32.246165841 +0000
-+++ machine.h	2005-06-06 10:54:39.434124935 +0000
-@@ -80,57 +80,9 @@
+--- machine.h.orig	2005-06-06 21:45:15.000000000 -0700
++++ machine.h	2005-06-06 21:46:13.000000000 -0700
+@@ -80,32 +80,9 @@
  #ifndef	_MACH_MACHINE_H_
  #define _MACH_MACHINE_H_
  
@@ -30,13 +30,14 @@
  typedef int	cpu_type_t;
  typedef int	cpu_subtype_t;
 -typedef integer_t	cpu_threadtype_t;
--
--#define CPU_STATE_MAX		3
--
--#define CPU_STATE_USER		0
--#define CPU_STATE_SYSTEM	1
--#define CPU_STATE_IDLE		2
--
++typedef int	cpu_threadtype_t;
+ 
+ #define CPU_STATE_MAX		3
+ 
+@@ -113,24 +90,6 @@
+ #define CPU_STATE_SYSTEM	1
+ #define CPU_STATE_IDLE		2
+ 
 -struct machine_slot {
 -	boolean_t	is_cpu;		/* is there a cpu in this slot? */
 -	cpu_type_t	cpu_type;	/* type of cpu */
@@ -55,7 +56,6 @@
 -
 -extern vm_offset_t		interrupt_stack[];
 -#endif	/* KERNEL */
-+typedef int	cpu_threadtype_t;
  
  /*
   *	Machine types known by all.

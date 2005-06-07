@@ -14,8 +14,7 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	ar/archive.diff misc/libtool-pb.diff ar/ar-printf.diff 		\
 	ld/ld-pb.diff ld-sysroot.diff as/relax.diff			\
 	as/bignum.diff include/architecture/i386/selguard.diff		\
-	misc/redo_prebinding.nomalloc.diff include/mach-o/arch.diff	\
-	include/mach/machine.diff
+	misc/redo_prebinding.nomalloc.diff include/mach/machine.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 
@@ -55,7 +54,6 @@ patch: extract
 			sed 's/^#import/#include/' < $$f > $$f.tmp;	\
 			mv -f $$f.tmp $$f;				\
 		done;						\
-		cp $(DISTDIR)/include/mach/machine.h $(DISTDIR)/include/mach-o/machine.h; \
 		touch .state.patch;				\
 	fi
 
