@@ -1,0 +1,188 @@
+diff -ur ar.1 ar.1
+--- ar.1	2005-06-09 10:51:56.000000000 +0900
++++ ar.1	2005-06-09 10:52:17.000000000 +0900
+@@ -46,11 +46,11 @@
+ .Sh SYNOPSIS
+ .Nm ar
+ .Fl d 
+-.Op Fl \TLsv 
++.Op Fl \TLsSv 
+ .Ar archive file ...
+ .Nm ar
+ .Fl m
+-.Op Fl \TLsv 
++.Op Fl \TLsSv 
+ .Ar archive file ...
+ .Nm ar
+ .Fl m
+@@ -58,29 +58,29 @@
+ .Ar position archive file ...
+ .Nm ar
+ .Fl p
+-.Op Fl \TLsv
++.Op Fl \TLsSv
+ .Ar archive
+ .Op Ar file ...
+ .Nm ar
+ .Fl q
+-.Op Fl cTLsv
++.Op Fl cTLsSv
+ .Ar archive file ...
+ .Nm ar
+ .Fl r
+-.Op Fl cuTLsv
++.Op Fl cuTLsSv
+ .Ar archive file ...
+ .Nm ar
+ .Fl r
+-.Op Fl abciuTLsv
++.Op Fl abciuTLsSv
+ .Ar position archive file ...
+ .Nm ar
+ .Fl t
+-.Op Fl \TLsv
++.Op Fl \TLsSv
+ .Ar archive
+ .Op Ar file ...
+ .Nm ar
+ .Fl x
+-.Op Fl ouTLsv
++.Op Fl ouTLsSv
+ .Ar archive
+ .Op Ar file ...
+ .Sh DESCRIPTION
+@@ -206,6 +206,11 @@
+ no other change is made to the archive.  You may use this modifier flag either
+ with any operation, or alone.  Running `ar s' on an archive is equivalent to
+ running `ranlib' on it.
++.It Fl S
++Do not generate an archive symbol table. This can speed up building a large 
++library in several steps. The resulting archive can not be used with the 
++linker. In order to build a symbol table, you must omit the S modifier on the 
++last execution of ar, or you must run ranlib on the archive.
+ .It Fl t
+ List the specified files in the order in which they appear in the archive,
+ each on a separate line.
+diff -ur ar.c ar.c
+--- ar.c	2005-06-09 10:51:56.000000000 +0900
++++ ar.c	2005-06-09 11:05:29.000000000 +0900
+@@ -133,7 +133,7 @@
+ 	 * extended format #1.  The new option -L allows ar to use the extended 
+ 	 * format and the old -T option causes the truncation of names.
+ 	 */
+-	while ((c = getopt(argc, argv, "abcdilLmopqrsTtuVvx")) != -1) {
++	while ((c = getopt(argc, argv, "abcdilLmopqrsSTtuVvx")) != -1) {
+ 		switch(c) {
+ 		case 'a':
+ 			options |= AR_A;
+@@ -177,6 +177,9 @@
+ 		case 's':
+ 			options |= AR_S;
+ 			break;
++		case 'S':
++			options |= AR_BIGS;
++			break;
+ 		case 'T':
+ 			options |= AR_TR;
+ 			break;
+@@ -223,33 +226,35 @@
+ 		}
+ 		posname = rname(posarg);
+ 	}
+-	/* -d only valid with -Tsv. */
+-	if (options & AR_D && options & ~(AR_D|AR_TR|AR_S|AR_V))
++	/* -d only valid with -TsSv. */
++	if (options & AR_D && options & ~(AR_D|AR_TR|AR_S|AR_BIGS|AR_V))
+ 		badoptions("-d");
+-	/* -m only valid with -abiTsv. */
+-	if (options & AR_M && options & ~(AR_A|AR_B|AR_M|AR_TR|AR_S|AR_V))
++	/* -m only valid with -abiTsSv. */
++	if (options & AR_M && options & ~(AR_A|AR_B|AR_M|AR_TR|AR_S|AR_BIGS|AR_V))
+ 		badoptions("-m");
+-	/* -p only valid with -Tsv. */
+-	if (options & AR_P && options & ~(AR_P|AR_TR|AR_S|AR_V))
++	/* -p only valid with -TsSv. */
++	if (options & AR_P && options & ~(AR_P|AR_TR|AR_S|AR_BIGS|AR_V))
+ 		badoptions("-p");
+-	/* -q only valid with -cTsv. */
+-	if (options & AR_Q && options & ~(AR_C|AR_Q|AR_TR|AR_S|AR_V))
++	/* -q only valid with -cTsSv. */
++	if (options & AR_Q && options & ~(AR_C|AR_Q|AR_TR|AR_S|AR_BIGS|AR_V))
+ 		badoptions("-q");
+-	/* -r only valid with -abcuTsv. */
+-	if (options & AR_R && options & ~(AR_A|AR_B|AR_C|AR_R|AR_U|AR_TR|AR_S|AR_V))
++	/* -r only valid with -abcuTsSv. */
++	if (options & AR_R && options & ~(AR_A|AR_B|AR_C|AR_R|AR_U|AR_TR|AR_S|AR_BIGS|AR_V))
+ 		badoptions("-r");
+-	/* -t only valid with -Tsv. */
+-	if (options & AR_T && options & ~(AR_T|AR_TR|AR_S|AR_V))
++	/* -t only valid with -TsSv. */
++	if (options & AR_T && options & ~(AR_T|AR_TR|AR_S|AR_BIGS|AR_V))
+ 		badoptions("-t");
+ 	/* -x only valid with -ouTsv. */
+-	if (options & AR_X && options & ~(AR_O|AR_U|AR_TR|AR_S|AR_V|AR_X))
++	if (options & AR_X && options & ~(AR_O|AR_U|AR_TR|AR_S|AR_BIGS|AR_V|AR_X))
+ 		badoptions("-x");
++	if (options & AR_S && options & AR_BIGS) {
++	    badoptions("-S");
++	}
+ 
+ 	if (!(archive = *argv++)) {
+ 		warnx("no archive specified");
+ 		usage();
+ 	}
+-
+ 	/* -dmqr require a list of archive elements. */
+ 	if (options & (AR_D|AR_M|AR_Q|AR_R) && !*argv) {
+ 		warnx("no archive members specified");
+@@ -259,6 +264,7 @@
+ 	if(fcall != 0){
+ 	    retval = (*fcall)(argv);
+ 	    if(retval != EXIT_SUCCESS ||
++		   (options & AR_BIGS) ||
+ 	       ((options & AR_S) != AR_S &&
+ 	        (get_unix_standard_mode() == FALSE ||
+ 		 archive_opened_for_writing == 0)))
+@@ -268,6 +274,7 @@
+ 	/* run ranlib -f or -q on the archive */
+ 	reset_execute_list();
+ 	add_execute_list(makestr(BINDIR, "/", RANLIBPROG, NULL));
++
+ 	if(options & AR_S)
+ 	    add_execute_list("-f");
+ 	else
+@@ -294,14 +301,14 @@
+ usage()
+ {
+ 
+-	(void)fprintf(stderr, "usage:  ar -d [-TLsv] archive file ...\n");
+-	(void)fprintf(stderr, "\tar -m [-TLsv] archive file ...\n");
+-	(void)fprintf(stderr, "\tar -m [-abiTLsv] position archive file ...\n");
+-	(void)fprintf(stderr, "\tar -p [-TLsv] archive [file ...]\n");
+-	(void)fprintf(stderr, "\tar -q [-cTLsv] archive file ...\n");
+-	(void)fprintf(stderr, "\tar -r [-cuTLsv] archive file ...\n");
+-	(void)fprintf(stderr, "\tar -r [-abciuTLsv] position archive file ...\n");
+-	(void)fprintf(stderr, "\tar -t [-TLsv] archive [file ...]\n");
+-	(void)fprintf(stderr, "\tar -x [-ouTLsv] archive [file ...]\n");
++	(void)fprintf(stderr, "usage:  ar -d [-TLsSv] archive file ...\n");
++	(void)fprintf(stderr, "\tar -m [-TLsSv] archive file ...\n");
++	(void)fprintf(stderr, "\tar -m [-abiTLsSv] position archive file ...\n");
++	(void)fprintf(stderr, "\tar -p [-TLsSv] archive [file ...]\n");
++	(void)fprintf(stderr, "\tar -q [-cTLsSv] archive file ...\n");
++	(void)fprintf(stderr, "\tar -r [-cuTLsSv] archive file ...\n");
++	(void)fprintf(stderr, "\tar -r [-abciuTLsSv] position archive file ...\n");
++	(void)fprintf(stderr, "\tar -t [-TLsSv] archive [file ...]\n");
++	(void)fprintf(stderr, "\tar -x [-ouTLsSv] archive [file ...]\n");
+ 	exit(1);
+ }	
+diff -ur archive.h archive.h
+--- archive.h	2005-06-09 10:51:56.000000000 +0900
++++ archive.h	2005-06-09 10:52:17.000000000 +0900
+@@ -77,6 +77,7 @@
+ #define	AR_V	0x1000
+ #define	AR_X	0x2000
+ #define	AR_S	0x4000
++#define	AR_BIGS	0x8000
+ extern u_int options;
+ 
+ /* Set up file copy. */

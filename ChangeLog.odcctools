@@ -1,3 +1,11 @@
+2005-06-09  Peter O'Gorman  <pogma@opendarwin.org>
+
+	* files/man/Makefile.in: Set datarootdir too.
+	* patches/ar/ar_S.diff: Add an S option to ar
+	so that we can avoid forking ranlib if doing
+	incremental archive creation.
+	* Makefile: add patch
+
 2005-06-06  Shantonu Sen  <ssen@opendarwin.org>
 
 	* Build and install libmacho.a, headers,
