@@ -32,10 +32,13 @@ INSTALL		= @INSTALL@
 INSTALL_PROGRAM	= @INSTALL_PROGRAM@
 transform       = @program_transform_name@
 
+LEGACY = -D_MACH_I386_THREAD_STATUS_FPSTATE_LEGACY_FIELD_NAMES_ \
+         -D_ARCHITECTURE_I386_FPU_FPSTATE_LEGACY_FIELD_NAMES_
+
 MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(top_builddir)/include \
 			-I$(top_srcdir)/include $(INCPRIVEXT) $(FORHDRS)
 MYWARNINGS      = 
-MYDEFS          = 
+MYDEFS          = $(LEGACY)
 MYLDFLAGS	= -L$(top_builddir)/libstuff
 MYLIBS		=
 
