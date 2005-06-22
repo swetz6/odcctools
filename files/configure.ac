@@ -1,6 +1,6 @@
-AC_INIT([odcctools], [576od7], [odcctools@opendarwin.org])
+AC_INIT([odcctools], [590od8], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.33 $])
+AC_REVISION([$Revision: 1.34 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -27,7 +27,7 @@ case $target_cpu in
 	;;
      i?86)
         AC_DEFINE(EMULATED_HOST_CPU_TYPE, 7, [Emulated CPU type])        
-        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 14, [Emulated CPU subtype])        
+        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 10, [Emulated CPU subtype])        
 	;;
      *)
 	AC_MSG_ERROR([Unsupported target $target_cpu])
