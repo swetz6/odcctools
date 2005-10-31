@@ -1,6 +1,6 @@
---- ld/ld.c.orig	2005-03-03 10:37:44.000000000 -0800
-+++ ld/ld.c	2005-03-26 11:43:19.000000000 -0800
-@@ -554,6 +554,9 @@
+--- ./ld/ld.c.orig	2005-10-31 07:58:27.000000000 -0800
++++ ./ld/ld.c	2005-10-31 07:58:43.000000000 -0800
+@@ -559,6 +559,9 @@
  	    else{
  		p = &(argv[i][1]);
  		switch(*p){
@@ -10,7 +10,7 @@
  		case 'l':
  		    if(p[1] == '\0')
  			fatal("-l: argument missing");
-@@ -2572,6 +2575,16 @@
+@@ -2636,6 +2639,16 @@
  	    else{
  		p = &(argv[i][1]);
  		switch(*p){
@@ -27,9 +27,9 @@
  		case 'b':
  		    if(strcmp(p, "bundle_loader") == 0){
  			/*
---- ld/pass1.c.orig	2005-03-04 14:27:10.000000000 -0800
-+++ ld/pass1.c	2005-03-26 11:43:19.000000000 -0800
-@@ -115,6 +115,13 @@
+--- ./ld/pass1.c.orig	2005-10-31 07:58:27.000000000 -0800
++++ ./ld/pass1.c	2005-10-31 07:58:43.000000000 -0800
+@@ -116,6 +116,13 @@
  
  /* the pointer to the head of the base object file's segments */
  __private_extern__ struct merged_segment *base_obj_segments = NULL;
@@ -43,7 +43,7 @@
  #endif /* !defined(RLD) */
  
  #if !defined(SA_RLD) && !(defined(KLD) && defined(__STATIC__))
-@@ -327,6 +334,7 @@
+@@ -328,6 +335,7 @@
      char *file_name;
  #ifndef RLD
      char *p, *type;
@@ -51,7 +51,7 @@
  #endif /* !defined(RLD) */
      kern_return_t r;
      unsigned long file_size;
-@@ -344,7 +352,6 @@
+@@ -345,7 +353,6 @@
  	/* this function" can safely be ignored */
  	file_name = NULL;
  #endif /* DEBUG */
@@ -59,7 +59,7 @@
  	fd = -1;
  #ifndef RLD
  	if(lname){
-@@ -366,12 +373,11 @@
+@@ -367,12 +374,11 @@
  			search_paths_for_lname(&name[2], &file_name, &fd);
  		    }
  		    else{
@@ -77,7 +77,7 @@
  		    }
  		}
  		else{
-@@ -610,15 +616,16 @@
+@@ -611,15 +617,16 @@
  char **file_name,
  int *fd)
  {
@@ -103,8 +103,8 @@
  }
  #endif /* !defined(RLD) */
  
---- ld/pass1.h.orig	2004-09-15 15:23:19.000000000 -0700
-+++ ld/pass1.h	2005-03-26 11:43:19.000000000 -0800
+--- ./ld/pass1.h.orig	2005-10-31 07:58:27.000000000 -0800
++++ ./ld/pass1.h	2005-10-31 07:58:43.000000000 -0800
 @@ -56,6 +56,8 @@
  /* the pointer to the head of the base object file's segments */
  __private_extern__ struct merged_segment *base_obj_segments;
@@ -114,13 +114,12 @@
  /*
   * These are pointers to strings and symbols used to search of the table of
   * contents of a library.  These have to be can not be local so that routines
---- man/ld.1.orig	2005-03-07 16:40:30.000000000 -0800
-+++ man/ld.1	2005-03-26 11:43:19.000000000 -0800
-@@ -1701,6 +1701,18 @@
- .BI \-dylinker_install_name " name"
+--- ./man/ld.1.orig	2005-10-06 18:58:30.000000000 -0700
++++ ./man/ld.1	2005-10-31 07:59:37.000000000 -0800
+@@ -1734,6 +1734,18 @@
  For dynamic link editor files, specifies the name of the file
  the dynamic link editor will be installed in for programs that use it.
-+.TP
+ .TP
 +.BI \-Bstatic
 +Search for static archives before dynamic shared libraries. Both
 +.BI \-Bstatic
@@ -132,11 +131,12 @@
 +.TP
 +.BI \-Bdynamic
 +This is the default. Search for dynamic shared libraries first, then static.
- .PP
- The following environment variable is used to control the use of incompatible
- features in the output with respect to Mac OS X releases.
---- man/libtool.1.orig	2004-11-30 16:04:52.000000000 -0800
-+++ man/libtool.1	2005-03-26 11:45:43.000000000 -0800
++.TP
+ .BI \-macosx_version_min " version"
+ This overrides the
+ .B MACOSX_DEPLOYMENT_TARGET
+--- ./man/libtool.1.orig	2005-09-01 17:45:24.000000000 -0700
++++ ./man/libtool.1	2005-10-31 07:58:43.000000000 -0800
 @@ -307,6 +307,8 @@
  .B \-m,
  .B \-dead_strip,
@@ -146,9 +146,9 @@
  .B \-executable_path,
  .B \-syslibroot.
  See the
---- misc/libtool.c.orig	2004-11-30 16:04:58.000000000 -0800
-+++ misc/libtool.c	2005-03-26 11:43:19.000000000 -0800
-@@ -804,6 +804,15 @@
+--- ./misc/libtool.c.orig	2005-10-31 07:58:28.000000000 -0800
++++ ./misc/libtool.c	2005-10-31 07:58:43.000000000 -0800
+@@ -806,6 +806,15 @@
  		    cmd_flags.files[cmd_flags.nfiles++] = argv[i];
  		    lflags_seen = TRUE;
  		}
@@ -164,7 +164,7 @@
  		else if(strncmp(argv[i], "-weak-l", 7) == 0){
  		    if(cmd_flags.ranlib == TRUE){
  			error("unknown option: %s", argv[i]);
-@@ -1193,6 +1202,10 @@
+@@ -1195,6 +1204,10 @@
  		i++;
  		continue;
  	    }

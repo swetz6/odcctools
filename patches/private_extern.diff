@@ -1,8 +1,7 @@
-diff -ur ../cctools-528.orig/include/stuff/errors.h ./include/stuff/errors.h
---- ../cctools-528.orig/include/stuff/errors.h	Mon May 17 16:27:25 2004
-+++ ./include/stuff/errors.h	Wed Sep  8 08:36:37 2004
+--- ./include/stuff/errors.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./include/stuff/errors.h	2005-10-31 08:03:19.000000000 -0800
 @@ -32,11 +32,11 @@
- #import "mach/mach.h"
+ #include "mach/mach.h"
  
  /* user defined (imported) */
 -__private_extern__ char *progname;
@@ -15,9 +14,8 @@ diff -ur ../cctools-528.orig/include/stuff/errors.h ./include/stuff/errors.h
  
  __private_extern__ void warning(
      const char *format, ...)
-diff -ur ../cctools-528.orig/ld/dylibs.h ./ld/dylibs.h
---- ../cctools-528.orig/ld/dylibs.h	Wed Aug 13 17:38:42 2003
-+++ ./ld/dylibs.h	Wed Sep  8 08:51:57 2004
+--- ./ld/dylibs.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/dylibs.h	2005-10-31 08:03:19.000000000 -0800
 @@ -28,7 +28,7 @@
   * Global types, variables and routines declared in the file dylibs.c.
   */
@@ -85,9 +83,8 @@ diff -ur ../cctools-528.orig/ld/dylibs.h ./ld/dylibs.h
  
  __private_extern__ unsigned long create_sub_client_commands(
      void);
-diff -ur ../cctools-528.orig/ld/fvmlibs.h ./ld/fvmlibs.h
---- ../cctools-528.orig/ld/fvmlibs.h	Wed Aug 13 17:38:42 2003
-+++ ./ld/fvmlibs.h	Wed Sep  8 08:59:14 2004
+--- ./ld/fvmlibs.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/fvmlibs.h	2005-10-31 08:03:19.000000000 -0800
 @@ -45,10 +45,10 @@
  };
  
@@ -101,9 +98,8 @@ diff -ur ../cctools-528.orig/ld/fvmlibs.h ./ld/fvmlibs.h
  
  __private_extern__ void merge_fvmlibs(
      void);
-diff -ur ../cctools-528.orig/ld/indirect_sections.h ./ld/indirect_sections.h
---- ../cctools-528.orig/ld/indirect_sections.h	Mon Apr  5 15:00:58 2004
-+++ ./ld/indirect_sections.h	Wed Sep  8 08:52:15 2004
+--- ./ld/indirect_sections.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/indirect_sections.h	2005-10-31 08:03:19.000000000 -0800
 @@ -27,7 +27,7 @@
  /*
   * The number of indirect symbol table entries in the output file.
@@ -122,9 +118,8 @@ diff -ur ../cctools-528.orig/ld/indirect_sections.h ./ld/indirect_sections.h
  
  /*
   * The literal_data which is set into a merged_section's literal_data field for
-diff -ur ../cctools-528.orig/ld/layout.h ./ld/layout.h
---- ../cctools-528.orig/ld/layout.h	Wed Aug 13 17:38:42 2003
-+++ ./ld/layout.h	Wed Sep  8 08:47:22 2004
+--- ./ld/layout.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/layout.h	2005-10-31 08:03:19.000000000 -0800
 @@ -33,7 +33,7 @@
   */
  
@@ -188,10 +183,9 @@ diff -ur ../cctools-528.orig/ld/layout.h ./ld/layout.h
  
  __private_extern__ void layout(
      void);
-diff -ur ../cctools-528.orig/ld/ld.h ./ld/ld.h
---- ../cctools-528.orig/ld/ld.h	Wed Feb 11 17:11:31 2004
-+++ ./ld/ld.h	Wed Sep  8 08:42:00 2004
-@@ -81,25 +81,25 @@
+--- ./ld/ld.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/ld.h	2005-10-31 08:04:48.000000000 -0800
+@@ -82,25 +82,25 @@
      WEAK_REFS_MISMATCH_NON_WEAK
  };
  
@@ -226,7 +220,7 @@ diff -ur ../cctools-528.orig/ld/ld.h ./ld/ld.h
  
  /*
   * The architecture of the output file as specified by -arch and the cputype
-@@ -107,69 +107,69 @@
+@@ -108,71 +108,71 @@
   * cputype and cpusubtype.  specific_arch_flag is true if an -arch flag is
   * specified and the flag for a specific implementation of an architecture.
   */
@@ -319,10 +313,13 @@ diff -ur ../cctools-528.orig/ld/ld.h ./ld/ld.h
  /* don't strip module init and term sections */
 -__private_extern__ enum bool no_dead_strip_inits_and_terms;
 +extern enum bool no_dead_strip_inits_and_terms;
+ /* print timings for dead striping code */
+-__private_extern__ enum bool dead_strip_times;
++extern enum bool dead_strip_times;
  
  #ifndef RLD
  /*
-@@ -177,157 +177,157 @@
+@@ -180,195 +180,195 @@
   * save_symbols is the names of the symbols from -exported_symbols_list
   * remove_symbols is the names of the symbols from -unexported_symbols_list
   */
@@ -451,6 +448,10 @@ diff -ur ../cctools-528.orig/ld/ld.h ./ld/ld.h
 +extern unsigned long stack_size;
 +extern enum bool stack_size_specified;
  
+ /* TRUE if -allow_stack_execute is specified */
+-__private_extern__ enum bool allow_stack_execute;
++extern enum bool allow_stack_execute;
+ 
  /* The header pad */
 -__private_extern__ unsigned long headerpad;
 +extern unsigned long headerpad;
@@ -544,18 +545,61 @@ diff -ur ../cctools-528.orig/ld/ld.h ./ld/ld.h
 -__private_extern__ enum bool twolevel_namespace_hints;
 +extern enum bool twolevel_namespace_hints;
  
- __private_extern__ void *allocate(
+-__private_extern__ void *allocate(
++extern void *allocate(
      unsigned long size);
-@@ -364,5 +364,5 @@
+-__private_extern__ void *reallocate(
++extern void *reallocate(
+     void *,
+     unsigned long size);
+-__private_extern__ unsigned long round(
++extern unsigned long round(
+     unsigned long v,
+     unsigned long r);
+-__private_extern__ void tell_ProjectBuilder(
++extern void tell_ProjectBuilder(
+     char *message);
+-__private_extern__ void print(
++extern void print(
+     const char *format, ...) __attribute__ ((format (printf, 1, 2)));
+-__private_extern__ void vprint(
++extern void vprint(
+     const char *format, va_list ap);
+-__private_extern__ void warning(
++extern void warning(
+     const char *format, ...) __attribute__ ((format (printf, 1, 2)));
+-__private_extern__ void error(
++extern void error(
+     const char *format, ...) __attribute__ ((format (printf, 1, 2)));
+-__private_extern__ void fatal(
++extern void fatal(
+     const char *format, ...) __attribute__ ((format (printf, 1, 2)));
+-__private_extern__ void warning_with_cur_obj(
++extern void warning_with_cur_obj(
+     const char *format, ...) __attribute__ ((format (printf, 1, 2)));
+-__private_extern__ void error_with_cur_obj(
++extern void error_with_cur_obj(
+     const char *format, ...) __attribute__ ((format (printf, 1, 2)));
+-__private_extern__ void system_warning(
++extern void system_warning(
+     const char *format, ...) __attribute__ ((format (printf, 1, 2)));
+-__private_extern__ void system_error(
++extern void system_error(
+     const char *format, ...) __attribute__ ((format (printf, 1, 2)));
+-__private_extern__ void system_fatal(
++extern void system_fatal(
+     const char *format, ...) __attribute__ ((format (printf, 1, 2)));
+-__private_extern__ void mach_fatal(
++extern void mach_fatal(
+     kern_return_t r,
      char *format, ...) __attribute__ ((format (printf, 2, 3)));
  
  #ifdef DEBUG
 -__private_extern__ unsigned long debug;		/* link-editor debugging */
 +extern unsigned long debug;		/* link-editor debugging */
  #endif /* DEBUG */
-diff -ur ../cctools-528.orig/ld/mod_sections.h ./ld/mod_sections.h
---- ../cctools-528.orig/ld/mod_sections.h	Wed Feb 11 17:11:31 2004
-+++ ./ld/mod_sections.h	Wed Sep  8 09:00:35 2004
+--- ./ld/mod_sections.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/mod_sections.h	2005-10-31 08:03:19.000000000 -0800
 @@ -35,8 +35,8 @@
  /*
   * Global types, variables and routines declared in the file modinit_sections.c.
@@ -567,10 +611,9 @@ diff -ur ../cctools-528.orig/ld/mod_sections.h ./ld/mod_sections.h
  
  __private_extern__ void mod_section_merge(
      struct mod_term_data *data, 
-diff -ur ../cctools-528.orig/ld/objects.h ./ld/objects.h
---- ../cctools-528.orig/ld/objects.h	Mon Apr  5 15:00:58 2004
-+++ ./ld/objects.h	Wed Sep  8 08:46:43 2004
-@@ -258,18 +258,18 @@
+--- ./ld/objects.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/objects.h	2005-10-31 08:03:19.000000000 -0800
+@@ -281,18 +281,18 @@
   * The head of the object file list and the total count of all object files
   * in the list.
   */
@@ -593,9 +636,8 @@ diff -ur ../cctools-528.orig/ld/objects.h ./ld/objects.h
  
  __private_extern__ struct object_file *new_object_file(
      void);
-diff -ur ../cctools-528.orig/ld/pass1.h ./ld/pass1.h
---- ../cctools-528.orig/ld/pass1.h	Tue Sep  7 19:26:37 2004
-+++ ./ld/pass1.h	Wed Sep  8 08:44:29 2004
+--- ./ld/pass1.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/pass1.h	2005-10-31 08:03:19.000000000 -0800
 @@ -33,39 +33,39 @@
  
  #ifndef RLD
@@ -659,9 +701,8 @@ diff -ur ../cctools-528.orig/ld/pass1.h ./ld/pass1.h
  
  #endif /* !defined(RLD) */
  
-diff -ur ../cctools-528.orig/ld/pass2.h ./ld/pass2.h
---- ../cctools-528.orig/ld/pass2.h	Wed Aug 13 17:38:42 2003
-+++ ./ld/pass2.h	Wed Sep  8 08:46:59 2004
+--- ./ld/pass2.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/pass2.h	2005-10-31 08:03:19.000000000 -0800
 @@ -27,14 +27,14 @@
  /*
   * The total size of the output file and the memory buffer for the output file.
@@ -680,9 +721,8 @@ diff -ur ../cctools-528.orig/ld/pass2.h ./ld/pass2.h
  
  __private_extern__ void pass2(
      void);
-diff -ur ../cctools-528.orig/ld/sections.h ./ld/sections.h
---- ../cctools-528.orig/ld/sections.h	Fri Feb 20 11:34:45 2004
-+++ ./ld/sections.h	Wed Sep  8 08:52:55 2004
+--- ./ld/sections.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/sections.h	2005-10-31 08:03:19.000000000 -0800
 @@ -145,19 +145,19 @@
  };
  
@@ -707,9 +747,8 @@ diff -ur ../cctools-528.orig/ld/sections.h ./ld/sections.h
  
  __private_extern__ void merge_sections(
      void);
-diff -ur ../cctools-528.orig/ld/sets.h ./ld/sets.h
---- ../cctools-528.orig/ld/sets.h	Wed Aug 13 17:38:42 2003
-+++ ./ld/sets.h	Wed Sep  8 08:53:26 2004
+--- ./ld/sets.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/sets.h	2005-10-31 08:03:19.000000000 -0800
 @@ -49,11 +49,11 @@
  /*
   * Pointer to the array of set structures.
@@ -724,9 +763,8 @@ diff -ur ../cctools-528.orig/ld/sets.h ./ld/sets.h
  
  __private_extern__ void new_set(
      void);
-diff -ur ../cctools-528.orig/ld/specs.h ./ld/specs.h
---- ../cctools-528.orig/ld/specs.h	Wed Aug 13 17:38:42 2003
-+++ ./ld/specs.h	Wed Sep  8 09:01:40 2004
+--- ./ld/specs.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/specs.h	2005-10-31 08:03:19.000000000 -0800
 @@ -63,8 +63,8 @@
  };
  
@@ -738,10 +776,9 @@ diff -ur ../cctools-528.orig/ld/specs.h ./ld/specs.h
  
  __private_extern__ struct segment_spec *create_segment_spec(
      char *segname);
-diff -ur ../cctools-528.orig/ld/symbols.h ./ld/symbols.h
---- ../cctools-528.orig/ld/symbols.h	Wed Feb 11 17:11:31 2004
-+++ ./ld/symbols.h	Wed Sep  8 08:49:49 2004
-@@ -182,25 +182,25 @@
+--- ./ld/symbols.h.orig	2005-10-31 08:02:58.000000000 -0800
++++ ./ld/symbols.h	2005-10-31 08:03:19.000000000 -0800
+@@ -191,25 +191,25 @@
   * count of the merged symbols.  The count of merged symbols referenced only
   * from dylibs will not be in the output file.
   */
@@ -775,7 +812,7 @@ diff -ur ../cctools-528.orig/ld/symbols.h ./ld/symbols.h
  
  /*
   * The head of the undefined list itself.  This is a circular list so it can be
-@@ -208,26 +208,26 @@
+@@ -217,26 +217,26 @@
   * structure never has it's merged_symbol filled in but only serves as the
   * head and tail of the list.
   */
@@ -807,7 +844,7 @@ diff -ur ../cctools-528.orig/ld/symbols.h ./ld/symbols.h
  
  /*
   * For local symbols of an object file that are not to be in the output a
-@@ -278,7 +278,7 @@
+@@ -287,7 +287,7 @@
      char *sectname;	 /* the section name */
      struct merged_section *ms;	/* the merged section structure */
  };
@@ -816,7 +853,7 @@ diff -ur ../cctools-528.orig/ld/symbols.h ./ld/symbols.h
  
  /*
   * The indr_symbol_pair structure is used when there are chains of N_INDR
-@@ -294,8 +294,8 @@
+@@ -303,8 +303,8 @@
      struct merged_symbol *merged_symbol;
      struct merged_symbol *indr_symbol;
  };

@@ -1,19 +1,20 @@
---- ar.c.orig	2004-11-12 12:16:53.000000000 -0800
-+++ ar.c	2005-03-26 11:57:45.000000000 -0800
-@@ -84,6 +84,7 @@
+--- ar.c.orig	2005-10-31 07:43:49.000000000 -0800
++++ ar.c	2005-10-31 07:44:33.000000000 -0800
+@@ -84,7 +84,7 @@
  #include "extern.h"
  #include "stuff/execute.h"
  #include "stuff/unix_standard_mode.h"
+-
 +#include "stuff/allocate.h"
- 
  CHDR chdr;
  u_int options;
-@@ -266,7 +267,7 @@
- 
- 	/* run ranlib -f or -q on the archive */
- 	reset_execute_list();
--	add_execute_list("ranlib");
-+	add_execute_list(makestr(BINDIR, "/", RANLIBPROG, NULL));
- 	if(options & AR_S)
- 	    add_execute_list("-f");
- 	else
+ char *archive, *envtmp, *posarg, *posname;
+@@ -276,7 +276,7 @@
+ 	if(run_ranlib){
+ 	    /* run ranlib -f or -q on the archive */
+ 	    reset_execute_list();
+-	    add_execute_list("ranlib");
++	    add_execute_list(makestr(BINDIR, "/", RANLIBPROG, NULL));
+ 	    if(options & AR_S)
+ 		add_execute_list("-f");
+ 	    else

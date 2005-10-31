@@ -1,5 +1,5 @@
 CCTOOLSNAME=cctools
-CCTOOLSVERS=590
+CCTOOLSVERS=590.12
 DISTFILE=$(CCTOOLSNAME)-$(CCTOOLSVERS).tar.bz2
 DISTDIR=$(CCTOOLSNAME)-$(CCTOOLSVERS)
 
@@ -14,8 +14,7 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	ar/archive.diff misc/libtool-pb.diff ar/ar-printf.diff 		\
 	ld/ld-pb.diff ld-sysroot.diff as/relax.diff			\
 	as/bignum.diff include/architecture/i386/selguard.diff		\
-	misc/redo_prebinding.nomalloc.diff include/mach/machine.diff	\
-	ar/ar_S.diff
+	misc/redo_prebinding.nomalloc.diff include/mach/machine.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 
