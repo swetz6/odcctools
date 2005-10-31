@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [590od8], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.34 $])
+AC_REVISION([$Revision: 1.35 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -56,17 +56,7 @@ case "$conftargets" in
         ASTARGETS="ppc ppc64 i386"
 	;;
      default)
-        case $target_cpu in
-	powerpc*)
-	 	ASTARGETS="ppc ppc64"
-		;;
-	i?86)
-		ASTARGETS="i386"
-		;;
-	*)
-		AC_MSG_ERROR([Unsupported target $target_cpu])
-		;;
-	esac
+	ASTARGETS="ppc ppc64 i386"
 	;;
      yes)
 	AC_MSG_ERROR([no assembler targets configured])
