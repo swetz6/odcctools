@@ -1,5 +1,5 @@
---- redo_prebinding.c.orig	2005-03-31 00:45:13.246025927 +0000
-+++ redo_prebinding.c	2005-03-31 00:45:42.848130238 +0000
+--- ./redo_prebinding.c.orig	2005-09-28 16:39:36.000000000 -0700
++++ ./redo_prebinding.c	2005-10-31 10:04:35.000000000 -0800
 @@ -88,7 +88,6 @@
  #import <string.h>
  #import <limits.h>
@@ -7,4 +7,4 @@
 -#import <malloc/malloc.h>
  #import <sys/types.h>
  #import <sys/stat.h>
- #import <mach-o/loader.h>
+ #import <mach-o/stab.h>

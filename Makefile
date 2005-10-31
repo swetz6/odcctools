@@ -57,6 +57,33 @@ patch: extract
 		touch .state.patch;				\
 	fi
 
+updatepatch: extract 
+	if [ \! -f .state.patch ]; then				\
+		for p in $(PATCHFILES); do			\
+			echo Applying patch $$p;		\
+			dir=`dirname $$p`;			\
+			( cd $(DISTDIR)/$$dir; 			\
+			  patch -b --posix -p0 < $(PATCHFILESDIR)/$$p; \
+			  if [ $$? -eq 1 ]; then			\
+				exit 1;				\
+			  fi;					\
+			  ( find . -type f | while read f; do	\
+				if [ -f "$$f.orig" ]; then	\
+					diff -u -N "$$f.orig" "$$f";	\
+				fi;				\
+			  done) > $(PATCHFILESDIR)/$$p;		\
+			  find . -type f -name \*.orig -exec rm "{}" \;; \
+			);					\
+		done;						\
+		tar cf - --exclude=CVS -C $(ADDEDFILESDIR) . | 	\
+			tar xvf - -C $(DISTDIR);			\
+		find $(DISTDIR) -type f -name \*.[ch] | while read f; do \
+			sed 's/^#import/#include/' < $$f > $$f.tmp;	\
+			mv -f $$f.tmp $$f;				\
+		done;						\
+		touch .state.patch;				\
+	fi
+
 regen: patch
 	if [ \! -f .state.regen ]; then				\
 		find $(DISTDIR) -name Makefile -exec rm -f "{}" \; ;	\

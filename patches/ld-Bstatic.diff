@@ -1,5 +1,5 @@
---- ./ld/ld.c.orig	2005-10-31 07:58:27.000000000 -0800
-+++ ./ld/ld.c	2005-10-31 07:58:43.000000000 -0800
+--- ./ld/ld.c.orig	2005-10-06 18:58:19.000000000 -0700
++++ ./ld/ld.c	2005-10-31 10:04:32.000000000 -0800
 @@ -559,6 +559,9 @@
  	    else{
  		p = &(argv[i][1]);
@@ -27,8 +27,8 @@
  		case 'b':
  		    if(strcmp(p, "bundle_loader") == 0){
  			/*
---- ./ld/pass1.c.orig	2005-10-31 07:58:27.000000000 -0800
-+++ ./ld/pass1.c	2005-10-31 07:58:43.000000000 -0800
+--- ./ld/pass1.c.orig	2005-08-12 10:24:16.000000000 -0700
++++ ./ld/pass1.c	2005-10-31 10:04:32.000000000 -0800
 @@ -116,6 +116,13 @@
  
  /* the pointer to the head of the base object file's segments */
@@ -103,8 +103,8 @@
  }
  #endif /* !defined(RLD) */
  
---- ./ld/pass1.h.orig	2005-10-31 07:58:27.000000000 -0800
-+++ ./ld/pass1.h	2005-10-31 07:58:43.000000000 -0800
+--- ./ld/pass1.h.orig	2004-09-15 15:23:19.000000000 -0700
++++ ./ld/pass1.h	2005-10-31 10:04:32.000000000 -0800
 @@ -56,6 +56,8 @@
  /* the pointer to the head of the base object file's segments */
  __private_extern__ struct merged_segment *base_obj_segments;
@@ -115,7 +115,7 @@
   * These are pointers to strings and symbols used to search of the table of
   * contents of a library.  These have to be can not be local so that routines
 --- ./man/ld.1.orig	2005-10-06 18:58:30.000000000 -0700
-+++ ./man/ld.1	2005-10-31 07:59:37.000000000 -0800
++++ ./man/ld.1	2005-10-31 10:04:32.000000000 -0800
 @@ -1734,6 +1734,18 @@
  For dynamic link editor files, specifies the name of the file
  the dynamic link editor will be installed in for programs that use it.
@@ -136,7 +136,7 @@
  This overrides the
  .B MACOSX_DEPLOYMENT_TARGET
 --- ./man/libtool.1.orig	2005-09-01 17:45:24.000000000 -0700
-+++ ./man/libtool.1	2005-10-31 07:58:43.000000000 -0800
++++ ./man/libtool.1	2005-10-31 10:04:32.000000000 -0800
 @@ -307,6 +307,8 @@
  .B \-m,
  .B \-dead_strip,
@@ -146,8 +146,8 @@
  .B \-executable_path,
  .B \-syslibroot.
  See the
---- ./misc/libtool.c.orig	2005-10-31 07:58:28.000000000 -0800
-+++ ./misc/libtool.c	2005-10-31 07:58:43.000000000 -0800
+--- ./misc/libtool.c.orig	2005-09-01 17:45:29.000000000 -0700
++++ ./misc/libtool.c	2005-10-31 10:04:32.000000000 -0800
 @@ -806,6 +806,15 @@
  		    cmd_flags.files[cmd_flags.nfiles++] = argv[i];
  		    lflags_seen = TRUE;

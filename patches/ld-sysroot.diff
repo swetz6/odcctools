@@ -1,5 +1,5 @@
---- ld/ld.c.orig	2005-03-26 12:29:31.000000000 -0800
-+++ ld/ld.c	2005-03-26 12:32:27.000000000 -0800
+--- ./ld/ld.c.orig	2005-10-31 10:04:35.000000000 -0800
++++ ./ld/ld.c	2005-10-31 10:04:35.000000000 -0800
 @@ -79,6 +79,8 @@
  #include "layout.h"
  #include "pass2.h"
@@ -9,7 +9,7 @@
  /* name of this program as executed (argv[0]) */
  __private_extern__ char *progname = NULL;
  /* indication of an error set in error(), for processing a number of errors
-@@ -1837,6 +1839,11 @@
+@@ -1859,6 +1861,11 @@
  	else{
  	    next_root = p;
  	}
@@ -21,8 +21,8 @@
  	if(next_root != NULL){
  	    for(i = 0; standard_dirs[i] != NULL; i++){
  		p = allocate(strlen(next_root) +
---- misc/libtool.c.orig	2005-03-26 12:29:31.000000000 -0800
-+++ misc/libtool.c	2005-03-26 12:33:44.000000000 -0800
+--- ./misc/libtool.c.orig	2005-10-31 10:04:34.000000000 -0800
++++ ./misc/libtool.c	2005-10-31 10:04:35.000000000 -0800
 @@ -53,6 +53,8 @@
  #else
  #endif
@@ -32,7 +32,7 @@
  /* used by error routines as the name of the program */
  char *progname = NULL;
  
-@@ -975,6 +977,11 @@
+@@ -977,6 +979,11 @@
  	else{
  	    next_root = getenv("NEXT_ROOT");
  	}

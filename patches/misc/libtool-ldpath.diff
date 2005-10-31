@@ -1,6 +1,6 @@
---- libtool.c.orig	2005-03-26 11:52:41.000000000 -0800
-+++ libtool.c	2005-03-26 11:55:55.000000000 -0800
-@@ -2367,7 +2367,7 @@
+--- ./libtool.c.orig	2005-10-31 10:04:33.000000000 -0800
++++ ./libtool.c	2005-10-31 10:04:33.000000000 -0800
+@@ -2369,7 +2369,7 @@
  	    if((archs[i].arch_flag.cputype & CPU_ARCH_ABI64) == CPU_ARCH_ABI64)
  		add_execute_list("ld64");
  	    else

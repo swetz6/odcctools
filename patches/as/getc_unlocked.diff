@@ -1,6 +1,5 @@
-diff -ur ../as.old/app.c ./app.c
---- ../as.old/app.c	2004-07-27 09:04:06.000000000 -0700
-+++ ./app.c	2004-09-02 15:36:17.000000000 -0700
+--- ./app.c.orig	2004-07-29 08:46:41.000000000 -0700
++++ ./app.c	2005-10-31 10:04:32.000000000 -0800
 @@ -29,6 +29,10 @@
  #include "app.h"
  #include "messages.h"
@@ -12,9 +11,8 @@ diff -ur ../as.old/app.c ./app.c
  FILE *scrub_file = NULL;
  char *scrub_string = NULL;
  char *scrub_last_string = NULL;
-diff -ur ../as.old/input-file.c ./input-file.c
---- ../as.old/input-file.c	2004-07-27 09:04:06.000000000 -0700
-+++ ./input-file.c	2004-09-02 15:36:30.000000000 -0700
+--- ./input-file.c.orig	2004-07-29 08:47:06.000000000 -0700
++++ ./input-file.c	2005-10-31 10:04:32.000000000 -0800
 @@ -37,6 +37,10 @@
  #include "app.h"
  #include "as.h"
@@ -26,9 +24,8 @@ diff -ur ../as.old/input-file.c ./input-file.c
  /*
   * This variable is non-zero if the file currently being read should be
   * preprocessed by app.  It is zero if the file can be read straight in.
-diff -ur ../as.old/read.c ./read.c
---- ../as.old/read.c	2004-07-30 11:51:28.000000000 -0700
-+++ ./read.c	2004-09-02 15:36:40.000000000 -0700
+--- ./read.c.orig	2005-10-07 16:08:25.000000000 -0700
++++ ./read.c	2005-10-31 10:04:32.000000000 -0800
 @@ -57,6 +57,10 @@
  #include "xmalloc.h"
  #include "app.h"

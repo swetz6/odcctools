@@ -1,7 +1,7 @@
---- ./include/stuff/errors.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./include/stuff/errors.h	2005-10-31 08:03:19.000000000 -0800
+--- ./include/stuff/errors.h.orig	2004-06-10 18:34:52.000000000 -0700
++++ ./include/stuff/errors.h	2005-10-31 10:04:33.000000000 -0800
 @@ -32,11 +32,11 @@
- #include "mach/mach.h"
+ #import "mach/mach.h"
  
  /* user defined (imported) */
 -__private_extern__ char *progname;
@@ -14,8 +14,8 @@
  
  __private_extern__ void warning(
      const char *format, ...)
---- ./ld/dylibs.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/dylibs.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/dylibs.h.orig	2003-08-12 17:13:40.000000000 -0700
++++ ./ld/dylibs.h	2005-10-31 10:04:33.000000000 -0800
 @@ -28,7 +28,7 @@
   * Global types, variables and routines declared in the file dylibs.c.
   */
@@ -83,8 +83,8 @@
  
  __private_extern__ unsigned long create_sub_client_commands(
      void);
---- ./ld/fvmlibs.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/fvmlibs.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/fvmlibs.h.orig	2003-08-12 17:13:46.000000000 -0700
++++ ./ld/fvmlibs.h	2005-10-31 10:04:33.000000000 -0800
 @@ -45,10 +45,10 @@
  };
  
@@ -98,8 +98,8 @@
  
  __private_extern__ void merge_fvmlibs(
      void);
---- ./ld/indirect_sections.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/indirect_sections.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/indirect_sections.h.orig	2005-09-01 17:44:56.000000000 -0700
++++ ./ld/indirect_sections.h	2005-10-31 10:04:33.000000000 -0800
 @@ -27,7 +27,7 @@
  /*
   * The number of indirect symbol table entries in the output file.
@@ -118,8 +118,8 @@
  
  /*
   * The literal_data which is set into a merged_section's literal_data field for
---- ./ld/layout.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/layout.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/layout.h.orig	2003-08-12 17:14:15.000000000 -0700
++++ ./ld/layout.h	2005-10-31 10:04:33.000000000 -0800
 @@ -33,7 +33,7 @@
   */
  
@@ -183,8 +183,8 @@
  
  __private_extern__ void layout(
      void);
---- ./ld/ld.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/ld.h	2005-10-31 08:04:48.000000000 -0800
+--- ./ld/ld.h.orig	2005-10-06 18:58:21.000000000 -0700
++++ ./ld/ld.h	2005-10-31 10:04:33.000000000 -0800
 @@ -82,25 +82,25 @@
      WEAK_REFS_MISMATCH_NON_WEAK
  };
@@ -598,8 +598,8 @@
 -__private_extern__ unsigned long debug;		/* link-editor debugging */
 +extern unsigned long debug;		/* link-editor debugging */
  #endif /* DEBUG */
---- ./ld/mod_sections.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/mod_sections.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/mod_sections.h.orig	2004-02-10 14:45:53.000000000 -0800
++++ ./ld/mod_sections.h	2005-10-31 10:04:33.000000000 -0800
 @@ -35,8 +35,8 @@
  /*
   * Global types, variables and routines declared in the file modinit_sections.c.
@@ -611,8 +611,8 @@
  
  __private_extern__ void mod_section_merge(
      struct mod_term_data *data, 
---- ./ld/objects.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/objects.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/objects.h.orig	2005-09-01 17:45:05.000000000 -0700
++++ ./ld/objects.h	2005-10-31 10:04:33.000000000 -0800
 @@ -281,18 +281,18 @@
   * The head of the object file list and the total count of all object files
   * in the list.
@@ -636,8 +636,8 @@
  
  __private_extern__ struct object_file *new_object_file(
      void);
---- ./ld/pass1.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/pass1.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/pass1.h.orig	2005-10-31 10:04:32.000000000 -0800
++++ ./ld/pass1.h	2005-10-31 10:04:33.000000000 -0800
 @@ -33,39 +33,39 @@
  
  #ifndef RLD
@@ -701,8 +701,8 @@
  
  #endif /* !defined(RLD) */
  
---- ./ld/pass2.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/pass2.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/pass2.h.orig	2003-08-12 17:15:22.000000000 -0700
++++ ./ld/pass2.h	2005-10-31 10:04:33.000000000 -0800
 @@ -27,14 +27,14 @@
  /*
   * The total size of the output file and the memory buffer for the output file.
@@ -721,8 +721,8 @@
  
  __private_extern__ void pass2(
      void);
---- ./ld/sections.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/sections.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/sections.h.orig	2005-09-01 17:45:10.000000000 -0700
++++ ./ld/sections.h	2005-10-31 10:04:33.000000000 -0800
 @@ -145,19 +145,19 @@
  };
  
@@ -747,8 +747,8 @@
  
  __private_extern__ void merge_sections(
      void);
---- ./ld/sets.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/sets.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/sets.h.orig	2003-08-12 17:15:46.000000000 -0700
++++ ./ld/sets.h	2005-10-31 10:04:33.000000000 -0800
 @@ -49,11 +49,11 @@
  /*
   * Pointer to the array of set structures.
@@ -763,8 +763,8 @@
  
  __private_extern__ void new_set(
      void);
---- ./ld/specs.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/specs.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/specs.h.orig	2003-08-12 17:15:57.000000000 -0700
++++ ./ld/specs.h	2005-10-31 10:04:33.000000000 -0800
 @@ -63,8 +63,8 @@
  };
  
@@ -776,8 +776,8 @@
  
  __private_extern__ struct segment_spec *create_segment_spec(
      char *segname);
---- ./ld/symbols.h.orig	2005-10-31 08:02:58.000000000 -0800
-+++ ./ld/symbols.h	2005-10-31 08:03:19.000000000 -0800
+--- ./ld/symbols.h.orig	2005-09-01 17:45:15.000000000 -0700
++++ ./ld/symbols.h	2005-10-31 10:04:33.000000000 -0800
 @@ -191,25 +191,25 @@
   * count of the merged symbols.  The count of merged symbols referenced only
   * from dylibs will not be in the output file.
