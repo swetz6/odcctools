@@ -1,7 +1,11 @@
 CCTOOLSNAME=cctools
 CCTOOLSVERS=590.18
-DISTFILE=$(CCTOOLSNAME)-$(CCTOOLSVERS).tar.bz2
-DISTDIR=$(CCTOOLSNAME)-$(CCTOOLSVERS)
+CCTOOLSDISTFILE=$(CCTOOLSNAME)-$(CCTOOLSVERS).tar.bz2
+CCTOOLSDISTDIR=$(CCTOOLSNAME)-$(CCTOOLSVERS)
+
+LD64NAME=ld64
+LD64VERS=26.0.81
+LD64DISTFILE=$(LD64NAME)-$(LD64VERS).tar.bz2
 
 TOPSRCDIR=$(shell pwd)
 
@@ -21,7 +25,7 @@ ADDEDFILESDIR=$(TOPSRCDIR)/files
 default: none
 
 clean:
-	rm -rf $(DISTDIR)
+	rm -rf $(CCTOOLSDISTDIR)
 	rm -rf .state.*
 
 none:
@@ -34,8 +38,16 @@ none:
 
 extract:
 	if [ \! -f .state.extract ]; then			\
-		if [ \! -d $(DISTDIR) ]; then			\
-			tar jxf $(DISTFILE);			\
+		if [ \! -d $(CCTOOLSDISTDIR) ]; then			\
+			tar jxf $(CCTOOLSDISTFILE);			\
+			mkdir -p $(CCTOOLSDISTDIR)/.tmp.ld64;		\
+			tar jxf $(LD64DISTFILE) -C $(CCTOOLSDISTDIR)/.tmp.ld64; \
+			find $(CCTOOLSDISTDIR)/.tmp.ld64/$(LD64NAME)-$(LD64VERS)/doc/man \
+				-type f -exec cp "{}" $(CCTOOLSDISTDIR)/man \; ;	\
+			mkdir -p $(CCTOOLSDISTDIR)/ld64;		\
+			tar cf - -C $(CCTOOLSDISTDIR)/.tmp.ld64/$(LD64NAME)-$(LD64VERS)/src . | \
+				tar xf - -C $(CCTOOLSDISTDIR)/ld64;	\
+			rm -rf $(CCTOOLSDISTDIR)/.tmp.ld64;		\
 		fi;						\
 		touch .state.extract;				\
 	fi
@@ -45,12 +57,12 @@ patch: extract
 		for p in $(PATCHFILES); do			\
 			echo Applying patch $$p;		\
 			dir=`dirname $$p`;			\
-			( cd $(DISTDIR)/$$dir; 			\
+			( cd $(CCTOOLSDISTDIR)/$$dir; 			\
 			  patch --no-backup-if-mismatch --posix -p0 < $(PATCHFILESDIR)/$$p );	\
 		done;						\
 		tar cf - --exclude=CVS -C $(ADDEDFILESDIR) . | 	\
-			tar xvf - -C $(DISTDIR);			\
-		find $(DISTDIR) -type f -name \*.[ch] | while read f; do \
+			tar xvf - -C $(CCTOOLSDISTDIR);			\
+		find $(CCTOOLSDISTDIR) -type f -name \*.[ch] | while read f; do \
 			sed 's/^#import/#include/' < $$f > $$f.tmp;	\
 			mv -f $$f.tmp $$f;				\
 		done;						\
@@ -62,7 +74,7 @@ updatepatch: extract
 		for p in $(PATCHFILES); do			\
 			echo Applying patch $$p;		\
 			dir=`dirname $$p`;			\
-			( cd $(DISTDIR)/$$dir; 			\
+			( cd $(CCTOOLSDISTDIR)/$$dir; 			\
 			  patch -b --posix -p0 < $(PATCHFILESDIR)/$$p; \
 			  if [ $$? -eq 1 ]; then			\
 				exit 1;				\
@@ -76,8 +88,8 @@ updatepatch: extract
 			);					\
 		done;						\
 		tar cf - --exclude=CVS -C $(ADDEDFILESDIR) . | 	\
-			tar xvf - -C $(DISTDIR);			\
-		find $(DISTDIR) -type f -name \*.[ch] | while read f; do \
+			tar xvf - -C $(CCTOOLSDISTDIR);			\
+		find $(CCTOOLSDISTDIR) -type f -name \*.[ch] | while read f; do \
 			sed 's/^#import/#include/' < $$f > $$f.tmp;	\
 			mv -f $$f.tmp $$f;				\
 		done;						\
@@ -86,12 +98,12 @@ updatepatch: extract
 
 regen: patch
 	if [ \! -f .state.regen ]; then				\
-		find $(DISTDIR) -name Makefile -exec rm -f "{}" \; ;	\
-		find $(DISTDIR) -name \*~ -exec rm -f "{}" \; ;	\
-		find $(DISTDIR) -name .\#\* -exec rm -f "{}" \; ;	\
-		( cd $(DISTDIR) &&				\
+		find $(CCTOOLSDISTDIR) -name Makefile -exec rm -f "{}" \; ;	\
+		find $(CCTOOLSDISTDIR) -name \*~ -exec rm -f "{}" \; ;	\
+		find $(CCTOOLSDISTDIR) -name .\#\* -exec rm -f "{}" \; ;	\
+		( cd $(CCTOOLSDISTDIR) &&				\
 		  autoheader &&					\
 		  autoconf );					\
-		rm -rf $(DISTDIR)/autom4te.cache;		\
+		rm -rf $(CCTOOLSDISTDIR)/autom4te.cache;		\
 		touch .state.regen;				\
 	fi
