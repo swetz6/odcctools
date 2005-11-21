@@ -1,0 +1,11 @@
+--- ld.c.orig	2005-11-21 13:37:22.000000000 -0800
++++ ld.c	2005-11-21 13:37:39.000000000 -0800
+@@ -539,7 +539,7 @@
+ 	       strcmp(argv[i], "-arch") == 0 &&
+ 	       i + 1 < argc &&
+ 	       strcmp(argv[i+1], "ppc64") == 0){
+-		argv[0] = "/usr/bin/ld64";
++		argv[0] = BINDIR "/" LD64PROG;
+ 		ld_exit(!execute(argv, 0));
+ 	    }
+ 	}

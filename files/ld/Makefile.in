@@ -30,11 +30,12 @@ endif
 INSTALL		= @INSTALL@
 INSTALL_PROGRAM	= @INSTALL_PROGRAM@
 transform       = @program_transform_name@
+LD64PROG	= $(shell echo ld64 | sed '$(transform)')
 
 MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(top_builddir)/include \
 			-I$(top_srcdir)/include $(INCPRIVEXT) $(FORHDRS)
 MYWARNINGS      = 
-MYDEFS          = -DDEBUG
+MYDEFS          = -DDEBUG -DBINDIR="\"$(bindir)\"" -DLD64PROG="\"$(LD64PROG)\""
 MYLDFLAGS	= -L$(top_builddir)/libstuff
 MYLIBS		= -lstuff
 
