@@ -1,3 +1,8 @@
+2006-01-23  Shantonu Sen  <ssen@opendarwin.org>
+
+	* Fix a problem with ld64 and -L/-F paths
+	with ".." in them.
+
 2005-11-21  Shantonu Sen  <ssen@opendarwin.org>
 
 	* Add ld64-26.0.81 from Xcode 2.2, and
