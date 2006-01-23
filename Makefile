@@ -20,7 +20,7 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	ld/ld-pb.diff ld-sysroot.diff as/relax.diff			\
 	as/bignum.diff include/architecture/i386/selguard.diff		\
 	misc/redo_prebinding.nomalloc.diff include/mach/machine.diff	\
-	ld/relocate-ld64.diff ld64/Options-dotdot.diff
+	ld/relocate-ld64.diff # ld64/Options-dotdot.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 
