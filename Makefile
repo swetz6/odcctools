@@ -20,7 +20,7 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	ld/ld-pb.diff ld-sysroot.diff as/relax.diff			\
 	as/bignum.diff include/architecture/i386/selguard.diff		\
 	misc/redo_prebinding.nomalloc.diff include/mach/machine.diff	\
-	ld/relocate-ld64.diff # ld64/Options-dotdot.diff
+	ld/relocate-ld64.diff ld64/Options-dotdot.diff
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 
@@ -47,6 +47,7 @@ extract:
 			tar --strip-path=2 -jxf $(LD64DISTFILE) -C $(DISTDIR)/ld64; \
 			find $(DISTDIR)/ld64/man \
 				-type f -exec cp "{}" $(DISTDIR)/man \; ;	\
+			find $(DISTDIR) -name \*.orig -exec rm -f "{}" \; ;	\
 		fi;						\
 		touch .state.extract;				\
 	fi
@@ -83,7 +84,7 @@ updatepatch: extract
 					diff -u -N "$$f.orig" "$$f";	\
 				fi;				\
 			  done) > $(PATCHFILESDIR)/$$p;		\
-			  find . -type f -name \*.orig -exec rm "{}" \;; \
+			  find . -type f -name \*.orig -exec rm -f "{}" \;; \
 			);					\
 		done;						\
 		tar cf - --exclude=CVS -C $(ADDEDFILESDIR) . | 	\
@@ -99,7 +100,6 @@ regen: patch
 	if [ \! -f .state.regen ]; then				\
 		find $(DISTDIR) -name Makefile -exec rm -f "{}" \; ;	\
 		find $(DISTDIR) -name \*~ -exec rm -f "{}" \; ;	\
-		find $(DISTDIR) -name \*.orig -exec rm -f "{}" \; ;	\
 		find $(DISTDIR) -name .\#\* -exec rm -f "{}" \; ;	\
 		( cd $(DISTDIR) &&				\
 		  autoheader &&					\

@@ -1,0 +1,20 @@
+--- ./Options.cpp.orig	2005-09-07 12:18:05.000000000 -0700
++++ ./Options.cpp	2006-01-23 11:35:30.000000000 -0800
+@@ -1096,7 +1096,7 @@
+ 			char betterLibDir[PATH_MAX];
+ 			if ( strstr(libDir, "/..") != NULL ) {
+ 				if ( realpath(libDir, betterLibDir) != NULL )
+-					libDir = betterLibDir;
++					libDir = strdup(betterLibDir);
+ 			}
+ 			const int libDirLen = strlen(libDir);
+ 			for (std::vector<const char*>::iterator sdkit = fSDKPaths.begin(); sdkit != fSDKPaths.end(); sdkit++) {
+@@ -1126,7 +1126,7 @@
+ 			char betterFrameworkDir[PATH_MAX];
+ 			if ( strstr(frameworkDir, "/..") != NULL ) {
+ 				if ( realpath(frameworkDir, betterFrameworkDir) != NULL )
+-					frameworkDir = betterFrameworkDir;
++					frameworkDir = strdup(betterFrameworkDir);
+ 			}
+ 			const int frameworkDirLen = strlen(frameworkDir);
+ 			for (std::vector<const char*>::iterator sdkit = fSDKPaths.begin(); sdkit != fSDKPaths.end(); sdkit++) {
