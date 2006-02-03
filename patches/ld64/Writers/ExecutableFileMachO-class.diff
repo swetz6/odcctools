@@ -1,0 +1,19 @@
+--- ExecutableFileMachO.cpp.orig	2006-02-02 21:53:44.000000000 -0800
++++ ExecutableFileMachO.cpp	2006-02-02 21:55:06.000000000 -0800
+@@ -160,11 +160,11 @@
+ 	std::vector<class ObjectFile::Atom*>			fExportedAtoms;
+ 	std::vector<class ObjectFile::Atom*>			fImportedAtoms;
+ 	std::vector<class ObjectFile::Atom*>			fLocalSymbolAtoms;	
+-	LocalRelocationsLinkEditAtom*					fLocalRelocationsAtom;
+-	ExternalRelocationsLinkEditAtom*				fExternalRelocationsAtom;
+-	SymbolTableLinkEditAtom*						fSymbolTableAtom;
+-	IndirectTableLinkEditAtom*						fIndirectTableAtom;
+-	StringsLinkEditAtom*							fStringsAtom;
++	class LocalRelocationsLinkEditAtom*					fLocalRelocationsAtom;
++	class ExternalRelocationsLinkEditAtom*				fExternalRelocationsAtom;
++	class SymbolTableLinkEditAtom*						fSymbolTableAtom;
++	class IndirectTableLinkEditAtom*						fIndirectTableAtom;
++	class StringsLinkEditAtom*							fStringsAtom;
+ 	macho_nlist*									fSymbolTable;
+ 	//char*											fStringPool;
+ 	//uint32_t										fStringPoolUsed;
