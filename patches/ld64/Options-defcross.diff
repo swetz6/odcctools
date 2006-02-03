@@ -1,0 +1,25 @@
+--- Options.cpp.orig	2006-02-02 23:17:46.000000000 -0800
++++ Options.cpp	2006-02-02 23:18:01.000000000 -0800
+@@ -27,7 +27,7 @@
+ #include <sys/stat.h>
+ #include <fcntl.h>
+ #include <vector>
+-
++#include "config.h"
+ 
+ #include "Options.h"
+ 
+@@ -1079,6 +1079,13 @@
+ 			fSDKPaths.push_back(path);
+ 		}
+ 	}
++
++	if(fSDKPaths.size() == 0) {
++#ifdef CROSS_SYSROOT
++		fSDKPaths.push_back(CROSS_SYSROOT);
++#endif
++	}
++
+ 	if ( addStandardLibraryDirectories ) {
+ 		libraryPaths.push_back("/usr/lib");
+ 		libraryPaths.push_back("/usr/local/lib");
