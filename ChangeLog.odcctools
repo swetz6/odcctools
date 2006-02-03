@@ -1,3 +1,7 @@
+2006-02-02  Shantonu Sen  <ssen@opendarwin.org>
+
+	* Fix ld64 build on foreign OSes
+
 2006-01-23  Shantonu Sen  <ssen@opendarwin.org>
 
 	* Fix a problem with ld64 and -L/-F paths
