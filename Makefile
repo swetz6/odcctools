@@ -9,6 +9,10 @@ LD64DISTFILE=$(LD64NAME)-$(LD64VERS).tar.bz2
 DISTDIR=odcctools
 
 TOPSRCDIR=$(shell pwd)
+HOSTKERNEL=$(shell uname -s)
+TARSTRIP=$(TARSTRIP_$(HOSTKERNEL))
+TARSTRIP_Darwin=--strip-path
+TARSTRIP_Linux=--strip-components
 
 PATCHFILESDIR=$(TOPSRCDIR)/patches
 PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
@@ -20,7 +24,9 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	ld/ld-pb.diff ld-sysroot.diff as/relax.diff			\
 	as/bignum.diff include/architecture/i386/selguard.diff		\
 	misc/redo_prebinding.nomalloc.diff include/mach/machine.diff	\
-	ld/relocate-ld64.diff ld64/Options-dotdot.diff
+	ld/relocate-ld64.diff ld64/Options-dotdot.diff \
+	ld64/Options-stdarg.diff ld64/Writers/ExecutableFileMachO-class.diff
+
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
 
@@ -42,9 +48,9 @@ extract:
 	if [ \! -f .state.extract ]; then			\
 		if [ \! -d $(DISTDIR) ]; then			\
 			mkdir -p $(DISTDIR);			\
-			tar --strip-path=1 -jxf $(CCTOOLSDISTFILE) -C $(DISTDIR);		\
+			tar $(TARSTRIP)=1 -jxf $(CCTOOLSDISTFILE) -C $(DISTDIR);		\
 			mkdir -p $(DISTDIR)/ld64;		\
-			tar --strip-path=2 -jxf $(LD64DISTFILE) -C $(DISTDIR)/ld64; \
+			tar $(TARSTRIP)=2 -jxf $(LD64DISTFILE) -C $(DISTDIR)/ld64; \
 			find $(DISTDIR)/ld64/man \
 				-type f -exec cp "{}" $(DISTDIR)/man \; ;	\
 			find $(DISTDIR) -name \*.orig -exec rm -f "{}" \; ;	\

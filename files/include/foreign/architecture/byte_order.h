@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#include <libkern/OSByteOrder.h>
+
 static __inline__
 unsigned short 
 NXSwapShort(
