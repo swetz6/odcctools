@@ -1,5 +1,5 @@
 CCTOOLSNAME=cctools
-CCTOOLSVERS=590.18
+CCTOOLSVERS=590.23.2
 CCTOOLSDISTFILE=$(CCTOOLSNAME)-$(CCTOOLSVERS).tar.bz2
 
 LD64NAME=ld64
@@ -18,7 +18,7 @@ PATCHFILESDIR=$(TOPSRCDIR)/patches
 PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	otool/nolibmstub.diff misc/ranlibname.diff			\
 	misc/libtool-ldpath.diff ar/ar-ranlibpath.diff			\
-	private_extern.diff otool/noobjc.diff as/input-scrub.diff	\
+	otool/noobjc.diff as/input-scrub.diff	\
 	as/messages.diff ar/contents.diff ar/errno.diff			\
 	ar/archive.diff misc/libtool-pb.diff ar/ar-printf.diff 		\
 	ld/ld-pb.diff ld-sysroot.diff as/relax.diff			\
@@ -70,7 +70,11 @@ patch: extract
 		tar cf - --exclude=CVS -C $(ADDEDFILESDIR) . | 	\
 			tar xvf - -C $(DISTDIR);			\
 		find $(DISTDIR) -type f -name \*.[ch] | while read f; do \
-			sed 's/^#import/#include/' < $$f > $$f.tmp;	\
+			sed -e 's/^#import/#include/' < $$f > $$f.tmp;	\
+			mv -f $$f.tmp $$f;				\
+		done;						\
+		find $(DISTDIR) -type f -name \*.h | while read f; do \
+			sed -e 's/^__private_extern__/extern/' < $$f > $$f.tmp;	\
 			mv -f $$f.tmp $$f;				\
 		done;						\
 		touch .state.patch;				\
