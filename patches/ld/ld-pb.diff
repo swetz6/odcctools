@@ -1,5 +1,5 @@
---- ./ld.c.orig	2005-10-31 10:04:32.000000000 -0800
-+++ ./ld.c	2005-10-31 10:04:35.000000000 -0800
+--- ./ld.c.orig	2006-02-21 18:53:49.000000000 -0800
++++ ./ld.c	2006-02-21 18:54:02.000000000 -0800
 @@ -53,12 +53,10 @@
  #ifndef RLD
  #include "stuff/symbol_list.h"
@@ -13,7 +13,7 @@
  #endif
  #else /* defined(KLD) && defined(__STATIC__) */
  #include <mach/mach.h>
-@@ -3236,6 +3234,7 @@
+@@ -3244,6 +3242,7 @@
  void
  check_for_ProjectBuilder(void)
  {
@@ -21,7 +21,7 @@
      char *portName;
  #if defined(__OPENSTEP__) || defined(__GONZO_BUNSEN_BEAKER__)
      char *hostName;
-@@ -3259,6 +3258,7 @@
+@@ -3267,6 +3266,7 @@
  	if(ProjectBuilder_port == MACH_PORT_NULL)
  	    return;
  	talking_to_ProjectBuilder = 1;
@@ -29,7 +29,7 @@
  }
  
  /*
-@@ -3270,6 +3270,7 @@
+@@ -3278,6 +3278,7 @@
  tell_ProjectBuilder(
  char *message)
  {
@@ -37,7 +37,7 @@
  	make_alert(ProjectBuilder_port,
  	    2, /* eventType */
  	    NULL, 0, /* functionName, not used by ProjectBuilder */
-@@ -3277,6 +3278,7 @@
+@@ -3285,6 +3286,7 @@
  	    NULL, 0, /* directory */
  	    0, /* line */
  	    message, strlen(message)+1 > 1024 ? 1024 : strlen(message)+1);

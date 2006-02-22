@@ -1,5 +1,5 @@
---- ./messages.c.orig	2005-04-14 15:14:19.000000000 -0700
-+++ ./messages.c	2005-10-31 10:04:33.000000000 -0800
+--- ./messages.c.orig	2006-02-20 13:45:43.000000000 -0800
++++ ./messages.c	2006-02-21 18:54:02.000000000 -0800
 @@ -22,7 +22,6 @@
  #ifdef OLD_PROJECTBUILDER_INTERFACE
  #include <streams/streams.h>

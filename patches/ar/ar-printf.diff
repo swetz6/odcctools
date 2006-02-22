@@ -1,5 +1,5 @@
---- ./archive.c.orig	2005-10-31 10:04:34.000000000 -0800
-+++ ./archive.c	2005-10-31 10:04:34.000000000 -0800
+--- ./archive.c.orig	2006-02-21 18:54:02.000000000 -0800
++++ ./archive.c	2006-02-21 18:54:02.000000000 -0800
 @@ -313,21 +313,21 @@
  			(void)sprintf(hb, HDR3, name, (long int)sb->st_mtime,
  			    (unsigned int)(u_short)sb->st_uid,
@@ -25,8 +25,8 @@
  		}
  		size = sb->st_size;
  	} else {
---- ./contents.c.orig	2005-10-31 10:04:33.000000000 -0800
-+++ ./contents.c	2005-10-31 10:04:34.000000000 -0800
+--- ./contents.c.orig	2006-02-21 18:54:02.000000000 -0800
++++ ./contents.c	2006-02-21 18:54:02.000000000 -0800
 @@ -104,7 +104,7 @@
  		if (options & AR_V) {
  			(void)strmode(chdr.mode, buf);

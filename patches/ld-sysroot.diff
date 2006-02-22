@@ -1,5 +1,5 @@
---- ./ld/ld.c.orig	2005-10-31 10:04:35.000000000 -0800
-+++ ./ld/ld.c	2005-10-31 10:04:35.000000000 -0800
+--- ./ld/ld.c.orig	2006-02-21 18:54:02.000000000 -0800
++++ ./ld/ld.c	2006-02-21 18:54:02.000000000 -0800
 @@ -79,6 +79,8 @@
  #include "layout.h"
  #include "pass2.h"
@@ -9,7 +9,7 @@
  /* name of this program as executed (argv[0]) */
  __private_extern__ char *progname = NULL;
  /* indication of an error set in error(), for processing a number of errors
-@@ -1859,6 +1861,11 @@
+@@ -1864,6 +1866,11 @@
  	else{
  	    next_root = p;
  	}
@@ -21,8 +21,8 @@
  	if(next_root != NULL){
  	    for(i = 0; standard_dirs[i] != NULL; i++){
  		p = allocate(strlen(next_root) +
---- ./misc/libtool.c.orig	2005-10-31 10:04:34.000000000 -0800
-+++ ./misc/libtool.c	2005-10-31 10:04:35.000000000 -0800
+--- ./misc/libtool.c.orig	2006-02-21 18:54:02.000000000 -0800
++++ ./misc/libtool.c	2006-02-21 18:54:02.000000000 -0800
 @@ -53,6 +53,8 @@
  #else
  #endif
