@@ -1,0 +1,11 @@
+--- libtool.c.orig	2006-02-28 07:21:17.000000000 -0800
++++ libtool.c	2006-02-28 07:21:54.000000000 -0800
+@@ -2374,7 +2374,7 @@
+ 	for(i = 0; i < narchs || (i == 0 && narchs == 0); i++){
+ 	    reset_execute_list();
+ 	    if((archs[i].arch_flag.cputype & CPU_ARCH_ABI64) == CPU_ARCH_ABI64)
+-		add_execute_list("ld64");
++		add_execute_list(makestr(BINDIR, "/", LD64PROG, NULL));
+ 	    else
+ 	      add_execute_list(makestr(BINDIR, "/", LDPROG, NULL));
+ 	    if(narchs != 0 && cmd_flags.arch_only_flag.name == NULL)
