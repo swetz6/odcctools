@@ -137,26 +137,4 @@ qsort_r(void *base, size_t nmemb, size_t size, void *thunk,
 
 #endif
 
-
-int    getattrlist(const char* a,void* b,void* c,size_t d,unsigned int e)
-{
-  errno = ENOTSUP;
-  return -1;
-}
-
 vm_size_t       vm_page_size = 4096; // hardcoded to match expectations of darwin
-
-enum DYLD_BOOL NSIsSymbolNameDefined(const char *symbolName)
-{
-  return FALSE; // for the cases this is used in cctools, return false
-}
-
-NSSymbol NSLookupAndBindSymbol(const char *symbolName)
-{
-  return NULL;
-}
-
-void * NSAddressOfSymbol(NSSymbol symbol)
-{
-  return NULL;
-}

@@ -1,0 +1,37 @@
+--- redo_prebinding.c.orig	2006-03-16 08:58:09.000000000 -0800
++++ redo_prebinding.c	2006-03-16 08:59:35.000000000 -0800
+@@ -82,7 +82,7 @@
+  */
+ #include <mach-o/redo_prebinding.h>
+ #endif /* defined(LIBRARY_API) */
+-
++#include <config.h>
+ #import <stdio.h>
+ #import <stdlib.h>
+ #import <string.h>
+@@ -9262,7 +9262,7 @@
+ 	errors++;
+ }
+ #endif /* defined(LIBRARY_API) */
+-
++#if HAVE_GETATTRLIST
+ #include <sys/attr.h>
+ /*
+  * Structure defining what's returned from getattrlist.  It returns all the
+@@ -9336,7 +9336,15 @@
+ 
+ 	return(FALSE);
+ }
+-
++#else
++static
++enum bool
++has_resource_fork(
++		  char *filename)
++{
++  return FALSE;
++}
++#endif
+ 
+ static unsigned long find__dyld_section_addr(const struct mach_header* mh)
+ {
