@@ -1,6 +1,7 @@
 #include <config.h>
 #include <mach/mach.h>
 #include <mach/mach_error.h>
+#include <mach-o/dyld.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -113,6 +114,30 @@ void strmode(mode_t mode, char *bp)
 }
 #endif
 
+#ifndef HAVE_QSORT_R
+void *_qsort_thunk = NULL;
+int (*_qsort_saved_func)(void *, const void *, const void *) = NULL;
+
+static int _qsort_comparator(const void *a, const void *b);
+
+static int _qsort_comparator(const void *a, const void *b)
+{
+  return _qsort_saved_func(_qsort_thunk, a, b);
+}
+
+void
+qsort_r(void *base, size_t nmemb, size_t size, void *thunk,
+	int (*compar)(void *, const void *, const void *))
+{
+  _qsort_thunk = thunk;
+  _qsort_saved_func = compar;
+
+  qsort(base, nmemb, size, _qsort_comparator);
+}
+
+#endif
+
+
 int    getattrlist(const char* a,void* b,void* c,size_t d,unsigned int e)
 {
   errno = ENOTSUP;
@@ -120,3 +145,18 @@ int    getattrlist(const char* a,void* b,void* c,size_t d,unsigned int e)
 }
 
 vm_size_t       vm_page_size = 4096; // hardcoded to match expectations of darwin
+
+enum DYLD_BOOL NSIsSymbolNameDefined(const char *symbolName)
+{
+  return FALSE; // for the cases this is used in cctools, return false
+}
+
+NSSymbol NSLookupAndBindSymbol(const char *symbolName)
+{
+  return NULL;
+}
+
+void * NSAddressOfSymbol(NSSymbol symbol)
+{
+  return NULL;
+}

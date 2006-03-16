@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [590.36od13], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.42 $])
+AC_REVISION([$Revision: 1.43 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -243,7 +243,7 @@ AC_COMPILE_IFELSE(
     ]
 )
 
-AC_CHECK_FUNCS([strmode])
+AC_CHECK_FUNCS([strmode qsort_r])
 
 AC_CHECK_DECLS([getc_unlocked])
 AH_VERBATIM([HAVE_DECL_GETC_UNLOCKED_REPLACEMENT],
