@@ -1,0 +1,10 @@
+--- Options.cpp.orig	2006-03-16 09:09:03.000000000 -0800
++++ Options.cpp	2006-03-16 09:09:16.000000000 -0800
+@@ -26,6 +26,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
++#include <ctype.h>
+ #include <vector>
+ #include "config.h"
+ 
