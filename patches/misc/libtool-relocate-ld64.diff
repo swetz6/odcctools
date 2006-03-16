@@ -1,6 +1,6 @@
---- libtool.c.orig	2006-02-28 07:21:17.000000000 -0800
-+++ libtool.c	2006-02-28 07:21:54.000000000 -0800
-@@ -2374,7 +2374,7 @@
+--- ./libtool.c.orig	2006-03-15 20:35:30.000000000 -0800
++++ ./libtool.c	2006-03-15 20:35:31.000000000 -0800
+@@ -2381,7 +2381,7 @@
  	for(i = 0; i < narchs || (i == 0 && narchs == 0); i++){
  	    reset_execute_list();
  	    if((archs[i].arch_flag.cputype & CPU_ARCH_ABI64) == CPU_ARCH_ABI64)

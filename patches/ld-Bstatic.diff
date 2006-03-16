@@ -1,8 +1,8 @@
---- ./ld/ld.c.orig	2006-02-20 13:45:44.000000000 -0800
-+++ ./ld/ld.c	2006-02-21 18:53:49.000000000 -0800
-@@ -561,6 +561,9 @@
- 	    else{
- 		p = &(argv[i][1]);
+--- ./ld/ld.c.orig	2006-01-27 15:20:09.000000000 -0800
++++ ./ld/ld.c	2006-03-15 20:35:28.000000000 -0800
+@@ -583,6 +583,9 @@
+ 
+ 	        p = &(argv[i][1]);
  		switch(*p){
 +		case 'B': 
 +			if(strcmp(p, "Bstatic") && strcmp(p, "Bdynamic")) goto unknown_flag;
@@ -10,7 +10,7 @@
  		case 'l':
  		    if(p[1] == '\0')
  			fatal("-l: argument missing");
-@@ -2641,6 +2644,16 @@
+@@ -2695,6 +2698,16 @@
  	    else{
  		p = &(argv[i][1]);
  		switch(*p){
@@ -27,9 +27,9 @@
  		case 'b':
  		    if(strcmp(p, "bundle_loader") == 0){
  			/*
---- ./ld/pass1.c.orig	2006-02-20 13:45:44.000000000 -0800
-+++ ./ld/pass1.c	2006-02-21 18:53:49.000000000 -0800
-@@ -116,6 +116,13 @@
+--- ./ld/pass1.c.orig	2006-02-07 14:33:31.000000000 -0800
++++ ./ld/pass1.c	2006-03-15 20:35:28.000000000 -0800
+@@ -128,6 +128,13 @@
  
  /* the pointer to the head of the base object file's segments */
  __private_extern__ struct merged_segment *base_obj_segments = NULL;
@@ -43,7 +43,7 @@
  #endif /* !defined(RLD) */
  
  #if !defined(SA_RLD) && !(defined(KLD) && defined(__STATIC__))
-@@ -328,6 +335,7 @@
+@@ -344,6 +351,7 @@
      char *file_name;
  #ifndef RLD
      char *p, *type;
@@ -51,7 +51,7 @@
  #endif /* !defined(RLD) */
      kern_return_t r;
      unsigned long file_size;
-@@ -345,7 +353,6 @@
+@@ -361,7 +369,6 @@
  	/* this function" can safely be ignored */
  	file_name = NULL;
  #endif /* DEBUG */
@@ -59,7 +59,7 @@
  	fd = -1;
  #ifndef RLD
  	if(lname){
-@@ -367,12 +374,11 @@
+@@ -383,12 +390,11 @@
  			search_paths_for_lname(&name[2], &file_name, &fd);
  		    }
  		    else{
@@ -77,7 +77,7 @@
  		    }
  		}
  		else{
-@@ -611,15 +617,16 @@
+@@ -641,15 +647,16 @@
  char **file_name,
  int *fd)
  {
@@ -103,9 +103,9 @@
  }
  #endif /* !defined(RLD) */
  
---- ./ld/pass1.h.orig	2006-02-20 13:45:44.000000000 -0800
-+++ ./ld/pass1.h	2006-02-21 18:53:49.000000000 -0800
-@@ -56,6 +56,8 @@
+--- ./ld/pass1.h.orig	2006-01-27 15:20:21.000000000 -0800
++++ ./ld/pass1.h	2006-03-15 20:35:28.000000000 -0800
+@@ -63,6 +63,8 @@
  /* the pointer to the head of the base object file's segments */
  __private_extern__ struct merged_segment *base_obj_segments;
  
@@ -114,9 +114,9 @@
  /*
   * These are pointers to strings and symbols used to search of the table of
   * contents of a library.  These have to be can not be local so that routines
---- ./man/ld.1.orig	2006-02-20 13:45:44.000000000 -0800
-+++ ./man/ld.1	2006-02-21 18:53:49.000000000 -0800
-@@ -1734,6 +1734,18 @@
+--- ./man/ld.1.orig	2006-01-27 15:20:31.000000000 -0800
++++ ./man/ld.1	2006-03-15 20:35:28.000000000 -0800
+@@ -1738,6 +1738,18 @@
  For dynamic link editor files, specifies the name of the file
  the dynamic link editor will be installed in for programs that use it.
  .TP
@@ -135,8 +135,8 @@
  .BI \-macosx_version_min " version"
  This overrides the
  .B MACOSX_DEPLOYMENT_TARGET
---- ./man/libtool.1.orig	2006-02-20 13:45:44.000000000 -0800
-+++ ./man/libtool.1	2006-02-21 18:53:49.000000000 -0800
+--- ./man/libtool.1.orig	2006-01-20 13:45:45.000000000 -0800
++++ ./man/libtool.1	2006-03-15 20:35:28.000000000 -0800
 @@ -307,6 +307,8 @@
  .B \-m,
  .B \-dead_strip,
@@ -144,11 +144,11 @@
 +.B \-Bstatic,
 +.B \-Bdynamic,
  .B \-executable_path,
- .B \-syslibroot.
- See the
---- ./misc/libtool.c.orig	2006-02-20 13:45:43.000000000 -0800
-+++ ./misc/libtool.c	2006-02-21 18:53:49.000000000 -0800
-@@ -806,6 +806,15 @@
+ .B \-syslibroot,
+ .B \-no_uuid.
+--- ./misc/libtool.c.orig	2006-01-27 15:20:35.000000000 -0800
++++ ./misc/libtool.c	2006-03-15 20:35:28.000000000 -0800
+@@ -811,6 +811,15 @@
  		    cmd_flags.files[cmd_flags.nfiles++] = argv[i];
  		    lflags_seen = TRUE;
  		}
@@ -164,7 +164,7 @@
  		else if(strncmp(argv[i], "-weak-l", 7) == 0){
  		    if(cmd_flags.ranlib == TRUE){
  			error("unknown option: %s", argv[i]);
-@@ -1195,6 +1204,10 @@
+@@ -1203,6 +1212,10 @@
  		i++;
  		continue;
  	    }

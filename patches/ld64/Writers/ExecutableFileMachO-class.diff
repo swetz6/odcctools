@@ -1,5 +1,5 @@
 --- ./ExecutableFileMachO.cpp.orig	2005-05-26 14:37:27.000000000 -0700
-+++ ./ExecutableFileMachO.cpp	2006-02-21 18:54:03.000000000 -0800
++++ ./ExecutableFileMachO.cpp	2006-03-15 20:35:31.000000000 -0800
 @@ -160,11 +160,11 @@
  	std::vector<class ObjectFile::Atom*>			fExportedAtoms;
  	std::vector<class ObjectFile::Atom*>			fImportedAtoms;
