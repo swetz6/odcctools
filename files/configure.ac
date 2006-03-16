@@ -1,6 +1,6 @@
 AC_INIT([odcctools], [590.36od13], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.41 $])
+AC_REVISION([$Revision: 1.42 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -96,6 +96,26 @@ AC_COMPILE_IFELSE(
 CFLAGS=$ORIGCFLAGS
 
 ORIGCFLAGS=$CFLAGS
+CFLAGS="$CFLAGS -fno-builtin-round"
+AC_MSG_CHECKING([if -fno-builtin-round is supported])
+AC_COMPILE_IFELSE(
+   [AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]])],
+   [AC_MSG_RESULT([yes])],
+   [CFLAGS=$ORIGCFLAGS
+    AC_MSG_RESULT([no])]
+)
+
+ORIGCFLAGS=$CFLAGS
+CFLAGS="$CFLAGS -fno-builtin-trunc"
+AC_MSG_CHECKING([if -fno-builtin-trunc is supported])
+AC_COMPILE_IFELSE(
+   [AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]])],
+   [AC_MSG_RESULT([yes])],
+   [CFLAGS=$ORIGCFLAGS
+    AC_MSG_RESULT([no])]
+)
+
+ORIGCFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -no-cpp-precomp"
 supported=0
 AC_MSG_CHECKING([if -no-cpp-precomp is supported])
@@ -175,6 +195,7 @@ void bar(void) {
 )
 AC_SUBST([OBJC], [$OBJC])
 CFLAGS=$ORIGCFLAGS
+
 
 AC_MSG_CHECKING([if __private_extern__ is supported])
 AC_COMPILE_IFELSE(

@@ -48,7 +48,8 @@ CFILES = ld.c pass1.c objects.c sections.c cstring_literals.c symbols.c \
          fvmlibs.c layout.c specs.c pass2.c generic_reloc.c rld.c sets.c \
          4byte_literals.c 8byte_literals.c literal_pointers.c dylibs.c \
          indirect_sections.c mod_sections.c i860_reloc.c ppc_reloc.c \
-         m88k_reloc.c hppa_reloc.c sparc_reloc.c coalesced_sections.c
+         m88k_reloc.c hppa_reloc.c sparc_reloc.c coalesced_sections.c uuid.c \
+	 debugcompunit.c debugline.c
 
 OBJS = $(CFILES:.c=.o) 
 .c.o:
