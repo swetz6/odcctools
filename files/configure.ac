@@ -1,6 +1,6 @@
-AC_INIT([odcctools], [590.36od13], [odcctools@opendarwin.org])
+AC_INIT([odcctools], [590.42.1od14], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.44 $])
+AC_REVISION([$Revision: 1.45 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
