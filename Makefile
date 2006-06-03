@@ -1,9 +1,9 @@
 CCTOOLSNAME=cctools
-CCTOOLSVERS=590.36
+CCTOOLSVERS=590.42.1
 CCTOOLSDISTFILE=$(CCTOOLSNAME)-$(CCTOOLSVERS).tar.bz2
 
 LD64NAME=ld64
-LD64VERS=26.0.81
+LD64VERS=47.2
 LD64DISTFILE=$(LD64NAME)-$(LD64VERS).tar.bz2
 
 DISTDIR=odcctools
@@ -24,8 +24,7 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	ld/ld-pb.diff ld-sysroot.diff as/relax.diff			\
 	as/bignum.diff include/architecture/i386/selguard.diff		\
 	misc/redo_prebinding.nomalloc.diff include/mach/machine.diff	\
-	ld/relocate-ld64.diff ld64/Options-dotdot.diff \
-	ld64/Options-stdarg.diff ld64/Writers/ExecutableFileMachO-class.diff \
+	ld/relocate-ld64.diff ld64/Options-stdarg.diff \
 	ld64/Options-defcross.diff misc/libtool-relocate-ld64.diff	\
 	ld/uuid-nonsmodule.diff misc/redo_prebinding.nogetattrlist.diff \
 	ld64/Options-ctype.diff
