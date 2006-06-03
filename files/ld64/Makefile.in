@@ -7,8 +7,9 @@ prefix		= @prefix@
 exec_prefix	= @exec_prefix@
 bindir		= @bindir@
 
-VPATH = @srcdir@:@srcdir@/Readers:@srcdir@/Writers
+VPATH = @srcdir@:@srcdir@/src
 
+CC              = @CC@
 CXX             = @CXX@
 CFLAGS          = @CFLAGS@ @CXXFLAGS@
 WARNINGS	= @WARNINGS@
@@ -31,8 +32,7 @@ INSTALL		= @INSTALL@
 INSTALL_PROGRAM	= @INSTALL_PROGRAM@
 transform       = @program_transform_name@
 
-MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(srcdir) -I$(srcdir)/Readers \
-			-I$(srcdir)/Writers -I$(top_builddir)/include \
+MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(srcdir)/src -I$(top_builddir)/include \
 			-I$(top_srcdir)/include $(INCPRIVEXT) $(FORHDRS)
 MYWARNINGS      = 
 MYDEFS          = -DDEBUG
@@ -44,12 +44,14 @@ MYCOMPILEFLAGS	= $(WARNINGS) $(MYWARNINGS) $(DEFS) $(MYDEFS) \
 
 MYLINKFLAGS	= $(LDFLAGS) $(MYLDFLAGS) $(MYLIBS)
 
-CXXFILES = ld.cpp Options.cpp SectCreate.cpp ObjectFileMachO-all.cpp \
-		ExecutableFileMachO-all.cpp 
+CXXFILES = ld.cpp Options.cpp SectCreate.cpp
+CFILES = debugline.c
 
-OBJS = $(CXXFILES:.cpp=.o) 
+OBJS = $(CXXFILES:.cpp=.o) $(CFILES:.c=.o)
 .cpp.o:
 	$(CXX) $(MYCOMPILEFLAGS) -c -o $@ $<
+.c.o:
+	$(CC)  $(MYCOMPILEFLAGS) -c -o $@ $<
 
 .PHONY: default clean distclean install
 

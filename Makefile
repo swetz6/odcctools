@@ -22,7 +22,8 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	as/messages.diff ar/contents.diff ar/errno.diff			\
 	ar/archive.diff misc/libtool-pb.diff ar/ar-printf.diff 		\
 	ld/ld-pb.diff ld-sysroot.diff as/relax.diff			\
-	as/bignum.diff include/architecture/i386/selguard.diff		\
+	as/bignum.diff \
+#include/architecture/i386/selguard.diff		\
 	misc/redo_prebinding.nomalloc.diff include/mach/machine.diff	\
 	ld/relocate-ld64.diff ld64/Options-stdarg.diff \
 	ld64/Options-defcross.diff misc/libtool-relocate-ld64.diff	\
@@ -52,10 +53,16 @@ extract:
 			mkdir -p $(DISTDIR);			\
 			tar $(TARSTRIP)=1 -jxf $(CCTOOLSDISTFILE) -C $(DISTDIR);		\
 			mkdir -p $(DISTDIR)/ld64;		\
-			tar $(TARSTRIP)=2 -jxf $(LD64DISTFILE) -C $(DISTDIR)/ld64; \
-			find $(DISTDIR)/ld64/man \
+			tar $(TARSTRIP)=1 -jxf $(LD64DISTFILE) -C $(DISTDIR)/ld64; \
+			find $(DISTDIR)/ld64/doc/ \
 				-type f -exec cp "{}" $(DISTDIR)/man \; ;	\
 			find $(DISTDIR) -name \*.orig -exec rm -f "{}" \; ;	\
+			rm -rf $(DISTDIR)/{cbtlibs,dyld,file,gprof,libdyld,mkshlib,profileServer}; \
+			cp $(DISTDIR)/include/mach/machine.h $(DISTDIR)/include/mach/machine.h.new; \
+			for i in mach architecture; do	\
+				ditto /Developer/SDKs/MacOSX10.4u.sdk/usr/include/$$i $(DISTDIR)/include/$$i; \
+			done; \
+			cp $(DISTDIR)/include/mach/machine.h.new $(DISTDIR)/include/mach/machine.h; \
 		fi;						\
 		touch .state.extract;				\
 	fi
