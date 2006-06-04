@@ -59,7 +59,7 @@ extract:
 			find $(DISTDIR) -name \*.orig -exec rm -f "{}" \; ;	\
 			rm -rf $(DISTDIR)/{cbtlibs,dyld,file,gprof,libdyld,mkshlib,profileServer}; \
 			cp $(DISTDIR)/include/mach/machine.h $(DISTDIR)/include/mach/machine.h.new; \
-			for i in mach architecture; do	\
+			for i in mach architecture i386; do	\
 				ditto /Developer/SDKs/MacOSX10.4u.sdk/usr/include/$$i $(DISTDIR)/include/$$i; \
 			done; \
 			cp $(DISTDIR)/include/mach/machine.h.new $(DISTDIR)/include/mach/machine.h; \
