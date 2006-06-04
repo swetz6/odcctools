@@ -23,12 +23,11 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	ar/archive.diff misc/libtool-pb.diff ar/ar-printf.diff 		\
 	ld/ld-pb.diff ld-sysroot.diff as/relax.diff			\
 	as/bignum.diff \
-#include/architecture/i386/selguard.diff		\
 	misc/redo_prebinding.nomalloc.diff include/mach/machine.diff	\
 	ld/relocate-ld64.diff ld64/Options-stdarg.diff \
 	ld64/Options-defcross.diff misc/libtool-relocate-ld64.diff	\
 	ld/uuid-nonsmodule.diff misc/redo_prebinding.nogetattrlist.diff \
-	ld64/Options-ctype.diff
+	ld64/Options-ctype.diff ld64/ld64-case-variables.diff
 
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
@@ -59,7 +58,7 @@ extract:
 			find $(DISTDIR) -name \*.orig -exec rm -f "{}" \; ;	\
 			rm -rf $(DISTDIR)/{cbtlibs,dyld,file,gprof,libdyld,mkshlib,profileServer}; \
 			cp $(DISTDIR)/include/mach/machine.h $(DISTDIR)/include/mach/machine.h.new; \
-			for i in mach architecture i386; do	\
+			for i in mach architecture i386 libkern; do	\
 				ditto /Developer/SDKs/MacOSX10.4u.sdk/usr/include/$$i $(DISTDIR)/include/$$i; \
 			done; \
 			cp $(DISTDIR)/include/mach/machine.h.new $(DISTDIR)/include/mach/machine.h; \
@@ -85,6 +84,7 @@ patch: extract
 			sed -e 's/^__private_extern__/extern/' < $$f > $$f.tmp;	\
 			mv -f $$f.tmp $$f;				\
 		done;						\
+		perl -pi -e 's/__GNUC__/__GNUC_UNUSED__/g;' $(DISTDIR)/include/libkern/OSByteOrder.h; \
 		touch .state.patch;				\
 	fi
 

@@ -1,0 +1,56 @@
+--- src/MachOReaderDylib.hpp.orig	2006-06-04 09:20:28.000000000 -0700
++++ src/MachOReaderDylib.hpp	2006-06-04 09:20:51.000000000 -0700
+@@ -243,13 +243,13 @@
+ 			case LC_DYSYMTAB:
+ 				dynamicInfo = (macho_dysymtab_command<P>*)cmd;
+ 				break;
+-			case LC_ID_DYLIB:
++			case LC_ID_DYLIB: {
+ 				macho_dylib_command<P>* dylibID = (macho_dylib_command<P>*)cmd;
+ 				fDylibInstallPath			= strdup(dylibID->name());
+ 				fDylibTimeStamp				= dylibID->timestamp();
+ 				fDylibtCurrentVersion		= dylibID->current_version();
+ 				fDylibCompatibilityVersion	= dylibID->compatibility_version();
+-				break;
++				} break;
+ 			case LC_SUB_UMBRELLA:
+ 				if ( !options.fFlatNamespace ) {
+ 					const char* frameworkLeafName = ((macho_sub_umbrella_command<P>*)cmd)->sub_umbrella();
+--- src/MachOReaderRelocatable.hpp.orig	2006-06-04 09:18:26.000000000 -0700
++++ src/MachOReaderRelocatable.hpp	2006-06-04 09:20:11.000000000 -0700
+@@ -1384,7 +1384,7 @@
+ 								// not associated with an atom, just copy
+ 								stab.string = symString;
+ 								break;
+-							case N_GSYM:
++							case N_GSYM: {
+ 								// n_value field is NOT atom address ;-(
+ 								// need to find atom by name match
+ 								const char* colon = strchr(symString, ':');
+@@ -1404,7 +1404,7 @@
+ 								if ( stab.atom == NULL ) {
+ 									fprintf(stderr, "can't find atom for N_GSYM stabs %s in %s\n", symString, path);
+ 								}
+-								break;
++								} break;
+ 							case N_FUN:
+ 								// old style stabs without BNSYM
+ 								state = inFun;
+@@ -1442,7 +1442,7 @@
+ 								currentAtom = NULL;
+ 								break;
+ 							case N_LCSYM:
+-							case N_STSYM:
++							case N_STSYM: {
+ 								BaseAtom* nestedAtom = (BaseAtom*)this->findAtomAndOffset(sym->n_value()).atom;
+ 								if ( nestedAtom != NULL ) {
+ 									stab.atom = nestedAtom;
+@@ -1452,7 +1452,7 @@
+ 									fprintf(stderr, "can't find atom for stabs 0x%X at %08llX in %s\n",
+ 										type, (uint64_t)sym->n_value(), path);
+ 								}
+-								break;
++								} break;
+ 							case N_LBRAC:
+ 							case N_RBRAC:
+ 							case N_SLINE:
