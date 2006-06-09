@@ -127,3 +127,11 @@ regen: patch
 		rm -rf $(DISTDIR)/autom4te.cache;		\
 		touch .state.regen;				\
 	fi
+
+dist: regen
+	if [ \! -f .state.dist ]; then				\
+		ditto $(DISTDIR) $(DISTDIR)-$$(date +%Y%m%d);	\
+		tar jcf $(DISTDIR)-$$(date +%Y%m%d).tar.bz2 	\
+			$(DISTDIR)-$$(date +%Y%m%d);		\
+		touch .state.dist;				\
+	fi
