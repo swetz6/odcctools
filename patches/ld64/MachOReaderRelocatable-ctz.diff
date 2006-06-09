@@ -1,0 +1,35 @@
+--- src/MachOReaderRelocatable.hpp.orig	2006-06-08 20:44:51.000000000 -0700
++++ src/MachOReaderRelocatable.hpp	2006-06-08 20:50:35.000000000 -0700
+@@ -357,6 +357,16 @@
+ 	}
+ }
+ 
++extern "C" {
++int ctz(uint64_t a) {
++	int i=0;
++	while((a & 1) == 0) {
++		i++;
++		a >>= 1;
++	}
++	return i;
++}
++}
+ 
+ template <typename A>
+ void SymbolAtom<A>::setSize(uint64_t size)
+@@ -364,13 +374,13 @@
+ 	fSize = size;
+ 	
+ 	// Try to compute the alignment base on the address aligned at in object file and the size
+-	uint8_t sizeAlign = __builtin_ctz(fSize);
++	uint8_t sizeAlign = ctz(fSize);
+ 	uint8_t sizeAndSectAlign = std::min((uint8_t)fSection->align(), sizeAlign);
+ 	// If address is zero, can't figure out better alignment than section alignment and size
+ 	if ( fAddress == 0 )
+ 		fAlignment = sizeAndSectAlign;
+ 	else
+-		fAlignment = std::min((uint8_t)__builtin_ctz(fAddress), sizeAndSectAlign);
++		fAlignment = std::min((uint8_t)ctz(fAddress), sizeAndSectAlign);
+ }
+ 
+ 

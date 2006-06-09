@@ -27,7 +27,8 @@ PATCHFILES=as/driver.c ld-Bstatic.diff as/getc_unlocked.diff		\
 	ld/relocate-ld64.diff ld64/Options-stdarg.diff \
 	ld64/Options-defcross.diff misc/libtool-relocate-ld64.diff	\
 	ld/uuid-nonsmodule.diff misc/redo_prebinding.nogetattrlist.diff \
-	ld64/Options-ctype.diff ld64/ld64-case-variables.diff
+	ld64/Options-ctype.diff ld64/ld64-case-variables.diff \
+	ld64/MachOReaderRelocatable-ctz.diff ld64/FileAbstraction-inline.diff
 
 
 ADDEDFILESDIR=$(TOPSRCDIR)/files
