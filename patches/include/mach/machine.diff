@@ -1,11 +1,11 @@
---- ./machine.h.orig	2005-05-12 15:39:36.000000000 -0700
-+++ ./machine.h	2006-03-15 20:35:31.000000000 -0800
+--- ./machine.h.orig	2006-09-09 13:45:52.000000000 -0700
++++ ./machine.h	2006-09-09 13:48:22.000000000 -0700
 @@ -80,32 +80,9 @@
  #ifndef	_MACH_MACHINE_H_
  #define _MACH_MACHINE_H_
  
--#import <mach/machine/vm_types.h>
--#import <mach/boolean.h>
+-#include <mach/machine/vm_types.h>
+-#include <mach/boolean.h>
 -
 -/*
 - *	For each host, there is a maximum possible number of

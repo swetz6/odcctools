@@ -1,15 +1,15 @@
---- redo_prebinding.c.orig	2006-03-16 08:58:09.000000000 -0800
-+++ redo_prebinding.c	2006-03-16 08:59:35.000000000 -0800
+--- ./redo_prebinding.c.orig	2006-09-09 13:49:18.000000000 -0700
++++ ./redo_prebinding.c	2006-09-09 13:50:19.000000000 -0700
 @@ -82,7 +82,7 @@
   */
  #include <mach-o/redo_prebinding.h>
  #endif /* defined(LIBRARY_API) */
 -
 +#include <config.h>
- #import <stdio.h>
- #import <stdlib.h>
- #import <string.h>
-@@ -9262,7 +9262,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+@@ -9263,7 +9263,7 @@
  	errors++;
  }
  #endif /* defined(LIBRARY_API) */
@@ -18,7 +18,7 @@
  #include <sys/attr.h>
  /*
   * Structure defining what's returned from getattrlist.  It returns all the
-@@ -9336,7 +9336,15 @@
+@@ -9337,7 +9337,15 @@
  
  	return(FALSE);
  }
