@@ -3,11 +3,10 @@ project.
 
 The repository is set up to patch an existing tarball, using a
 combination of patch files and copying brand new files.  To generate a
-usable source directory, do the following:
+usable source directory based on a subversion checkout, run "./extract.sh".
 
-% make extract
-% make patch
-% make regen
+The resulting source in "odcctools/" can be distributed and built on
+a variety of platforms and OS versions.
 
 ---
 
