@@ -54,3 +54,21 @@
  							case N_LBRAC:
  							case N_RBRAC:
  							case N_SLINE:
+@@ -2777,7 +2777,7 @@
+                        else
+                                makeReferenceToSymbol(x86_64::kPCRel32GOTLoad, srcAddr, targetSymbol, addend);
+                        break;
+-               case X86_64_RELOC_SUBTRACTOR:
++               case X86_64_RELOC_SUBTRACTOR: {
+                        if ( reloc->r_pcrel() )
+                                throw "X86_64_RELOC_SUBTRACTOR cannot be pc-relative";
+                        if ( reloc->r_length() < 2 )
+@@ -2839,7 +2839,7 @@
+                                ref->setFromTargetOffset(-dstAddr);
+                        else
+                                ref->setToTargetOffset(dstAddr);
+-                       break;
++                       } break;
+                default:
+                        fprintf(stderr, "unknown relocation type %d\n", reloc->r_type());
+        }
