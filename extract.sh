@@ -98,7 +98,7 @@ done
 
 set +e
 
-INTERACTIVE=1
+INTERACTIVE=0
 echo "Applying patches"
 for p in ${PATCHFILES}; do			
     dir=`dirname $p`
