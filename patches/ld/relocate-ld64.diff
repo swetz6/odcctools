@@ -1,11 +1,20 @@
---- ./ld.c.orig	2006-03-15 20:35:30.000000000 -0800
-+++ ./ld.c	2006-03-15 20:35:31.000000000 -0800
-@@ -555,7 +555,7 @@
- 	       strcmp(argv[i], "-arch") == 0 &&
- 	       i + 1 < argc &&
- 	       strcmp(argv[i+1], "ppc64") == 0){
--		argv[0] = "/usr/bin/ld64";
-+		argv[0] = BINDIR "/" LD64PROG;
- 		ld_exit(!execute(argv, 0));
+--- ./ld.c.orig	2006-09-11 20:51:23.000000000 -0700
++++ ./ld.c	2006-09-11 20:51:33.000000000 -0700
+@@ -2024,7 +2024,7 @@
+ 	     * 64-bit architectures are handled by ld64
+ 	     */
+ 	    if(arch_flag.cputype & CPU_ARCH_ABI64) {
+-	        argv[0] = "/usr/bin/ld64";
++	        argv[0] = BINDIR "/" LD64PROG;
+ 	        ld_exit(!execute(argv, 0));
  	    }
+ 
+@@ -2913,7 +2913,7 @@
+ 	 */
+ 	if(arch_flag.cputype != 0 &&
+ 	    arch_flag.cputype & CPU_ARCH_ABI64){
+-	    argv[0] = "/usr/bin/ld64";
++	    argv[0] = BINDIR "/" LD64PROG;
+ 	    ld_exit(!execute(argv, 0));
  	}
+ 

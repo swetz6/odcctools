@@ -1,4 +1,4 @@
-AC_INIT([odcctools], [590.42.1od14], [odcctools@opendarwin.org])
+AC_INIT([odcctools], [622.3od15], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
 AC_REVISION([$Revision: 1.45 $])
 
@@ -25,7 +25,7 @@ case $target_cpu in
         AC_DEFINE(EMULATED_HOST_CPU_TYPE, 18, [Emulated CPU type])        
         AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 100, [Emulated CPU subtype])        
 	;;
-     i?86)
+     i?86|x86_64)
         AC_DEFINE(EMULATED_HOST_CPU_TYPE, 7, [Emulated CPU type])        
         AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 10, [Emulated CPU subtype])        
 	;;
@@ -48,16 +48,16 @@ conftargets=""
 AC_MSG_CHECKING([for configured assembler targets])
 AC_ARG_ENABLE([as-targets],
 		AC_HELP_STRING([--enable-as-targets],
-				[space-separated list ("ppc", "ppc64", "i386", "all")]),
+				[space-separated list ("ppc", "ppc64", "i386", "x86_64", "all")]),
 		[conftargets="$enableval"],
 		[conftargets="default"])
 
 case "$conftargets" in
      all)
-        ASTARGETS="ppc ppc64 i386"
+        ASTARGETS="ppc ppc64 i386 x86_64"
 	;;
      default)
-	ASTARGETS="ppc ppc64 i386"
+	ASTARGETS="ppc ppc64 i386 x86_64"
 	;;
      yes)
 	AC_MSG_ERROR([no assembler targets configured])
@@ -282,6 +282,9 @@ for ast in $ASTARGETS; do
 	;;
     i386)
 	AC_CONFIG_FILES([as/i386/Makefile:as/i386/Makefile.in:as/Makefile.arch.in])
+	;;
+    x86_64)
+	AC_CONFIG_FILES([as/x86_64/Makefile:as/x86_64/Makefile.in:as/Makefile.arch.in])
 	;;
     *)
 	AC_MSG_ERROR([Unrecognized assembler target $ast])

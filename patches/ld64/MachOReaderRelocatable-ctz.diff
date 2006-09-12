@@ -1,6 +1,6 @@
---- src/MachOReaderRelocatable.hpp.orig	2006-06-08 20:44:51.000000000 -0700
-+++ src/MachOReaderRelocatable.hpp	2006-06-08 20:50:35.000000000 -0700
-@@ -357,6 +357,16 @@
+--- ./src/MachOReaderRelocatable.hpp.orig	2006-09-11 20:51:41.000000000 -0700
++++ ./src/MachOReaderRelocatable.hpp	2006-09-11 20:51:50.000000000 -0700
+@@ -383,6 +383,16 @@
  	}
  }
  
@@ -17,19 +17,24 @@
  
  template <typename A>
  void SymbolAtom<A>::setSize(uint64_t size)
-@@ -364,13 +374,13 @@
- 	fSize = size;
- 	
- 	// Try to compute the alignment base on the address aligned at in object file and the size
--	uint8_t sizeAlign = __builtin_ctz(fSize);
-+	uint8_t sizeAlign = ctz(fSize);
- 	uint8_t sizeAndSectAlign = std::min((uint8_t)fSection->align(), sizeAlign);
- 	// If address is zero, can't figure out better alignment than section alignment and size
- 	if ( fAddress == 0 )
- 		fAlignment = sizeAndSectAlign;
- 	else
--		fAlignment = std::min((uint8_t)__builtin_ctz(fAddress), sizeAndSectAlign);
-+		fAlignment = std::min((uint8_t)ctz(fAddress), sizeAndSectAlign);
+@@ -394,17 +404,17 @@
+ 		if ( fAddress == 0 )
+ 			fAlignment = fSection->align();
+ 		else
+-			fAlignment = std::min((uint8_t)__builtin_ctz(fAddress), (uint8_t)fSection->align());
++			fAlignment = std::min((uint8_t)ctz(fAddress), (uint8_t)fSection->align());
+ 	}
+ 	else {
+ 		// For data, compute the alignment base on the address aligned at in object file and the size
+-		uint8_t sizeAlign = __builtin_ctz(fSize);
++		uint8_t sizeAlign = ctz(fSize);
+ 		uint8_t sizeAndSectAlign = std::min((uint8_t)fSection->align(), sizeAlign);
+ 		// If address is zero, can't figure out better alignment than section alignment and size
+ 		if ( fAddress == 0 )
+ 			fAlignment = sizeAndSectAlign;
+ 		else
+-			fAlignment = std::min((uint8_t)__builtin_ctz(fAddress), sizeAndSectAlign);
++			fAlignment = std::min((uint8_t)ctz(fAddress), sizeAndSectAlign);
+ 	}
  }
- 
  
