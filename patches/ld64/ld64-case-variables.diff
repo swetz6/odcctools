@@ -1,6 +1,6 @@
---- src/MachOReaderDylib.hpp.orig	2006-06-04 09:20:28.000000000 -0700
-+++ src/MachOReaderDylib.hpp	2006-06-04 09:20:51.000000000 -0700
-@@ -243,13 +243,13 @@
+--- ./src/MachOReaderDylib.hpp.orig	2006-09-06 13:26:13.000000000 -0700
++++ ./src/MachOReaderDylib.hpp	2006-09-12 13:37:21.000000000 -0700
+@@ -246,13 +246,13 @@
  			case LC_DYSYMTAB:
  				dynamicInfo = (macho_dysymtab_command<P>*)cmd;
  				break;
@@ -16,9 +16,9 @@
  			case LC_SUB_UMBRELLA:
  				if ( !options.fFlatNamespace ) {
  					const char* frameworkLeafName = ((macho_sub_umbrella_command<P>*)cmd)->sub_umbrella();
---- src/MachOReaderRelocatable.hpp.orig	2006-06-04 09:18:26.000000000 -0700
-+++ src/MachOReaderRelocatable.hpp	2006-06-04 09:20:11.000000000 -0700
-@@ -1384,7 +1384,7 @@
+--- ./src/MachOReaderRelocatable.hpp.orig	2006-09-06 13:32:03.000000000 -0700
++++ ./src/MachOReaderRelocatable.hpp	2006-09-12 13:38:36.000000000 -0700
+@@ -1544,7 +1544,7 @@
  								// not associated with an atom, just copy
  								stab.string = symString;
  								break;
@@ -27,16 +27,16 @@
  								// n_value field is NOT atom address ;-(
  								// need to find atom by name match
  								const char* colon = strchr(symString, ':');
-@@ -1404,7 +1404,7 @@
- 								if ( stab.atom == NULL ) {
+@@ -1565,7 +1565,7 @@
  									fprintf(stderr, "can't find atom for N_GSYM stabs %s in %s\n", symString, path);
+ 									useStab = false;
  								}
 -								break;
 +								} break;
  							case N_FUN:
  								// old style stabs without BNSYM
  								state = inFun;
-@@ -1442,7 +1442,7 @@
+@@ -1603,7 +1603,7 @@
  								currentAtom = NULL;
  								break;
  							case N_LCSYM:
@@ -45,7 +45,7 @@
  								BaseAtom* nestedAtom = (BaseAtom*)this->findAtomAndOffset(sym->n_value()).atom;
  								if ( nestedAtom != NULL ) {
  									stab.atom = nestedAtom;
-@@ -1452,7 +1452,7 @@
+@@ -1613,7 +1613,7 @@
  									fprintf(stderr, "can't find atom for stabs 0x%X at %08llX in %s\n",
  										type, (uint64_t)sym->n_value(), path);
  								}
@@ -54,21 +54,21 @@
  							case N_LBRAC:
  							case N_RBRAC:
  							case N_SLINE:
-@@ -2777,7 +2777,7 @@
-                        else
-                                makeReferenceToSymbol(x86_64::kPCRel32GOTLoad, srcAddr, targetSymbol, addend);
-                        break;
--               case X86_64_RELOC_SUBTRACTOR:
-+               case X86_64_RELOC_SUBTRACTOR: {
-                        if ( reloc->r_pcrel() )
-                                throw "X86_64_RELOC_SUBTRACTOR cannot be pc-relative";
-                        if ( reloc->r_length() < 2 )
-@@ -2839,7 +2839,7 @@
-                                ref->setFromTargetOffset(-dstAddr);
-                        else
-                                ref->setToTargetOffset(dstAddr);
--                       break;
-+                       } break;
-                default:
-                        fprintf(stderr, "unknown relocation type %d\n", reloc->r_type());
-        }
+@@ -2767,7 +2767,7 @@
+ 			else
+ 				makeReferenceToSymbol(x86_64::kPCRel32GOTLoad, srcAddr, targetSymbol, addend);
+ 			break;
+-		case X86_64_RELOC_SUBTRACTOR:
++		case X86_64_RELOC_SUBTRACTOR: {
+ 			if ( reloc->r_pcrel() )
+ 				throw "X86_64_RELOC_SUBTRACTOR cannot be pc-relative";
+ 			if ( reloc->r_length() < 2 )
+@@ -2829,7 +2829,7 @@
+ 				ref->setFromTargetOffset(-dstAddr);
+ 			else
+ 				ref->setToTargetOffset(dstAddr);
+-			break;
++			} break;
+ 		default:
+ 			fprintf(stderr, "unknown relocation type %d\n", reloc->r_type());
+ 	}
