@@ -37,9 +37,9 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-tar --help | grep -- --strip-components > /dev/null 2>&1
 
-if [ $? -eq 0 ]; then
+
+if [ "`tar --help | grep -- --strip-components 2> /dev/null`" ]; then
     TARSTRIP=--strip-components
 else
     TARSTRIP=--strip-path
