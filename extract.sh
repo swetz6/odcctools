@@ -16,6 +16,7 @@ TOPSRCDIR=`pwd`
 
 MAKEDISTFILE=0
 UPDATEPATCH=0
+USESSDK=1
 
 while [ $# -gt 0 ]; do
     case $1 in
@@ -27,8 +28,12 @@ while [ $# -gt 0 ]; do
 	    shift
 	    UPDATEPATCH=1
 	    ;;
+	--nosdk)
+	    shift
+	    USESDK=0
+	    ;;
 	--help)
-	    echo "Usage: $0 [--help] [--distfile] [--updatepatch]" 1>&2
+	    echo "Usage: $0 [--help] [--distfile] [--updatepatch] [--nosdk]" 1>&2
 	    exit 0
 	    ;;
 	*)
@@ -66,17 +71,25 @@ find ${DISTDIR}/ld64/doc/ -type f -exec cp "{}" ${DISTDIR}/man \;
 find ${DISTDIR} -name \*.orig -exec rm -f "{}" \;
 rm -rf ${DISTDIR}/{cbtlibs,dyld,file,gprof,libdyld,mkshlib,profileServer}
 
-SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk
-echo "Merging content from $SDKROOT"
-if [ ! -d "$SDKROOT" ]; then
-    echo "$SDKROOT must be present" 1>&2
-    exit 1
+if [ $USESDK -eq 1 ]; then
+    SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk
+    echo "Merging content from $SDKROOT"
+    if [ ! -d "$SDKROOT" ]; then
+	echo "$SDKROOT must be present" 1>&2
+	exit 1
+    fi
+
+    mv ${DISTDIR}/include/mach/machine.h ${DISTDIR}/include/mach/machine.h.new;
+    for i in mach architecture i386 libkern; do
+	tar cf - -C "$SDKROOT/usr/include" $i | tar xf - -C ${DISTDIR}/include
+    done
+    mv ${DISTDIR}/include/mach/machine.h.new ${DISTDIR}/include/mach/machine.h;
+
+    for f in ${DISTDIR}/include/libkern/OSByteOrder.h; do
+	sed -e 's/__GNUC__/__GNUC_UNUSED__/g' < $f > $f.tmp
+	mv -f $f.tmp $f
+    done
 fi
-mv ${DISTDIR}/include/mach/machine.h ${DISTDIR}/include/mach/machine.h.new;
-for i in mach architecture i386 libkern; do
-    tar cf - -C "$SDKROOT/usr/include" $i | tar xf - -C ${DISTDIR}/include
-done;
-mv ${DISTDIR}/include/mach/machine.h.new ${DISTDIR}/include/mach/machine.h;
 
 # process source for mechanical substitutions
 echo "Removing #import"
@@ -88,11 +101,6 @@ done
 echo "Removing __private_extern__"
 find ${DISTDIR} -type f -name \*.h | while read f; do
     sed -e 's/^__private_extern__/extern/' < $f > $f.tmp
-    mv -f $f.tmp $f
-done
-
-for f in ${DISTDIR}/include/libkern/OSByteOrder.h; do
-    sed -e 's/__GNUC__/__GNUC_UNUSED__/g' < $f > $f.tmp
     mv -f $f.tmp $f
 done
 
