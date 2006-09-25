@@ -16,7 +16,7 @@ TOPSRCDIR=`pwd`
 
 MAKEDISTFILE=0
 UPDATEPATCH=0
-USESSDK=1
+USESDK=1
 
 while [ $# -gt 0 ]; do
     case $1 in
