@@ -1,4 +1,4 @@
-AC_INIT([odcctools], [622.3od15], [odcctools@opendarwin.org])
+AC_INIT([odcctools], [622.3od16], [odcctools@opendarwin.org])
 AC_PREREQ([2.57])
 AC_REVISION([$Revision: 1.45 $])
 
@@ -21,13 +21,21 @@ darwin*)
 esac
 
 case $target_cpu in
-     powerpc*)
+     powerpc)
         AC_DEFINE(EMULATED_HOST_CPU_TYPE, 18, [Emulated CPU type])        
         AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 100, [Emulated CPU subtype])        
 	;;
-     i?86|x86_64)
+     powerpc64)
+        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 16777234, [Emulated CPU type])        
+        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 0, [Emulated CPU subtype])        
+	;;
+     i?86)
         AC_DEFINE(EMULATED_HOST_CPU_TYPE, 7, [Emulated CPU type])        
-        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 10, [Emulated CPU subtype])        
+        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 3, [Emulated CPU subtype])        
+	;;
+     x86_64)
+        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 16777223, [Emulated CPU type])        
+        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 3, [Emulated CPU subtype])        
 	;;
      *)
 	AC_MSG_ERROR([Unsupported target $target_cpu])
