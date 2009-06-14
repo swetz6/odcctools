@@ -1,5 +1,9 @@
 2009-06-14  Peter O'Gorman <peter@pogma.com>
 
+	* Fix typo - s/z86_64/z86_64/. Thanks to Shantonu.
+	* files/confugre.ac: Don't define NON_NATIVE, it's unused.
+	* extract.sh: Explicitly list PATCHFILES.
+
 	* Import cctools-698.1 and ld64-85.2.1
 
 2006-09-11  Shantonu Sen  <ssen@opendarwin.org>

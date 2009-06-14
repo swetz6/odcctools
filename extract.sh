@@ -52,7 +52,25 @@ fi
 
 PATCHFILESDIR=${TOPSRCDIR}/patches
 
-PATCHFILES=`cd "${PATCHFILESDIR}" && find * -type f \! -path \*/.svn\* | sort`
+#PATCHFILES=`cd "${PATCHFILESDIR}" && find * -type f \! -path \*/.svn\* | sort`
+
+PATCHFILES="ar/archive.diff ar/ar-printf.diff ar/ar-ranlibpath.diff \
+ar/contents.diff ar/declare_localtime.diff ar/errno.diff as/arm.c.diff \
+as/bignum.diff as/driver.c as/getc_unlocked.diff as/input-scrub.diff \
+as/messages.diff as/relax.diff as/use_PRI_macros.diff \
+include/mach/machine.diff include/stuff/bytesex-floatstate.diff \
+ld64/FileAbstraction-inline.diff ld64/ld_cpp_signal.diff \
+ld64/Options-config_h.diff ld64/Options-ctype.diff \
+ld64/Options-defcross.diff ld64/Options_h_includes.diff \
+ld64/Options-stdarg.diff ld64/remove_tmp_math_hack.diff \
+ld64/Thread64_MachOWriterExecutable.diff ld/ld-pb.diff ld-sysroot.diff \
+ld/uuid-nonsmodule.diff libstuff/default_arch.diff \
+libstuff/macosx_deployment_target_default_105.diff \
+libstuff/map_64bit_arches.diff libstuff/sys_types.diff \
+misc/libtool-ldpath.diff misc/libtool-pb.diff misc/ranlibname.diff \
+misc/redo_prebinding.nogetattrlist.diff \
+misc/redo_prebinding.nomalloc.diff otool/nolibmstub.diff \
+otool/noobjc.diff"
 
 ADDEDFILESDIR=${TOPSRCDIR}/files
 

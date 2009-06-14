@@ -66,7 +66,7 @@ AC_ARG_ENABLE([as-targets],
 
 case "$conftargets" in
      all)
-        ASTARGETS="ppc ppc64 i386 z86_64 arm"
+        ASTARGETS="ppc ppc64 i386 x86_64 arm"
 	;;
      default)
 	ASTARGETS="ppc ppc64 i386 x86_64 arm"
@@ -312,7 +312,6 @@ case $host_os in
 	AC_SUBST([EMULATED_OBJ], [emulated.c])
 	AC_C_BIGENDIAN([AC_SUBST([ENDIAN_FLAG],[-D__BIG_ENDIAN__=1])],
 			[AC_SUBST([ENDIAN_FLAG],[-D__LITTLE_ENDIAN__=1])])
-	CPPFLAGS="-DNON_NATIVE ${CPPFLAGS}"
 	;;
 esac
 
