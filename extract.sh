@@ -3,12 +3,12 @@
 set -e
 
 CCTOOLSNAME=cctools
-CCTOOLSVERS=622.3
-CCTOOLSDISTFILE=${CCTOOLSNAME}-${CCTOOLSVERS}.tar.bz2
+CCTOOLSVERS=698.1
+CCTOOLSDISTFILE=${CCTOOLSNAME}-${CCTOOLSVERS}.tar.gz
 
 LD64NAME=ld64
-LD64VERS=59.2
-LD64DISTFILE=${LD64NAME}-${LD64VERS}.tar.bz2
+LD64VERS=85.2.1
+LD64DISTFILE=${LD64NAME}-${LD64VERS}.tar.gz
 
 DISTDIR=odcctools
 
@@ -52,7 +52,7 @@ fi
 
 PATCHFILESDIR=${TOPSRCDIR}/patches
 
-PATCHFILES=`cd "${PATCHFILESDIR}" && find * -type f \! -path \*/.svn\*`
+PATCHFILES=`cd "${PATCHFILESDIR}" && find * -type f \! -path \*/.svn\* | sort`
 
 ADDEDFILESDIR=${TOPSRCDIR}/files
 
@@ -62,17 +62,17 @@ if [ -d "${DISTDIR}" ]; then
 fi
 
 mkdir -p ${DISTDIR}
-tar ${TARSTRIP}=1 -jxf ${CCTOOLSDISTFILE} -C ${DISTDIR}
+tar ${TARSTRIP}=1 -zxf ${CCTOOLSDISTFILE} -C ${DISTDIR}
 mkdir -p ${DISTDIR}/ld64
-tar ${TARSTRIP}=1 -jxf ${LD64DISTFILE} -C ${DISTDIR}/ld64
+tar ${TARSTRIP}=1 -zxf ${LD64DISTFILE} -C ${DISTDIR}/ld64
 find ${DISTDIR}/ld64/doc/ -type f -exec cp "{}" ${DISTDIR}/man \;
 
 # Clean the source a bit
 find ${DISTDIR} -name \*.orig -exec rm -f "{}" \;
 rm -rf ${DISTDIR}/{cbtlibs,dyld,file,gprof,libdyld,mkshlib,profileServer}
 
-if [ $USESDK -eq 1 ]; then
-    SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk
+if [ $USESDK -eq 999 ]; then
+    SDKROOT=/Developer/SDKs/MacOSX10.5.sdk
     echo "Merging content from $SDKROOT"
     if [ ! -d "$SDKROOT" ]; then
 	echo "$SDKROOT must be present" 1>&2

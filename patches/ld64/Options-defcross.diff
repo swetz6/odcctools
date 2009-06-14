@@ -1,14 +1,5 @@
 --- ./src/Options.cpp.orig	2006-06-01 13:13:03.000000000 -0700
 +++ ./src/Options.cpp	2006-06-04 09:16:05.000000000 -0700
-@@ -28,7 +28,7 @@
- #include <math.h>
- #include <fcntl.h>
- #include <vector>
--
-+#include "config.h"
- 
- #include "Options.h"
- 
 @@ -1358,6 +1358,13 @@
  			fSDKPaths.push_back(path);
  		}

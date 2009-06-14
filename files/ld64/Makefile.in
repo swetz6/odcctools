@@ -9,9 +9,10 @@ bindir		= @bindir@
 
 VPATH = @srcdir@:@srcdir@/src
 
-CC              = @CC@
+CC		= @CC@
 CXX             = @CXX@
-CFLAGS          = @CFLAGS@ @CXXFLAGS@
+CFLAGS          = @CFLAGS@
+CXXFLAGS	= @CXXFLAGS@
 WARNINGS	= @WARNINGS@
 MDYNAMICNOPIC   = @MDYNAMICNOPIC@
 CPPFLAGS        = @CPPFLAGS@
@@ -19,6 +20,8 @@ DEFS            = @DEFS@ @ENDIAN_FLAG@
 LDFLAGS         = @LDFLAGS@
 HAVE_PRIVEXT    = @HAVE_PRIVEXT@
 HAVE_FOREIGN_HEADERS    = @HAVE_FOREIGN_HEADERS@
+UUID_LIBS	= @UUID_LIBS@
+SSL_LIBS	= @SSL_LIBS@
 
 ifeq ($(HAVE_PRIVEXT),NO)
 INCPRIVEXT      = -include $(top_srcdir)/include/extern.h
@@ -31,40 +34,46 @@ endif
 INSTALL		= @INSTALL@
 INSTALL_PROGRAM	= @INSTALL_PROGRAM@
 transform       = @program_transform_name@
+LDPROG        = $(shell echo ld_classic | sed '$(transform)')
 
-MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(srcdir)/src -I$(top_builddir)/include \
+
+MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(srcdir) -I$(srcdir)/Readers \
+			-I$(srcdir)/Writers -I$(top_builddir)/include \
 			-I$(top_srcdir)/include $(INCPRIVEXT) $(FORHDRS)
 MYWARNINGS      = 
-MYDEFS          = -DDEBUG
+MYDEFS          = -DDEBUG -DBINDIR="\"$(bindir)\"" -DLDPROG="\"$(LDPROG)\""
 MYLDFLAGS	= -L$(top_builddir)/libstuff
-MYLIBS		= -lstuff
+MYLIBS		= -lstuff $(SSL_LIBS) $(UUID_LIBS)
 
 MYCOMPILEFLAGS	= $(WARNINGS) $(MYWARNINGS) $(DEFS) $(MYDEFS) \
 	$(CPPFLAGS) $(MYINCLUDES) $(CFLAGS) $(MDYNAMICNOPIC) 
 
 MYLINKFLAGS	= $(LDFLAGS) $(MYLDFLAGS) $(MYLIBS)
 
-CXXFILES = ld.cpp Options.cpp SectCreate.cpp
+CXXFILES = ld.cpp Options.cpp
 CFILES = debugline.c
 
-OBJS = $(CXXFILES:.cpp=.o) $(CFILES:.c=.o)
+OBJS = $(CXXFILES:.cpp=.o)
+OBJS += $(CFILES:.c=.o) 
+
 .cpp.o:
-	$(CXX) $(MYCOMPILEFLAGS) -c -o $@ $<
+	$(CXX) $(MYCOMPILEFLAGS) $(CXXFLAGS) -c -o $@ $<
+
 .c.o:
-	$(CC)  $(MYCOMPILEFLAGS) -c -o $@ $<
+	$(CC) $(MYCOMPILEFLAGS) -c -o $@ $<
 
 .PHONY: default clean distclean install
 
-default: ld64
+default: ld
 
-ld64: $(OBJS)
+ld: $(OBJS)
 	$(CXX) -o $@ $^ $(MYLINKFLAGS)
 
-install: ld64
+install: ld
 	mkdir -p $(DESTDIR)/$(bindir)
-	$(INSTALL_PROGRAM) ld64 \
-		$(DESTDIR)/$(bindir)/`echo ld64 | sed '$(transform)'`
+	$(INSTALL_PROGRAM) ld \
+		$(DESTDIR)/$(bindir)/`echo ld | sed '$(transform)'`
 
 clean:
 	rm -r -f *.o */*.o
-	rm -f ld64
+	rm -f ld

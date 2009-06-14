@@ -1,5 +1,6 @@
 #ifndef _MACH_HOST_INFO_H_
 #define _MACH_HOST_INFO_H_
+#include <mach/mach_types.h>
 
 typedef integer_t       *host_info_t;           /* varying array of int. */
 
@@ -10,6 +11,7 @@ typedef integer_t       host_flavor_t;
 #define HOST_PRIORITY_INFO      5       /* priority information */
 #define HOST_SEMAPHORE_TRAPS    7       /* Has semaphore traps */
 #define HOST_MACH_MSG_TRAP      8       /* Has mach_msg_trap */
+#define HOST_VM_INFO    2  /* Virtual memory stats */
 
 struct host_basic_info {
   integer_t               max_cpus;               /* max number of CPUs possible */
@@ -41,5 +43,13 @@ typedef struct host_sched_info  *host_sched_info_t;
 #define HOST_SCHED_INFO_COUNT \
                 (sizeof(host_sched_info_data_t)/sizeof(integer_t))
 
+/* Routine host_statistics */
+#ifdef __cplusplus
+extern "C" {
+#endif
+kern_return_t host_statistics ( host_t host_priv, host_flavor_t flavor, host_info_t host_info_out, mach_msg_type_number_t *host_info_outCnt);
 
+#ifdef __cplusplus
+}
+#endif
 #endif

@@ -35,7 +35,7 @@ transform       = @program_transform_name@
 MYINCLUDES      = -I$(builddir) -I$(srcdir) -I$(top_builddir)/include \
 			-I$(top_srcdir)/include $(INCPRIVEXT) $(FORHDRS)
 MYWARNINGS      = 
-MYDEFS          = 
+MYDEFS          =
 MYLDFLAGS	= -L$(top_builddir)/libstuff
 MYLIBS		=
 
@@ -46,45 +46,41 @@ MYLINKFLAGS	= $(LDFLAGS) $(MYLDFLAGS) $(MYLIBS)
 
 CFILES = main.c ofile_print.c m68k_disasm.c i860_disasm.c \
          m88k_disasm.c i386_disasm.c ppc_disasm.c hppa_disasm.c \
-         sparc_disasm.c
-CFILES_extra = print_objc.c ofile.c
+         sparc_disasm.c arm_disasm.c
 
+ifneq ($(OBJC),)
+CFILES += print_objc.c print_objc2_32bit.c print_objc2_64bit.c
+endif
 OBJS = $(CFILES:.c=.o) 
-OBJS64 = $(CFILES:.c=.64o) 
 
 .PHONY: default clean distclean install
 
-default: otool otool64
+default: otool
 
 $(OBJS): %.o: %.c
 	$(CC) $(MYCOMPILEFLAGS) -c -o $@ $<
 
-$(OBJS64): %.64o: %.c
-	$(CC) $(MYCOMPILEFLAGS) -DARCH64 -c -o $@ $<
 
-otool: $(OBJS) print_objc.o ofile.o
+otool: $(OBJS) ofile.o
 	$(CC) -o $@ $^ $(MYLINKFLAGS) -lstuff
 
-otool64: $(OBJS64) print_objc.64o ofile.64o
-	$(CC) -o $@ $^ $(MYLINKFLAGS) -lstuff64
 
 ofile.o: $(top_srcdir)/libstuff/ofile.c
 	$(CC) -DOTOOL $(MYCOMPILEFLAGS) -c -o $@ $<
-ofile.64o: $(top_srcdir)/libstuff/ofile.c
-	$(CC) -DOTOOL $(MYCOMPILEFLAGS) -DARCH64 -c -o $@ $<
+
+print_objc2_32bit.o: print_objc2_32bit.c
+	$(CC) $(OBJC) $(MYCOMPILEFLAGS) -c -o $@ $<
+
+print_objc2_64bit.o: print_objc2_64bit.c
+	$(CC) $(OBJC) $(MYCOMPILEFLAGS) -c -o $@ $<
 
 print_objc.o: print_objc.c
 	$(CC) $(OBJC) $(MYCOMPILEFLAGS) -c -o $@ $<
-print_objc.64o: print_objc.c
-	$(CC) $(OBJC) $(MYCOMPILEFLAGS) -DARCH64 -c -o $@ $<
 
-install: otool otool64
+install: otool
 	mkdir -p $(DESTDIR)/$(bindir)
 	$(INSTALL_PROGRAM) otool \
 		$(DESTDIR)/$(bindir)/`echo otool | sed '$(transform)'`
-	$(INSTALL_PROGRAM) otool64 \
-		$(DESTDIR)/$(bindir)/`echo otool64 | sed '$(transform)'`
-
 clean:
-	rm -r -f *.o *.64o
-	rm -f otool otool64
+	rm -r -f *.o
+	rm -f otool

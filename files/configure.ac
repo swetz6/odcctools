@@ -1,6 +1,6 @@
-AC_INIT([odcctools], [622.3od16], [odcctools@opendarwin.org])
+AC_INIT([odcctools], [698.1od9], [peter@pogma.com])
 AC_PREREQ([2.57])
-AC_REVISION([$Revision: 1.45 $])
+AC_REVISION([$Revision: 1.37 $])
 
 AC_CONFIG_SRCDIR([APPLE_LICENSE])
 AC_CONFIG_HEADERS([include/config.h])
@@ -22,20 +22,24 @@ esac
 
 case $target_cpu in
      powerpc)
-        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 18, [Emulated CPU type])        
-        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 100, [Emulated CPU subtype])        
+        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 18, [Emulated CPU type])
+        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 100, [Emulated CPU subtype])
 	;;
      powerpc64)
-        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 16777234, [Emulated CPU type])        
-        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 0, [Emulated CPU subtype])        
-	;;
+        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 16777234, [Emulated CPU type])
+        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 0, [Emulated CPU subtype])
+       ;;
      i?86)
-        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 7, [Emulated CPU type])        
-        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 3, [Emulated CPU subtype])        
+        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 7, [Emulated CPU type])
+        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 10, [Emulated CPU subtype])
 	;;
      x86_64)
-        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 16777223, [Emulated CPU type])        
-        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 3, [Emulated CPU subtype])        
+        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 16777223, [Emulated CPU type])
+        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 3, [Emulated CPU subtype])
+	;;
+     arm)
+        AC_DEFINE(EMULATED_HOST_CPU_TYPE, 12, [Emulated CPU type])
+        AC_DEFINE(EMULATED_HOST_CPU_SUBTYPE, 0, [Emulated CPU subtype])
 	;;
      *)
 	AC_MSG_ERROR([Unsupported target $target_cpu])
@@ -56,16 +60,16 @@ conftargets=""
 AC_MSG_CHECKING([for configured assembler targets])
 AC_ARG_ENABLE([as-targets],
 		AC_HELP_STRING([--enable-as-targets],
-				[space-separated list ("ppc", "ppc64", "i386", "x86_64", "all")]),
+				[space-separated list ("ppc", "ppc64", "i386", "x86_64", "arm", "all")]),
 		[conftargets="$enableval"],
 		[conftargets="default"])
 
 case "$conftargets" in
      all)
-        ASTARGETS="ppc ppc64 i386 x86_64"
+        ASTARGETS="ppc ppc64 i386 z86_64 arm"
 	;;
      default)
-	ASTARGETS="ppc ppc64 i386 x86_64"
+	ASTARGETS="ppc ppc64 i386 x86_64 arm"
 	;;
      yes)
 	AC_MSG_ERROR([no assembler targets configured])
@@ -204,7 +208,6 @@ void bar(void) {
 AC_SUBST([OBJC], [$OBJC])
 CFLAGS=$ORIGCFLAGS
 
-
 AC_MSG_CHECKING([if __private_extern__ is supported])
 AC_COMPILE_IFELSE(
    [AC_LANG_SOURCE([[__private_extern__ int foo;]])],
@@ -222,7 +225,35 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM()],
 	[LDFLAGS="$ORIGLDFLAGS"
 	 AC_MSG_RESULT([no])]
 )
+AC_LANG_PUSH([C++])
+ORIGCXXFLAGS=$CXXFLAGS
+CXXFLAGS="-Wno-trigraphs"
+AC_MSG_CHECKING([if -Wno-trigraphs is supported])
+AC_LINK_IFELSE([AC_LANG_PROGRAM()],
+	[AC_MSG_RESULT([yes])],
+	[CXXFLAGS="$ORIGCXXFLAGS"
+	 AC_MSG_RESULT([no])]
+)
 
+ORIGCXXFLAGS=$CXXFLAGS
+CXXFLAGS="-Wno-deprecated"
+AC_MSG_CHECKING([if -Wno-deprecated is supported])
+AC_LINK_IFELSE([AC_LANG_PROGRAM()],
+        [AC_MSG_RESULT([yes])],
+	        [CXXFLAGS="$ORIGCXXFLAGS"
+		 AC_MSG_RESULT([no])]
+)
+
+ORIGCXXFLAGS=$CXXFLAGS
+CXXFLAGS="-Wno-strict-aliasing"
+AC_MSG_CHECKING([if -Wno-strict-aliasing is supported])
+AC_LINK_IFELSE([AC_LANG_PROGRAM()],
+        [AC_MSG_RESULT([yes])],
+	        [CXXFLAGS="$ORIGCXXFLAGS"
+		 AC_MSG_RESULT([no])]
+)
+
+AC_LANG_POP
 AC_HEADER_STDC
 AC_CHECK_HEADERS([stdio.h errno.h limits.h])
 if [[ "x$OBJC" != "x" ]]; then
@@ -251,16 +282,26 @@ AC_COMPILE_IFELSE(
     ]
 )
 
-AC_CHECK_FUNCS([strmode qsort_r qsort getattrlist NSIsSymbolNameDefined])
+AC_CHECK_FUNCS([strmode qsort_r qsort getattrlist NSIsSymbolNameDefined strlcpy])
+AC_CHECK_HEADERS([CommonCrypto/CommonDigest.h],[],[SSL_LIBS=-lssl])
+AC_SUBST(SSL_LIBS)
 
-AC_CHECK_DECLS([getc_unlocked])
+AC_CHECK_DECLS([getc_unlocked, strlcpy])
 AH_VERBATIM([HAVE_DECL_GETC_UNLOCKED_REPLACEMENT],
 [/* For systems that don't have getc_unlocked, use getc  */
 #if !HAVE_DECL_GETC_UNLOCKED
 # define getc_unlocked(a) getc(a)
 #endif])
 
-
+AH_VERBATIM([X_DECLS],
+[/* Declare functions that are missing declarations */
+#if !HAVE_DECL_STRLCPY
+#include <sys/types.h>
+#ifdef __cplusplus
+extern "C"
+#endif
+size_t strlcpy(char *dst, const char *src, size_t size);
+#endif])
 
 case $host_os in
      darwin*)
@@ -271,11 +312,19 @@ case $host_os in
 	AC_SUBST([EMULATED_OBJ], [emulated.c])
 	AC_C_BIGENDIAN([AC_SUBST([ENDIAN_FLAG],[-D__BIG_ENDIAN__=1])],
 			[AC_SUBST([ENDIAN_FLAG],[-D__LITTLE_ENDIAN__=1])])
+	CPPFLAGS="-DNON_NATIVE ${CPPFLAGS}"
 	;;
 esac
 
 COMPONENTS="ar as include libstuff libmacho ld ld64 man misc otool"
 AC_SUBST([COMPONENTS], [$COMPONENTS])
+
+AC_CHECK_FUNC([uuid_generate_random],[],
+	      [AC_CHECK_LIB([uuid],[uuid_generate_random],
+			    [UUID_LIBS="-luuid"],
+			    [AC_MSG_ERROR(
+			     [No uuid_generate_random function found])])])
+AC_SUBST([UUID_LIBS])
 
 AC_CONFIG_FILES([Makefile include/Makefile libstuff/Makefile libmacho/Makefile])
 AC_CONFIG_FILES([ar/Makefile])
@@ -293,6 +342,9 @@ for ast in $ASTARGETS; do
 	;;
     x86_64)
 	AC_CONFIG_FILES([as/x86_64/Makefile:as/x86_64/Makefile.in:as/Makefile.arch.in])
+	;;
+    arm)
+	AC_CONFIG_FILES([as/arm/Makefile:as/arm/Makefile.in:as/Makefile.arch.in])
 	;;
     *)
 	AC_MSG_ERROR([Unrecognized assembler target $ast])

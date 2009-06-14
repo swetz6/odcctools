@@ -2,13 +2,15 @@
 #define _MACH_INIT_
 
 #include <mach/mach_types.h>
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern  mach_port_t     mach_task_self_;
 
 extern mach_port_t mach_task_self(void);
 extern mach_port_t mach_host_self(void);
 extern mach_port_t mach_thread_self(void);
-
+extern mach_port_t mach_host_self(void);
 #define mach_task_self() mach_task_self_
 
 #define current_task()  mach_task_self()
@@ -21,5 +23,8 @@ kern_return_t mach_port_deallocate
  mach_port_name_t name
  );
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
