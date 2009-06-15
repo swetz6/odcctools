@@ -46,6 +46,8 @@ done
 
 if [ "`tar --help | grep -- --strip-components 2> /dev/null`" ]; then
     TARSTRIP=--strip-components
+elif [ "`tar --help | grep bsdtar 2> /dev/null`" ]; then
+    TARSTRIP=--strip-components
 else
     TARSTRIP=--strip-path
 fi

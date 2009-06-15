@@ -1,7 +1,12 @@
+2009-06-14  Shantonu Sen  <ssen@opendarwin.org>
+
+	* extract.sh: Fix extracting on 10.6
+	* files/configure.ac: Fix ability to specify LDFLAGS/CXXFLAGS
+
 2009-06-14  Peter O'Gorman <peter@pogma.com>
 
 	* Fix typo - s/z86_64/z86_64/. Thanks to Shantonu.
-	* files/confugre.ac: Don't define NON_NATIVE, it's unused.
+	* files/configure.ac: Don't define NON_NATIVE, it's unused.
 	* extract.sh: Explicitly list PATCHFILES.
 
 	* Import cctools-698.1 and ld64-85.2.1

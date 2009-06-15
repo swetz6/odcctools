@@ -218,16 +218,17 @@ AC_COMPILE_IFELSE(
 )
 
 ORIGLDFLAGS=$LDFLAGS
-LDFLAGS="-multiply_defined suppress"
+LDFLAGS="$LDFLAGS -multiply_defined suppress"
 AC_MSG_CHECKING([if -multiply_defined suppress is supported])
 AC_LINK_IFELSE([AC_LANG_PROGRAM()],
 	[AC_MSG_RESULT([yes])],
 	[LDFLAGS="$ORIGLDFLAGS"
 	 AC_MSG_RESULT([no])]
 )
+
 AC_LANG_PUSH([C++])
 ORIGCXXFLAGS=$CXXFLAGS
-CXXFLAGS="-Wno-trigraphs"
+CXXFLAGS="$CXXFLAGS -Wno-trigraphs"
 AC_MSG_CHECKING([if -Wno-trigraphs is supported])
 AC_LINK_IFELSE([AC_LANG_PROGRAM()],
 	[AC_MSG_RESULT([yes])],
@@ -236,7 +237,7 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM()],
 )
 
 ORIGCXXFLAGS=$CXXFLAGS
-CXXFLAGS="-Wno-deprecated"
+CXXFLAGS="$CXXFLAGS -Wno-deprecated"
 AC_MSG_CHECKING([if -Wno-deprecated is supported])
 AC_LINK_IFELSE([AC_LANG_PROGRAM()],
         [AC_MSG_RESULT([yes])],
@@ -245,7 +246,7 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM()],
 )
 
 ORIGCXXFLAGS=$CXXFLAGS
-CXXFLAGS="-Wno-strict-aliasing"
+CXXFLAGS="$CXXFLAGS -Wno-strict-aliasing"
 AC_MSG_CHECKING([if -Wno-strict-aliasing is supported])
 AC_LINK_IFELSE([AC_LANG_PROGRAM()],
         [AC_MSG_RESULT([yes])],
