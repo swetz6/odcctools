@@ -1,3 +1,10 @@
+2009-06-16  Peter O'Gorman  <peter@pogma.com>
+
+	* files/otool/Makefile.in: Fix make warning.
+	* files/misc/Makefile.in, patches/misc/libtool_lipo_transform.diff:
+	Don't use bare 'lipo' to run lipo.
+	* extract.sh: Add new patch.
+
 2009-06-14  Shantonu Sen  <ssen@opendarwin.org>
 
 	* extract.sh: Fix extracting on 10.6
@@ -5,7 +12,7 @@
 
 2009-06-14  Peter O'Gorman <peter@pogma.com>
 
-	* Fix typo - s/z86_64/z86_64/. Thanks to Shantonu.
+	* Fix typo - s/z86_64/x86_64/. Thanks to Shantonu.
 	* files/configure.ac: Don't define NON_NATIVE, it's unused.
 	* extract.sh: Explicitly list PATCHFILES.
 

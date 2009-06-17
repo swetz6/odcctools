@@ -71,8 +71,8 @@ libstuff/macosx_deployment_target_default_105.diff \
 libstuff/map_64bit_arches.diff libstuff/sys_types.diff \
 misc/libtool-ldpath.diff misc/libtool-pb.diff misc/ranlibname.diff \
 misc/redo_prebinding.nogetattrlist.diff \
-misc/redo_prebinding.nomalloc.diff otool/nolibmstub.diff \
-otool/noobjc.diff"
+misc/redo_prebinding.nomalloc.diff misc/libtool_lipo_transform.diff \
+otool/nolibmstub.diff otool/noobjc.diff"
 
 ADDEDFILESDIR=${TOPSRCDIR}/files
 
