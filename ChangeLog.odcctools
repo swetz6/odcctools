@@ -1,3 +1,10 @@
+2009-06-27  Peter O'Gorman  <peter@pogma.com>
+
+	* patches/force_load.diff: Add -force_load flag to ld64.
+	* patches/include/stuff/bytesex-floatstate.diff: Warn less on darwin.
+	* ld64-85.2.2.tar.gz: Update this.
+	* extract.sh: New ld64, chmod the non-writable files.
+
 2009-06-16  Peter O'Gorman  <peter@pogma.com>
 
 	* files/otool/Makefile.in: Fix make warning.

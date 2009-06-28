@@ -7,7 +7,7 @@ CCTOOLSVERS=698.1
 CCTOOLSDISTFILE=${CCTOOLSNAME}-${CCTOOLSVERS}.tar.gz
 
 LD64NAME=ld64
-LD64VERS=85.2.1
+LD64VERS=85.2.2
 LD64DISTFILE=${LD64NAME}-${LD64VERS}.tar.gz
 
 DISTDIR=odcctools
@@ -72,7 +72,7 @@ libstuff/map_64bit_arches.diff libstuff/sys_types.diff \
 misc/libtool-ldpath.diff misc/libtool-pb.diff misc/ranlibname.diff \
 misc/redo_prebinding.nogetattrlist.diff \
 misc/redo_prebinding.nomalloc.diff misc/libtool_lipo_transform.diff \
-otool/nolibmstub.diff otool/noobjc.diff"
+otool/nolibmstub.diff otool/noobjc.diff force_load.diff"
 
 ADDEDFILESDIR=${TOPSRCDIR}/files
 
@@ -85,6 +85,7 @@ mkdir -p ${DISTDIR}
 tar ${TARSTRIP}=1 -zxf ${CCTOOLSDISTFILE} -C ${DISTDIR}
 mkdir -p ${DISTDIR}/ld64
 tar ${TARSTRIP}=1 -zxf ${LD64DISTFILE} -C ${DISTDIR}/ld64
+find ${DISTDIR}/ld64 ! -perm +200 -exec chmod u+w {} \;
 find ${DISTDIR}/ld64/doc/ -type f -exec cp "{}" ${DISTDIR}/man \;
 
 # Clean the source a bit
