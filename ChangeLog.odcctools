@@ -1,3 +1,12 @@
+2009-07-02  Peter O'Gorman  <peter@pogma.com>
+
+	Um, yeah, so ld64-85.2.2 is older than ld64-85.2.1, so, putting back
+	85.2.1.
+
+	* ld64-85.2.2.tar.gz: remove.
+	* ld64-85.2.1.tar.gz: add.
+	* extract.sh: Change ld64 version. Remove FireOpal dir. 
+
 2009-06-27  Peter O'Gorman  <peter@pogma.com>
 
 	* patches/force_load.diff: Add -force_load flag to ld64.

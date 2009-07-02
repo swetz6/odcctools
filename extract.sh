@@ -7,7 +7,7 @@ CCTOOLSVERS=698.1
 CCTOOLSDISTFILE=${CCTOOLSNAME}-${CCTOOLSVERS}.tar.gz
 
 LD64NAME=ld64
-LD64VERS=85.2.2
+LD64VERS=85.2.1
 LD64DISTFILE=${LD64NAME}-${LD64VERS}.tar.gz
 
 DISTDIR=odcctools
@@ -85,6 +85,7 @@ mkdir -p ${DISTDIR}
 tar ${TARSTRIP}=1 -zxf ${CCTOOLSDISTFILE} -C ${DISTDIR}
 mkdir -p ${DISTDIR}/ld64
 tar ${TARSTRIP}=1 -zxf ${LD64DISTFILE} -C ${DISTDIR}/ld64
+rm -rf ${DISTDIR}/ld64/FireOpal
 find ${DISTDIR}/ld64 ! -perm +200 -exec chmod u+w {} \;
 find ${DISTDIR}/ld64/doc/ -type f -exec cp "{}" ${DISTDIR}/man \;
 
