@@ -72,7 +72,8 @@ libstuff/map_64bit_arches.diff libstuff/sys_types.diff \
 misc/libtool-ldpath.diff misc/libtool-pb.diff misc/ranlibname.diff \
 misc/redo_prebinding.nogetattrlist.diff \
 misc/redo_prebinding.nomalloc.diff misc/libtool_lipo_transform.diff \
-otool/nolibmstub.diff otool/noobjc.diff force_load.diff"
+otool/nolibmstub.diff otool/noobjc.diff force_load.diff \
+ld64/LTOReader-setasmpath.diff"
 
 ADDEDFILESDIR=${TOPSRCDIR}/files
 

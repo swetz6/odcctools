@@ -326,6 +326,14 @@ AC_CHECK_FUNC([uuid_generate_random],[],
 			     [No uuid_generate_random function found])])])
 AC_SUBST([UUID_LIBS])
 
+# LTO
+AC_CHECK_LIB([LTO],[lto_get_version],[
+	     LTO_LIBS=-lLTO
+	     LTO_DEFS="-DLTO_SUPPORT=1"
+	     ])
+AC_SUBST(LTO_LIBS)
+AC_SUBST(LTO_DEFS)
+
 AC_CONFIG_FILES([Makefile include/Makefile libstuff/Makefile libmacho/Makefile])
 AC_CONFIG_FILES([ar/Makefile])
 AC_CONFIG_FILES([as/Makefile])

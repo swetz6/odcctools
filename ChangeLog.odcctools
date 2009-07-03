@@ -1,3 +1,16 @@
+2009-07-03  Peter O'Gorman  <peter@pogma.com>
+
+	Enable LTO support. This is pretty awesome, can use clang-cc -triple
+	i386-apple-darwin9.5.0 -emit-llvm-bc on linux, then use our ld64 to
+	create an i386-apple-darwin executable. This is, of course, using a
+	standard install of clang and llvm on linux.
+
+	* files/configure.ac: Check for libLTO.
+	* files/ld64/Makefile.in: Use libLTO.
+	* extract.sh: Add new patch.
+	* patches/ld64/LTOReader-setasmpath.diff: Explicitly tell libLTO the
+	path to as.
+
 2009-07-02  Peter O'Gorman  <peter@pogma.com>
 
 	Um, yeah, so ld64-85.2.2 is older than ld64-85.2.1, so, putting back
