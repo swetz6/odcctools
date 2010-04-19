@@ -1,10 +1,10 @@
---- libtool.c.orig	2009-06-14 11:21:58.000000000 -0500
-+++ libtool.c	2009-06-14 11:24:54.000000000 -0500
-@@ -3017,7 +3017,7 @@
+--- libtool.c.orig	2010-04-18 16:49:05.000000000 -0500
++++ libtool.c	2010-04-18 16:49:33.000000000 -0500
+@@ -3011,7 +3011,7 @@
+ 	 */
  	if(narchs > 1){
- 	    tellProjectBuilder("Combining into %s", "", cmd_flags.output);
  	    reset_execute_list();
--	    add_execute_list("lipo");
+-	    add_execute_list_with_prefix("lipo");
 +	    add_execute_list(makestr(BINDIR, "/", LIPOPROG, NULL));
  	    add_execute_list("-create");
  	    add_execute_list("-output");

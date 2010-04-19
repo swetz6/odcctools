@@ -1,4 +1,4 @@
-AC_INIT([odcctools], [698.1od9], [peter@pogma.com])
+AC_INIT([odcctools], [758.1od1], [peter@pogma.com])
 AC_PREREQ([2.57])
 AC_REVISION([$Revision: 1.37 $])
 
@@ -283,11 +283,11 @@ AC_COMPILE_IFELSE(
     ]
 )
 
-AC_CHECK_FUNCS([strmode qsort_r qsort getattrlist NSIsSymbolNameDefined strlcpy])
+AC_CHECK_FUNCS([strmode qsort_r qsort getattrlist NSIsSymbolNameDefined strlcpy strlcat])
 AC_CHECK_HEADERS([CommonCrypto/CommonDigest.h],[],[SSL_LIBS=-lssl])
 AC_SUBST(SSL_LIBS)
 
-AC_CHECK_DECLS([getc_unlocked, strlcpy])
+AC_CHECK_DECLS([getc_unlocked, strlcpy, strlcat])
 AH_VERBATIM([HAVE_DECL_GETC_UNLOCKED_REPLACEMENT],
 [/* For systems that don't have getc_unlocked, use getc  */
 #if !HAVE_DECL_GETC_UNLOCKED
@@ -296,13 +296,22 @@ AH_VERBATIM([HAVE_DECL_GETC_UNLOCKED_REPLACEMENT],
 
 AH_VERBATIM([X_DECLS],
 [/* Declare functions that are missing declarations */
-#if !HAVE_DECL_STRLCPY
+#if !HAVE_DECL_STRLCPY || ! HAVE_DECL_STRLCAT
 #include <sys/types.h>
+#endif
+#if !HAVE_DECL_STRLCPY
 #ifdef __cplusplus
 extern "C"
 #endif
 size_t strlcpy(char *dst, const char *src, size_t size);
-#endif])
+#endif
+#if !HAVE_DECL_STRLCAT
+#ifdef __cplusplus
+extern "C"
+#endif
+size_t strlcat(char *dst, const char *src, size_t size);
+#endif
+])
 
 case $host_os in
      darwin*)
@@ -316,7 +325,13 @@ case $host_os in
 	;;
 esac
 
-COMPONENTS="ar as include libstuff libmacho ld ld64 man misc otool"
+AC_CHECK_SIZEOF([long])
+if test $ac_cv_sizeof_long >=8; then
+	LD_CLASSIC=
+else
+	LD_CLASSIC=ld
+fi
+COMPONENTS="ar as include libstuff libmacho ${LD_CLASSIC} ld64 man misc otool"
 AC_SUBST([COMPONENTS], [$COMPONENTS])
 
 AC_CHECK_FUNC([uuid_generate_random],[],

@@ -1,5 +1,5 @@
---- driver.c.orig	2009-06-11 12:41:08.000000000 -0500
-+++ driver.c	2009-06-11 12:44:22.000000000 -0500
+--- driver.c.orig	2009-09-21 22:03:08.000000000 -0500
++++ driver.c	2009-09-21 22:04:44.000000000 -0500
 @@ -27,26 +27,13 @@
  char **argv,
  char **envp)
@@ -22,11 +22,11 @@
      const char *AS = "/as";
  
      int i;
-     unsigned long count, verbose;
+     uint32_t count, verbose;
      char *p, c, *arch_name, *as, *as_local;
 -    char *prefix, buf[MAXPATHLEN], resolved_name[PATH_MAX];
 +    char buf[MAXPATHLEN], resolved_name[PATH_MAX];
-     uint32_t bufsize;
+     unsigned long bufsize;
      struct arch_flag arch_flag;
      const struct arch_flag *arch_flags, *family_arch_flag;
 @@ -57,17 +44,6 @@
@@ -47,7 +47,7 @@
  	/*
  	 * Process the assembler flags exactly like the assembler would (except
  	 * let the assembler complain about multiple flags, bad combinations of
-@@ -167,7 +143,7 @@
+@@ -176,7 +152,7 @@
  	    }
  
  	}
@@ -56,7 +56,7 @@
  
  	/*
  	 * If this assembler exist try to run it else print an error message.
-@@ -179,38 +155,19 @@
+@@ -188,38 +164,19 @@
  	    else
  		exit(1);
  	}

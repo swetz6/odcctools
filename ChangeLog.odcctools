@@ -1,3 +1,24 @@
+2010-04-19  Peter O'Gorman  <peter@pogma.com>
+
+	Updated to cctools-758, modified to hopefully build on x86_64 linux
+	- report from Steven Bosscher. Still a work in progress, haven't
+	checked that it works at all.
+
+	* files/configure.ac, files/as/Makefile.arch.in, extract.sh,
+	patches/ld/uuid-nonsmodule.diff, patches/ar/ar-ranlibpath.diff,
+	patches/as/driver.c, patches/as/messages.diff,
+	patches/misc/redo_prebinding.nogetattrlist.diff,
+	patches/misc/libtool-ldpath.diff,
+	patches/misc/libtool_lipo_transform.diff,
+	patches/misc/libtool-pb.diff, patches/otool/noobjc.diff,
+	patches/libstuff/sys_types.diff: Update
+	* patches/libstuff/cmd_with_prefix.diff,
+	patches/misc/bootstrap_h.diff, patches/ld/ld-nomach.diff,
+	patches/include/mach/machine_armv7.diff, patches/ld64/cstdio.diff,
+	patches/misc/with_prefix.diff, cctools-758.tar.gz : New
+	* cctools-698.1.tar.gz: Removed
+
+			
 2009-07-03  Peter O'Gorman  <peter@pogma.com>
 
 	Enable LTO support. This is pretty awesome, can use clang-cc -triple

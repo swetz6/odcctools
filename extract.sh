@@ -3,7 +3,7 @@
 set -e
 
 CCTOOLSNAME=cctools
-CCTOOLSVERS=698.1
+CCTOOLSVERS=758
 CCTOOLSDISTFILE=${CCTOOLSNAME}-${CCTOOLSVERS}.tar.gz
 
 LD64NAME=ld64
@@ -65,15 +65,17 @@ ld64/FileAbstraction-inline.diff ld64/ld_cpp_signal.diff \
 ld64/Options-config_h.diff ld64/Options-ctype.diff \
 ld64/Options-defcross.diff ld64/Options_h_includes.diff \
 ld64/Options-stdarg.diff ld64/remove_tmp_math_hack.diff \
-ld64/Thread64_MachOWriterExecutable.diff ld/ld-pb.diff ld-sysroot.diff \
+ld64/Thread64_MachOWriterExecutable.diff ld-sysroot.diff \
 ld/uuid-nonsmodule.diff libstuff/default_arch.diff \
 libstuff/macosx_deployment_target_default_105.diff \
 libstuff/map_64bit_arches.diff libstuff/sys_types.diff \
 misc/libtool-ldpath.diff misc/libtool-pb.diff misc/ranlibname.diff \
 misc/redo_prebinding.nogetattrlist.diff \
 misc/redo_prebinding.nomalloc.diff misc/libtool_lipo_transform.diff \
-otool/nolibmstub.diff otool/noobjc.diff force_load.diff \
-ld64/LTOReader-setasmpath.diff"
+otool/nolibmstub.diff otool/noobjc.diff \
+ld64/LTOReader-setasmpath.diff include/mach/machine_armv7.diff \
+ld/ld-nomach.diff libstuff/cmd_with_prefix.diff ld64/cstdio.diff \
+misc/with_prefix.diff misc/bootstrap_h.diff"
 
 ADDEDFILESDIR=${TOPSRCDIR}/files
 
