@@ -140,8 +140,8 @@ for p in ${PATCHFILES}; do
     else
 	echo "Applying patch $p"
     fi
-    pushd ${DISTDIR}/$dir > /dev/null
-    patch --backup --posix -p0 < ${PATCHFILESDIR}/$p
+    cd ${DISTDIR}/$dir
+    patch -b -p0 < ${PATCHFILESDIR}/$p
     if [ $? -ne 0 ]; then
 	echo "There was a patch failure. Please manually merge and exit the sub-shell when done"
 	$SHELL
@@ -154,7 +154,7 @@ for p in ${PATCHFILES}; do
 	fi
     fi
     find . -type f -name \*.orig -exec rm -f "{}" \;
-    popd > /dev/null
+    cd ${OLDPWD}
 done
 
 set -e
@@ -167,11 +167,11 @@ find ${DISTDIR} -name Makefile -exec rm -f "{}" \;
 find ${DISTDIR} -name \*~ -exec rm -f "{}" \;
 find ${DISTDIR} -name .\#\* -exec rm -f "{}" \;
 
-pushd ${DISTDIR} > /dev/null
+cd ${DISTDIR}
 autoheader
 autoconf
 rm -rf autom4te.cache
-popd > /dev/null
+cd ${OLDPWD}
 
 if [ $MAKEDISTFILE -eq 1 ]; then
     DATE=$(date +%Y%m%d)
